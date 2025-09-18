@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] });
 const museoModerno = MuseoModerno({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'ShipTracker Pro - Advanced Shipment Tracking System',
+  title: 'Green Sphere Services- Advanced Shipment Tracking System',
   description: 'Professional shipment tracking system with crypto payments and real-time updates',
   keywords: 'shipment tracking, logistics, crypto payments, delivery tracking',
 };
