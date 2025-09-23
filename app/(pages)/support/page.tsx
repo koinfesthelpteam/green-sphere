@@ -10,7 +10,7 @@ export default function SupportPage() {
 
   const supportChannels = [
     {
-      icon: <Phone className="h-8 w-8 text-red-500" />,
+      icon: <Phone className="h-8 w-8 text-green-500" />,
       title: '24/7 Phone Support',
       description: 'Speak with our experts anytime',
       contact: '+1 (555) 123-SHIP',
@@ -18,7 +18,7 @@ export default function SupportPage() {
       responseTime: 'Immediate'
     },
     {
-      icon: <Mail className="h-8 w-8 text-red-500" />,
+      icon: <Mail className="h-8 w-8 text-green-500" />,
       title: 'Email Support',
       description: 'Send us detailed inquiries',
       contact: 'support@shiptracker.com',
@@ -26,7 +26,7 @@ export default function SupportPage() {
       responseTime: 'Within 2 hours'
     },
     {
-      icon: <MessageCircle className="h-8 w-8 text-red-500" />,
+      icon: <MessageCircle className="h-8 w-8 text-green-500" />,
       title: 'Live Chat',
       description: 'Instant help from our team',
       contact: 'Chat widget (bottom right)',
@@ -34,7 +34,7 @@ export default function SupportPage() {
       responseTime: 'Within 1 minute'
     },
     {
-      icon: <FileText className="h-8 w-8 text-red-500" />,
+      icon: <FileText className="h-8 w-8 text-green-500" />,
       title: 'Help Center',
       description: 'Browse our knowledge base',
       contact: 'Comprehensive guides',
@@ -46,7 +46,7 @@ export default function SupportPage() {
   const faqCategories = [
     {
       category: 'Shipping & Tracking',
-      icon: <Package className="h-6 w-6 text-red-500" />,
+      icon: <Package className="h-6 w-6 text-green-500" />,
       questions: [
         {
           question: 'How do I track my package?',
@@ -68,7 +68,7 @@ export default function SupportPage() {
     },
     {
       category: 'Payments & Crypto',
-      icon: <CreditCard className="h-6 w-6 text-red-500" />,
+      icon: <CreditCard className="h-6 w-6 text-green-500" />,
       questions: [
         {
           question: 'What cryptocurrencies do you accept?',
@@ -90,7 +90,7 @@ export default function SupportPage() {
     },
     {
       category: 'Security & Insurance',
-      icon: <Shield className="h-6 w-6 text-red-500" />,
+      icon: <Shield className="h-6 w-6 text-green-500" />,
       questions: [
         {
           question: 'How secure are my packages?',
@@ -157,10 +157,10 @@ export default function SupportPage() {
     <div className="min-h-screen bg-black text-white pt-16">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-red-900"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-900"></div>
         <div className="absolute inset-0 opacity-10">
           <Image 
-            src="https://images.unsplash.com/photo-1553484771-371a605b060b?w=1920&h=600&fit=crop&auto=format"
+            src="/images/support.avif"
             alt="Support background"
             width={500}
             height={500}
@@ -172,7 +172,7 @@ export default function SupportPage() {
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
               Support
-              <span className="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
                 Center
               </span>
             </h1>
@@ -190,7 +190,7 @@ export default function SupportPage() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search for help..."
-                  className="w-full pl-12 pr-4 py-4 text-lg bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-white placeholder-gray-400 outline-none"
+                  className="w-full pl-12 pr-4 py-4 text-lg bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-white placeholder-gray-400 outline-none"
                 />
               </div>
             </div>
@@ -198,15 +198,15 @@ export default function SupportPage() {
         </div>
 
         {/* Floating Animation Elements */}
-        <div className="absolute top-20 left-20 w-4 h-4 bg-red-500 rounded-full animate-ping"></div>
-        <div className="absolute bottom-40 right-20 w-6 h-6 bg-red-600 rounded-full animate-pulse"></div>
+        <div className="absolute top-20 left-20 w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
+        <div className="absolute bottom-40 right-20 w-6 h-6 bg-green-600 rounded-full animate-pulse"></div>
       </section>
 
       {/* Quick Actions */}
       <section className="py-12 bg-gradient-to-b from-gray-900 to-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-center mb-8">
-            Quick <span className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Actions</span>
+            Quick <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Actions</span>
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -214,12 +214,12 @@ export default function SupportPage() {
               <button
                 key={index}
                 onClick={action.action}
-                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300 group hover:transform hover:scale-105 text-left"
+                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300 group hover:transform hover:scale-105 text-left"
               >
-                <div className="text-red-500 mb-3 group-hover:scale-110 transition-transform">
+                <div className="text-green-500 mb-3 group-hover:scale-110 transition-transform">
                   {action.icon}
                 </div>
-                <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-red-400 transition-colors">
+                <h3 className="text-lg font-semibold mb-2 text-white group-hover:text-green-400 transition-colors">
                   {action.title}
                 </h3>
                 <p className="text-gray-400 text-sm">
@@ -236,7 +236,7 @@ export default function SupportPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Contact <span className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Support</span>
+              Contact <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Support</span>
             </h2>
             <p className="text-xl text-gray-400">
               Choose the best way to reach our support team
@@ -247,12 +247,12 @@ export default function SupportPage() {
             {supportChannels.map((channel, index) => (
               <div 
                 key={index}
-                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-red-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2"
+                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2"
               >
                 <div className="mb-4 group-hover:scale-110 transition-transform">
                   {channel.icon}
                 </div>
-                <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-red-400 transition-colors">
+                <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-green-400 transition-colors">
                   {channel.title}
                 </h3>
                 <p className="text-gray-400 mb-4">
@@ -283,7 +283,7 @@ export default function SupportPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Frequently Asked <span className="bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Questions</span>
+              Frequently Asked <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Questions</span>
             </h2>
             <p className="text-xl text-gray-400">
               Find answers to common questions about our services
@@ -308,7 +308,7 @@ export default function SupportPage() {
                     return (
                       <div 
                         key={faqIndex}
-                        className="bg-gray-800/50 border border-gray-700 rounded-lg overflow-hidden hover:border-red-500/50 transition-all duration-300"
+                        className="bg-gray-800/50 border border-gray-700 rounded-lg overflow-hidden hover:border-green-500/50 transition-all duration-300"
                       >
                         <button
                           onClick={() => toggleFAQ(globalIndex)}
@@ -318,9 +318,9 @@ export default function SupportPage() {
                             {faq.question}
                           </span>
                           {isExpanded ? (
-                            <ChevronDown className="h-5 w-5 text-red-500 flex-shrink-0" />
+                            <ChevronDown className="h-5 w-5 text-green-500 flex-shrink-0" />
                           ) : (
-                            <ChevronRight className="h-5 w-5 text-red-500 flex-shrink-0" />
+                            <ChevronRight className="h-5 w-5 text-green-500 flex-shrink-0" />
                           )}
                         </button>
                         
@@ -346,7 +346,7 @@ export default function SupportPage() {
               </p>
               <button 
                 onClick={() => setSearchQuery('')}
-                className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors"
+                className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition-colors"
               >
                 Clear Search
               </button>
@@ -393,11 +393,11 @@ export default function SupportPage() {
       </section>
 
       {/* Contact CTA */}
-      <section className="py-20 bg-gradient-to-r from-red-900/20 via-black to-red-900/20">
+      <section className="py-20 bg-gradient-to-r from-green-900/20 via-black to-green-900/20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Still Need
-            <span className="block bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Help?</span>
+            <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Help?</span>
           </h2>
           <p className="text-xl text-gray-400 mb-8">
             Our support team is standing by to assist you with any questions or concerns
@@ -405,13 +405,13 @@ export default function SupportPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/contact"
-              className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-red-500/30"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-red-500/30"
             >
               Contact Support
             </a>
             <button 
               onClick={() => window.open('tel:+15551234747', '_self')}
-              className="bg-transparent border-2 border-gray-700 hover:border-red-500 text-gray-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200"
+              className="bg-transparent border-2 border-gray-700 hover:border-green-500 text-gray-300 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200"
             >
               Call Now
             </button>

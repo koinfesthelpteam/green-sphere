@@ -153,7 +153,7 @@ export default function AdminDashboard() {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center space-x-2">
-            <ShieldCheck className="h-6 w-6 text-red-400" />
+            <ShieldCheck className="h-6 w-6 text-green-400" />
             <div>
               <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
               <p className="mt-1 text-sm text-gray-400">Manage shipments and payments</p>
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
           <div className="flex space-x-4">
             <Link 
               href="/admin/shipments/create" 
-              className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center space-x-2"
+              className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 flex items-center space-x-2"
             >
               <Plus className="h-4 w-4" />
               <span>Create Shipment</span>

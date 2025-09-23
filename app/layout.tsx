@@ -1,4 +1,4 @@
-import { Inter, MuseoModerno } from 'next/font/google';
+import { Inter, MuseoModerno, Nunito } from 'next/font/google';
 import './globals.css';
 import { AuthProvider } from '../context/authContext';
 import { Toaster } from 'react-hot-toast';
@@ -8,6 +8,8 @@ import React from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 const museoModerno = MuseoModerno({ subsets: ['latin'] });
+const nunito = Nunito({ subsets: ['latin'] });
+
 
 export const metadata = {
   title: 'Green Sphere Services- Advanced Shipment Tracking System',

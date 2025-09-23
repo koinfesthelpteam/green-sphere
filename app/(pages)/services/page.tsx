@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Package, Truck, Shield, Clock, Globe, Zap, CreditCard, Phone, CheckCircle } from 'lucide-react';
+import { Package, Truck, Shield, Clock, Globe, Zap, Plane, Ship, Train, MapPin, CheckCircle } from 'lucide-react';
 import Image from 'next/image';
 
 export default function ServicesPage() {
@@ -11,80 +11,80 @@ export default function ServicesPage() {
   const services = [
     {
       id: 1,
-      icon: <Truck className="h-12 w-12 text-green-500" />,
-      title: 'Express Delivery',
-      description: 'Fast and reliable delivery service for urgent shipments',
-      features: ['24-48 hour delivery', 'Real-time tracking', 'Priority handling', 'Insurance included'],
-      price: 'Starting at $25',
-      image: 'https://images.unsplash.com/photo-1566576912321-d58ddd7a6888?w=600&h=400&fit=crop&auto=format'
+      icon: <Plane className="h-12 w-12 text-green-500" />,
+      title: 'Air Freight',
+      description: 'Fast international and domestic cargo transport via commercial and cargo aircraft',
+      features: ['Global reach within 1-3 days', 'High-value cargo handling', 'Temperature-controlled options', 'Express customs clearance'],
+      capacity: 'Up to 100+ tons per flight',
+      image: '/images/freight.jpg'
     },
     {
       id: 2,
-      icon: <Package className="h-12 w-12 text-green-500" />,
-      title: 'Standard Shipping',
-      description: 'Cost-effective shipping solution for regular deliveries',
-      features: ['5-7 business days', 'Package tracking', 'Secure handling', 'Affordable rates'],
-      price: 'Starting at $8',
-      image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop&auto=format'
+      icon: <Ship className="h-12 w-12 text-green-500" />,
+      title: 'Ocean Freight',
+      description: 'Cost-effective bulk shipping via container vessels and cargo ships worldwide',
+      features: ['Full container loads (FCL)', 'Less than container loads (LCL)', 'Bulk cargo handling', 'Port-to-port delivery'],
+      capacity: '20ft & 40ft containers',
+      image: '/images/ship.jpg'
     },
     {
       id: 3,
-      icon: <Globe className="h-12 w-12 text-green-500" />,
-      title: 'International Shipping',
-      description: 'Worldwide delivery with customs handling and documentation',
-      features: ['Global coverage', 'Customs clearance', 'Documentation support', 'Multi-currency'],
-      price: 'Starting at $35',
-      image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop&auto=format'
+      icon: <Train className="h-12 w-12 text-green-500" />,
+      title: 'Rail Transport',
+      description: 'Efficient overland cargo transport via freight trains across continental networks',
+      features: ['Intermodal containers', 'Bulk commodity transport', 'Cross-border rail services', 'Environmental friendly'],
+      capacity: 'Up to 125 tons per railcar',
+      image: 'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&h=400&fit=crop&auto=format'
     },
     {
       id: 4,
-      icon: <Shield className="h-12 w-12 text-green-500" />,
-      title: 'Secure Transport',
-      description: 'High-security shipping for valuable and sensitive items',
-      features: ['Enhanced security', 'Chain of custody', 'Insurance up to $10K', 'Signature required'],
-      price: 'Starting at $50',
-      image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop&auto=format'
+      icon: <Truck className="h-12 w-12 text-green-500" />,
+      title: 'Road Freight',
+      description: 'Flexible door-to-door trucking services for regional and long-haul deliveries',
+      features: ['Full truckload (FTL)', 'Less than truckload (LTL)', 'Refrigerated transport', 'Last-mile delivery'],
+      capacity: 'Up to 40 tons per truck',
+      image: '/images/truck.jpg'
     },
     {
       id: 5,
-      icon: <Zap className="h-12 w-12 text-green-500" />,
-      title: 'Same-Day Delivery',
-      description: 'Ultra-fast delivery within the same metropolitan area',
-      features: ['Within 6 hours', 'Live GPS tracking', 'Direct courier', 'Photo confirmation'],
-      price: 'Starting at $45',
-      image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop&auto=format'
+      icon: <Package className="h-12 w-12 text-green-500" />,
+      title: 'Multimodal Logistics',
+      description: 'Combined transport solutions using multiple modes for optimal efficiency',
+      features: ['Sea-air combinations', 'Rail-road integration', 'Custom routing solutions', 'Single point of contact'],
+      capacity: 'Scalable to any size',
+      image: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&h=400&fit=crop&auto=format'
     },
     {
       id: 6,
-      icon: <CreditCard className="h-12 w-12 text-green-500" />,
-      title: 'Crypto Payments',
-      description: 'Secure cryptocurrency payment processing for all services',
-      features: ['Bitcoin, Ethereum, Litecoin', 'QR code payments', 'Instant confirmation', 'Low fees'],
-      price: 'Processing fee: 2%',
-      image: 'https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=600&h=400&fit=crop&auto=format'
+      icon: <Shield className="h-12 w-12 text-green-500" />,
+      title: 'Specialized Cargo',
+      description: 'Expert handling of oversized, hazardous, and high-value cargo shipments',
+      features: ['Oversized cargo (OOG)', 'Hazardous materials (DG)', 'Project cargo management', 'White glove service'],
+      capacity: 'Custom solutions',
+      image: '/images/delivery.jpg'
     }
   ];
 
   const additionalServices = [
     {
-      icon: <Clock className="h-8 w-8 text-green-500" />,
-      title: 'Scheduled Pickup',
-      description: 'Schedule pickups at your convenience'
-    },
-    {
-      icon: <Phone className="h-8 w-8 text-green-500" />,
-      title: '24/7 Support',
-      description: 'Round-the-clock customer assistance'
-    },
-    {
-      icon: <Package className="h-8 w-8 text-green-500" />,
-      title: 'Package Consolidation',
-      description: 'Combine multiple items into one shipment'
+      icon: <MapPin className="h-8 w-8 text-green-500" />,
+      title: 'Cargo Tracking',
+      description: 'Real-time visibility of your shipments worldwide'
     },
     {
       icon: <Shield className="h-8 w-8 text-green-500" />,
-      title: 'Insurance Options',
-      description: 'Comprehensive coverage for your packages'
+      title: 'Cargo Insurance',
+      description: 'Comprehensive coverage for your valuable goods'
+    },
+    {
+      icon: <Globe className="h-8 w-8 text-green-500" />,
+      title: 'Customs Brokerage',
+      description: 'Expert customs clearance and documentation'
+    },
+    {
+      icon: <Clock className="h-8 w-8 text-green-500" />,
+      title: 'Warehousing',
+      description: 'Secure storage and distribution facilities'
     }
   ];
 
@@ -92,13 +92,13 @@ export default function ServicesPage() {
     <div className="min-h-screen bg-black text-white pt-16">
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-50-900"></div>
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-900/20"></div>
+        <div className="absolute inset-0 opacity-30">
           <Image 
-            src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=1920&h=600&fit=crop&auto=format"
-            alt="Services background"
-            width={500}
-            height={500}
+            src="/images/freight.jpg"
+            alt="Cargo ships and freight"
+            width={1200}
+            height={800}
             className="w-full h-full object-cover"
           />
         </div>
@@ -106,14 +106,14 @@ export default function ServicesPage() {
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Our
-              <span className="block bg-gradient-to-r from-green-400 to-green-50-600 bg-clip-text text-transparent">
-                Services
+              Freight
+              <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
+                Solutions
               </span>
             </h1>
             <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
-              Comprehensive shipping solutions tailored to your needs. From express delivery to secure transport, 
-              we&apos;ve got you covered with cutting-edge technology and reliable service.
+              Comprehensive freight and logistics services across air, ocean, rail, and road networks. 
+              Move your cargo efficiently with our global transportation solutions.
             </p>
           </div>
         </div>
@@ -129,10 +129,10 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Shipping <span className="bg-gradient-to-r from-green-400 to-green-50-600 bg-clip-text text-transparent">Solutions</span>
+              Transportation <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Modes</span>
             </h2>
             <p className="text-xl text-gray-400">
-              Choose the perfect service for your delivery needs
+              Choose the right freight solution for your cargo requirements
             </p>
           </div>
 
@@ -146,8 +146,8 @@ export default function ServicesPage() {
                   <Image 
                     src={service.image} 
                     alt={service.title}
-                    width={500}
-                    height={500}
+                    width={600}
+                    height={400}
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
@@ -155,8 +155,8 @@ export default function ServicesPage() {
                     {service.icon}
                   </div>
                   <div className="absolute top-4 right-4">
-                    <span className="bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                      {service.price}
+                    <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                      {service.capacity}
                     </span>
                   </div>
                 </div>
@@ -179,7 +179,7 @@ export default function ServicesPage() {
                   </ul>
 
                   <button className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
-                    Select Service
+                    Learn More
                   </button>
                 </div>
               </div>
@@ -193,10 +193,10 @@ export default function ServicesPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4">
-              Additional <span className="bg-gradient-to-r from-green-400 to-green-50-600 bg-clip-text text-transparent">Features</span>
+              Logistics <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Support</span>
             </h2>
             <p className="text-xl text-gray-400">
-              Extra services to enhance your shipping experience
+              Additional services to support your freight operations
             </p>
           </div>
 
@@ -222,19 +222,19 @@ export default function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-green-900/20 via-black to-green-50-900/20">
+      <section className="py-20 bg-gradient-to-r from-green-900/20 via-black to-green-900/20">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            Ready to Ship
-            <span className="block bg-gradient-to-r from-green-400 to-green-50-600 bg-clip-text text-transparent">Your Package?</span>
+            Ready to Move
+            <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Your Cargo?</span>
           </h2>
           <p className="text-xl text-gray-400 mb-8">
-            Contact our team to get started with your shipment today
+            Contact our freight experts to find the best transportation solution for your needs
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/contact"
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-red-500/30"
+              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-green-500/30"
             >
               Get Quote
             </a>

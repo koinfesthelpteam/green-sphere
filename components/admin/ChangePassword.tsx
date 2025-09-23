@@ -103,7 +103,7 @@ export default function ChangePasswordPage() {
                 </button>
               </div>
               {errors.currentPassword && (
-                <p className="text-red-500 text-xs mt-1">{errors.currentPassword.message}</p>
+                <p className="text-green-500 text-xs mt-1">{errors.currentPassword.message}</p>
               )}
             </div>
 
@@ -133,7 +133,7 @@ export default function ChangePasswordPage() {
                 </button>
               </div>
               {errors.newPassword && (
-                <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>
+                <p className="text-green-500 text-xs mt-1">{errors.newPassword.message}</p>
               )}
             </div>
 
@@ -148,7 +148,7 @@ export default function ChangePasswordPage() {
                 placeholder="••••••"
               />
               {errors.confirmPassword && (
-                <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>
+                <p className="text-green-500 text-xs mt-1">{errors.confirmPassword.message}</p>
               )}
             </div>
 
