@@ -21,7 +21,7 @@ import {
   VerificationRequest
 } from '../types/index';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shipment-4ykm.onrender.com/api';
 
 // Create axios instance
 const api = axios.create({
