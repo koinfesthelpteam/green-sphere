@@ -126,13 +126,14 @@ const CreateShipment: React.FC = () => {
   }, []);
 
   // Clean up object URLs on component unmount
-  React.useEffect(() => {
-    return () => {
-      images.forEach(image => {
-        URL.revokeObjectURL(image.preview);
-      });
-    };
-  }, []);
+React.useEffect(() => {
+  return () => {
+    images.forEach(image => {
+      URL.revokeObjectURL(image.preview);
+    });
+  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
 
   const onSubmit = async (data: CreateShipmentForm) => {
     try {

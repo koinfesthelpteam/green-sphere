@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Package,
   Truck,
   Ship,
   Plane,

@@ -12,33 +12,6 @@ export default function AboutPage() {
     { icon: Clock, value: '24/7', label: 'Customer Support' },
   ];
 
-  const team = [
-    {
-      name: 'Alex Thompson',
-      role: 'CEO & Founder',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&auto=format',
-      description: 'Visionary leader with 15+ years in logistics and technology innovation.'
-    },
-    {
-      name: 'Maria Rodriguez',
-      role: 'CTO',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=300&h=300&fit=crop&auto=format',
-      description: 'Tech expert specializing in blockchain integration and secure payment systems.'
-    },
-    {
-      name: 'David Kim',
-      role: 'Head of Operations',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&auto=format',
-      description: 'Operations specialist ensuring seamless global shipping and logistics.'
-    },
-    {
-      name: 'Sarah Wilson',
-      role: 'Customer Success Director',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&auto=format',
-      description: 'Dedicated to ensuring exceptional customer experiences and satisfaction.'
-    }
-  ];
-
   const values = [
     {
       icon: Shield,

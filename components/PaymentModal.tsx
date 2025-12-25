@@ -72,7 +72,9 @@ export default function PaymentModal({
 
   useEffect(() => {
     fetchPaymentInfo();
-  }, [trackingNumber]);
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [trackingNumber]);
 
   const fetchPaymentInfo = async () => {
     try {

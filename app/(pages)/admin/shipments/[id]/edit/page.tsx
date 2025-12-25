@@ -49,6 +49,7 @@ export default function EditShipment() {
 
   useEffect(() => {
     fetchShipment();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const fetchShipment = async () => {
@@ -248,6 +249,7 @@ export default function EditShipment() {
         URL.revokeObjectURL(image.preview);
       });
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = async (data: CreateShipmentForm) => {

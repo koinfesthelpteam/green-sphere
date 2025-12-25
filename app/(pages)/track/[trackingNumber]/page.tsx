@@ -137,6 +137,7 @@ export default function TrackingPage() {
   }
 
   const progressSteps = getProgressSteps();
+  const paymentStatus = shipment.payment?.status || 'pending';
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -429,8 +430,8 @@ export default function TrackingPage() {
                 )}
                 <div className="flex justify-between items-center">
                   <span className="text-gray-400">Status</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(shipment.payment.status)}`}>
-                    {shipment.payment.status.toUpperCase()}
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(paymentStatus)}`}>
+                    {paymentStatus.toUpperCase()}
                   </span>
                 </div>
                 {shipment.payment.paymentType === 'partial' && (

@@ -42,7 +42,8 @@ export default function ShipmentsList() {
 
   useEffect(() => {
     fetchShipments();
-  }, [currentPage, statusFilter, searchTerm]);
+  }, 
+  [currentPage, statusFilter, searchTerm]);
 
   const fetchShipments = async () => {
     try {
