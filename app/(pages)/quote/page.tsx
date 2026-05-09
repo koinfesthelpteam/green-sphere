@@ -1,595 +1,457 @@
 'use client';
 
 import React, { useState } from 'react';
-import {
-  Truck,
-  Ship,
-  Plane,
-  Train,
-  MapPin,
-  Calendar,
-  Weight,
-  Ruler,
-  User,
-  Mail,
-  Phone,
-  Building,
-  Clock,
-  CheckCircle,
-} from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
-// Define types for form data
-interface Dimensions {
-  length: string;
-  width: string;
-  height: string;
-}
+const cream  = '#F5F0E8';
+const navy   = '#0D1B3E';
+const rust   = '#C4713B';
+const muted  = 'rgba(245,240,232,0.6)';
+const border = 'rgba(245,240,232,0.1)';
+const serif  = "'Playfair Display', Georgia, serif";
+const lora   = "'Lora', Georgia, serif";
+const mono   = "'Courier New', monospace";
 
-interface ContactInfo {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-}
-
+/* ── types ── */
+interface Dimensions { length: string; width: string; height: string }
+interface ContactInfo { name: string; email: string; phone: string; company: string }
 interface FormData {
-  serviceType: string;
-  origin: string;
-  destination: string;
-  shipmentDate: string;
-  weight: string;
-  dimensions: Dimensions;
-  cargoType: string;
-  cargoValue: string;
-  specialRequirements: string;
-  contactInfo: ContactInfo;
+  serviceType: string; origin: string; destination: string; shipmentDate: string;
+  weight: string; dimensions: Dimensions; cargoType: string; cargoValue: string;
+  specialRequirements: string; contactInfo: ContactInfo;
 }
+type NestedKey = 'dimensions' | 'contactInfo';
+
+const STEPS = [
+  { n: '01', label: 'Service & Route' },
+  { n: '02', label: 'Cargo Details' },
+  { n: '03', label: 'Requirements' },
+  { n: '04', label: 'Contact' },
+];
+
+const CARGO_TYPES = [
+  'General Cargo', 'Electronics', 'Automotive Parts', 'Machinery',
+  'Textiles', 'Food & Beverages', 'Chemicals', 'Pharmaceuticals', 'Fragile Items', 'Other',
+];
+
+const SPECIAL_REQS = [
+  'Temperature Controlled', 'Hazardous Materials', 'Oversized Cargo',
+  'High Value Items', 'Urgent Delivery', 'Custom Packaging',
+];
+
+/* ── field label ── */
+function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#5A4E44', marginBottom: '0.45rem' }}>
+      {children}{required && <span style={{ color: rust, marginLeft: '3px' }}>*</span>}
+    </label>
+  );
+}
+
+const inputStyle: React.CSSProperties = {
+  width: '100%', padding: '0.75rem 1rem',
+  backgroundColor: 'transparent', border: '1.5px solid #C4B49A',
+  color: navy, fontFamily: lora, fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box',
+};
+const focusRust = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  (e.currentTarget.style.borderColor = rust);
+const blurStone = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
+  (e.currentTarget.style.borderColor = '#C4B49A');
 
 export default function GetQuotePage() {
   const [formData, setFormData] = useState<FormData>({
-    serviceType: '',
-    origin: '',
-    destination: '',
-    shipmentDate: '',
-    weight: '',
-    dimensions: {
-      length: '',
-      width: '',
-      height: '',
-    },
-    cargoType: '',
-    cargoValue: '',
-    specialRequirements: '',
-    contactInfo: {
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-    },
+    serviceType: '', origin: '', destination: '', shipmentDate: '',
+    weight: '', dimensions: { length: '', width: '', height: '' },
+    cargoType: '', cargoValue: '', specialRequirements: '',
+    contactInfo: { name: '', email: '', phone: '', company: '' },
   });
+  const [step, setStep]             = useState(1);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [checked, setChecked]       = useState<string[]>([]);
 
-  const [currentStep, setCurrentStep] = useState<number>(1);
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
-
-  const serviceTypes = [
-    { id: 'air', name: 'Air Freight', icon: <Plane className="h-6 w-6" />, description: 'Fast international shipping' },
-    { id: 'ocean', name: 'Ocean Freight', icon: <Ship className="h-6 w-6" />, description: 'Cost-effective bulk shipping' },
-    { id: 'rail', name: 'Rail Transport', icon: <Train className="h-6 w-6" />, description: 'Overland cargo transport' },
-    { id: 'road', name: 'Road Freight', icon: <Truck className="h-6 w-6" />, description: 'Door-to-door delivery' },
-  ];
-
-  const cargoTypes = [
-    'General Cargo',
-    'Electronics',
-    'Automotive Parts',
-    'Machinery',
-    'Textiles',
-    'Food & Beverages',
-    'Chemicals',
-    'Pharmaceuticals',
-    'Fragile Items',
-    'Other',
-  ];
-
-  const specialRequirements = [
-    'Temperature Controlled',
-    'Hazardous Materials',
-    'Oversized Cargo',
-    'High Value Items',
-    'Urgent Delivery',
-    'Custom Packaging',
-  ];
-
-  // Define valid nested keys
-  type NestedKey = 'dimensions' | 'contactInfo';
-
-  const handleInputChange = (field: string, value: string, nested?: NestedKey) => {
+  const set = (field: string, value: string, nested?: NestedKey) => {
     if (nested) {
-      setFormData((prev) => ({
-        ...prev,
-        [nested]: {
-          ...prev[nested],
-          [field]: value,
-        },
-      }));
+      setFormData(p => ({ ...p, [nested]: { ...(p[nested] as object), [field]: value } }));
     } else {
-      setFormData((prev) => ({
-        ...prev,
-        [field]: value,
-      }));
+      setFormData(p => ({ ...p, [field]: value }));
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitted(true);
+  const toggleReq = (req: string) => {
+    setChecked(prev => prev.includes(req) ? prev.filter(r => r !== req) : [...prev, req]);
   };
 
-  const nextStep = () => {
-    if (currentStep < 4) setCurrentStep(currentStep + 1);
-  };
+  const handleSubmit = (e: React.FormEvent) => { e.preventDefault(); setIsSubmitted(true); };
 
-  const prevStep = () => {
-    if (currentStep > 1) setCurrentStep(currentStep - 1);
-  };
-
+  /* ── SUCCESS ── */
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-black text-white pt-16 flex items-center justify-center">
-        <div className="max-w-2xl mx-auto px-4 text-center">
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-green-500/50 rounded-xl p-8">
-            <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-6" />
-            <h1 className="text-3xl font-bold mb-4">Quote Request Submitted!</h1>
-            <p className="text-gray-300 mb-6">
-              Thank you for choosing Green Sphere Services. Our freight experts will review your requirements
-              and provide you with a competitive quote within 24 hours.
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: navy }}>
+        <div style={{ maxWidth: '540px', width: '100%' }}>
+          <div style={{ borderTop: `4px solid ${rust}`, backgroundColor: 'rgba(245,240,232,0.04)', padding: '3rem' }}>
+            <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+              Quote Request Received
             </p>
-            <div className="bg-gray-800/50 rounded-lg p-6 mb-6">
-              <h3 className="text-lg font-semibold mb-2 text-green-400">What happens next?</h3>
-              <ul className="text-left space-y-2 text-gray-300">
-                <li className="flex items-center">
-                  <Clock className="h-4 w-4 text-green-500 mr-2" />
-                  Our team will review your quote within 2-4 hours
-                </li>
-                <li className="flex items-center">
-                  <Mail className="h-4 w-4 text-green-500 mr-2" />
-                  You&apos;ll receive a detailed quote via email
-                </li>
-                <li className="flex items-center">
-                  <Phone className="h-4 w-4 text-green-500 mr-2" />
-                  Our specialist may call to discuss your requirements
-                </li>
-              </ul>
+            <h1 style={{ fontFamily: serif, fontSize: '2.25rem', color: cream, lineHeight: 1.1, marginBottom: '1rem' }}>
+              Thank you.<br />We&apos;re on it.
+            </h1>
+            <p style={{ fontFamily: lora, fontSize: '0.95rem', color: muted, lineHeight: 1.8, marginBottom: '2rem' }}>
+              Our freight specialists will review your requirements and send you a competitive quote within 2–4 hours.
+            </p>
+            <div style={{ borderTop: `1px solid ${border}`, paddingTop: '1.5rem', marginBottom: '2rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              {[
+                ['Review', 'Your details reviewed within 2–4 hours'],
+                ['Quote', 'Detailed pricing delivered to your email'],
+                ['Call', 'A specialist may call to discuss specifics'],
+              ].map(([k, v]) => (
+                <div key={k} style={{ display: 'flex', gap: '1rem', alignItems: 'baseline' }}>
+                  <span style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, minWidth: '3.5rem' }}>{k}</span>
+                  <span style={{ fontFamily: lora, fontSize: '0.875rem', color: muted }}>{v}</span>
+                </div>
+              ))}
             </div>
-            <button
-              type="button"
-              onClick={() => window.location.href = '/'}
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200"
+            <Link
+              href="/"
+              style={{ display: 'inline-block', padding: '0.875rem 2rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
             >
-              Return to Homepage
-            </button>
+              Return to Homepage →
+            </Link>
           </div>
         </div>
       </div>
     );
   }
 
+  const serviceOptions = [
+    { id: 'ocean', name: 'Sea Freight',   desc: 'FCL & LCL container shipping',    icon: '🚢' },
+    { id: 'air',   name: 'Air Freight',   desc: 'Express international cargo',      icon: '✈️' },
+    { id: 'road',  name: 'Road Haulage',  desc: 'Door-to-door land transport',      icon: '🚛' },
+    { id: 'rail',  name: 'Rail Freight',  desc: 'Overland continental corridors',   icon: '🚂' },
+  ];
+
   return (
-    <div className="min-h-screen bg-black text-white pt-16">
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-900/20"></div>
-        <div className="absolute inset-0 opacity-10">
+    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+
+      {/* ── HERO ── */}
+      <section className="relative" style={{ minHeight: '60vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
+        <div className="absolute inset-0 z-0">
           <Image
-            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1200&h=800&fit=crop&auto=format"
+            src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=1920&h=700&fit=crop&auto=format"
             alt="Global logistics"
-            width={1200}
-            height={800}
-            className="w-full h-full object-cover"
+            fill className="object-cover" priority
           />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.2) 0%, rgba(10,16,32,0.88) 100%)' }} />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Get Your
-              <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Freight Quote
-              </span>
-            </h2>
-            <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
-              Tell us about your shipping needs and we&apos;ll provide you with a competitive quote
-              tailored to your specific requirements.
-            </p>
+        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.1)`, backgroundColor: 'rgba(13,27,62,0.65)', backdropFilter: 'blur(6px)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(245,240,232,0.45)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <span>Green Sphere Services</span>
+            <span style={{ color: rust }}>◆</span>
+            <span>Request a Quote</span>
           </div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pb-14 w-full">
+          <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color:  cream , marginBottom: '0.75rem' }} className='bg-blue-950 w-fit p-2 rounded-full'>
+            Freight Pricing
+          </p>
+          <h1 style={{ fontFamily: serif, fontSize: 'clamp(2.25rem, 5vw, 4rem)', color: cream, lineHeight: 1.05 }}>
+            Get your freight quote
+          </h1>
         </div>
       </section>
 
-      {/* Quote Form */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Progress Indicator */}
-          <div className="mb-12">
-            <div className="flex items-center justify-center space-x-4">
-              {[1, 2, 3, 4].map((step) => (
-                <div key={step} className="flex items-center">
-                  <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold ${
-                      currentStep >= step ? 'bg-green-600 text-white' : 'bg-gray-700 text-gray-400'
-                    }`}
-                  >
-                    {step}
-                  </div>
-                  {step < 4 && (
-                    <div
-                      className={`w-12 h-1 ${currentStep > step ? 'bg-green-600' : 'bg-gray-700'}`}
-                    ></div>
-                  )}
+      {/* ── FORM ── */}
+      <section className="py-20" style={{ backgroundColor: '#F5F0E8' }}>
+        <div className="max-w-4xl mx-auto px-6 lg:px-12">
+
+          {/* Step indicator — manifest style */}
+          <div style={{ display: 'flex', alignItems: 'stretch', marginBottom: '3rem', borderTop: `3px solid ${rust}`, borderBottom: `1px solid #C4B49A` }}>
+            {STEPS.map((s, i) => {
+              const done    = step > i + 1;
+              const current = step === i + 1;
+              return (
+                <div
+                  key={i}
+                  style={{
+                    flex: 1, padding: '1rem 0.75rem', textAlign: 'center',
+                    borderRight: i < 3 ? '1px solid #C4B49A' : 'none',
+                    backgroundColor: current ? navy : 'transparent',
+                  }}
+                >
+                  <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.18em', color: done ? rust : current ? rust : '#9E8E7E', marginBottom: '0.2rem' }}>
+                    {done ? '✓' : s.n}
+                  </p>
+                  <p style={{ fontFamily: lora, fontSize: '0.8rem', color: current ? cream : done ? navy : '#9E8E7E', fontWeight: current ? 500 : 400 }}>
+                    {s.label}
+                  </p>
                 </div>
-              ))}
-            </div>
-            <div className="text-center mt-4">
-              <span className="text-gray-400">
-                Step {currentStep} of 4:{' '}
-                {currentStep === 1
-                  ? 'Service & Route'
-                  : currentStep === 2
-                  ? 'Cargo Details'
-                  : currentStep === 3
-                  ? 'Special Requirements'
-                  : 'Contact Information'}
-              </span>
-            </div>
+              );
+            })}
           </div>
 
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8">
-            <form onSubmit={handleSubmit}>
-              {/* Step 1: Service Type & Route */}
-              {currentStep === 1 && (
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-bold mb-6 text-center">Select Service & Route</h3>
+          <form onSubmit={handleSubmit}>
 
-                  {/* Service Type Selection */}
-                  <div>
-                    <label className="block text-lg font-semibold mb-4">Service Type</label>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {serviceTypes.map((service) => (
-                        <div
-                          key={service.id}
-                          className={`border-2 rounded-lg p-4 cursor-pointer transition-all duration-200 ${
-                            formData.serviceType === service.id
-                              ? 'border-green-500 bg-green-500/10'
-                              : 'border-gray-700 hover:border-green-500/50'
-                          }`}
-                          onClick={() => handleInputChange('serviceType', service.id)}
-                          role="button"
-                          tabIndex={0}
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter' || e.key === ' ') {
-                              handleInputChange('serviceType', service.id);
-                            }
-                          }}
-                        >
-                          <div className="flex items-center space-x-3">
-                            <div className="text-green-500">{service.icon}</div>
-                            <div>
-                              <h4 className="font-semibold">{service.name}</h4>
-                              <p className="text-sm text-gray-400">{service.description}</p>
-                            </div>
-                          </div>
+            {/* ── STEP 1 ── */}
+            {step === 1 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div>
+                  <FieldLabel>Service Type</FieldLabel>
+                  <div className="grid md:grid-cols-2 gap-3" style={{ marginTop: '0.5rem' }}>
+                    {serviceOptions.map(svc => (
+                      <div
+                        key={svc.id}
+                        onClick={() => set('serviceType', svc.id)}
+                        style={{
+                          padding: '1.25rem',
+                          border: `1.5px solid ${formData.serviceType === svc.id ? rust : '#C4B49A'}`,
+                          backgroundColor: formData.serviceType === svc.id ? 'rgba(196,113,59,0.06)' : 'transparent',
+                          cursor: 'pointer',
+                          display: 'flex', alignItems: 'center', gap: '1rem',
+                          transition: 'border-color 0.2s',
+                        }}
+                        tabIndex={0}
+                        role="button"
+                        onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && set('serviceType', svc.id)}
+                      >
+                        <span style={{ fontSize: '1.5rem' }}>{svc.icon}</span>
+                        <div>
+                          <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.2rem' }}>{svc.name}</p>
+                          <p style={{ fontFamily: lora, fontSize: '0.8rem', color: '#5A4E44' }}>{svc.desc}</p>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Origin & Destination */}
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Origin</label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="text"
-                          value={formData.origin}
-                          onChange={(e) => handleInputChange('origin', e.target.value)}
-                          placeholder="City, Country or Port/Airport code"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                          required
-                        />
+                        {formData.serviceType === svc.id && (
+                          <span style={{ marginLeft: 'auto', color: rust, fontFamily: mono, fontSize: '0.7rem' }}>◆</span>
+                        )}
                       </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Destination</label>
-                      <div className="relative">
-                        <MapPin className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="text"
-                          value={formData.destination}
-                          onChange={(e) => handleInputChange('destination', e.target.value)}
-                          placeholder="City, Country or Port/Airport code"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                          required
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Shipment Date */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Preferred Shipment Date</label>
-                    <div className="relative">
-                      <Calendar className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                      <input
-                        type="date"
-                        value={formData.shipmentDate}
-                        onChange={(e) => handleInputChange('shipmentDate', e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        required
-                      />
-                    </div>
+                    ))}
                   </div>
                 </div>
-              )}
 
-              {/* Step 2: Cargo Details */}
-              {currentStep === 2 && (
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-bold mb-6 text-center">Cargo Details</h3>
-
-                  {/* Weight */}
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Total Weight (kg)</label>
-                    <div className="relative">
-                      <Weight className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                      <input
-                        type="number"
-                        value={formData.weight}
-                        onChange={(e) => handleInputChange('weight', e.target.value)}
-                        placeholder="Enter weight in kilograms"
-                        className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        required
-                      />
-                    </div>
+                    <FieldLabel required>Origin</FieldLabel>
+                    <input type="text" value={formData.origin} onChange={e => set('origin', e.target.value)} placeholder="City, country or port code" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
                   </div>
-
-                  {/* Dimensions */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Dimensions (cm)</label>
-                    <div className="grid grid-cols-3 gap-4">
-                      <div className="relative">
-                        <Ruler className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="number"
-                          value={formData.dimensions.length}
-                          onChange={(e) => handleInputChange('length', e.target.value, 'dimensions')}
-                          placeholder="Length"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="number"
-                          value={formData.dimensions.width}
-                          onChange={(e) => handleInputChange('width', e.target.value, 'dimensions')}
-                          placeholder="Width"
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        />
-                      </div>
-                      <div>
-                        <input
-                          type="number"
-                          value={formData.dimensions.height}
-                          onChange={(e) => handleInputChange('height', e.target.value, 'dimensions')}
-                          placeholder="Height"
-                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Cargo Type */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Cargo Type</label>
-                    <select
-                      value={formData.cargoType}
-                      onChange={(e) => handleInputChange('cargoType', e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                      required
-                    >
-                      <option value="">Select cargo type</option>
-                      {cargoTypes.map((type) => (
-                        <option key={type} value={type}>
-                          {type}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Cargo Value */}
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Cargo Value (USD)</label>
-                    <input
-                      type="number"
-                      value={formData.cargoValue}
-                      onChange={(e) => handleInputChange('cargoValue', e.target.value)}
-                      placeholder="Estimated value for insurance purposes"
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                    />
+                    <FieldLabel required>Destination</FieldLabel>
+                    <input type="text" value={formData.destination} onChange={e => set('destination', e.target.value)} placeholder="City, country or port code" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
                   </div>
                 </div>
-              )}
 
-              {/* Step 3: Special Requirements */}
-              {currentStep === 3 && (
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-bold mb-6 text-center">Special Requirements</h3>
+                <div>
+                  <FieldLabel required>Preferred Shipment Date</FieldLabel>
+                  <input type="date" value={formData.shipmentDate} onChange={e => set('shipmentDate', e.target.value)} style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
+                </div>
+              </div>
+            )}
 
+            {/* ── STEP 2 ── */}
+            {step === 2 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-4">
-                      Select any special requirements (optional)
-                    </label>
-                    <div className="grid md:grid-cols-2 gap-4">
-                      {specialRequirements.map((requirement) => (
-                        <label key={requirement} className="flex items-center space-x-3 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            className="w-4 h-4 text-green-600 bg-gray-800 border-gray-700 rounded focus:ring-green-500"
-                            onChange={(e) =>
-                              handleInputChange(
-                                'specialRequirements',
-                                e.target.checked
-                                  ? `${formData.specialRequirements} ${requirement}`.trim()
-                                  : formData.specialRequirements
-                                      .replace(requirement, '')
-                                      .trim(),
-                              )
-                            }
-                          />
-                          <span className="text-sm">{requirement}</span>
-                        </label>
-                      ))}
-                    </div>
+                    <FieldLabel required>Total Weight (kg)</FieldLabel>
+                    <input type="number" value={formData.weight} onChange={e => set('weight', e.target.value)} placeholder="e.g. 2500" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
                   </div>
-
                   <div>
-                    <label className="block text-sm font-medium mb-2">Additional Notes</label>
-                    <textarea
-                      value={formData.specialRequirements}
-                      onChange={(e) => handleInputChange('specialRequirements', e.target.value)}
-                      placeholder="Any additional requirements or special handling instructions..."
-                      rows={4}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                    />
+                    <FieldLabel>Declared Value (USD)</FieldLabel>
+                    <input type="number" value={formData.cargoValue} onChange={e => set('cargoValue', e.target.value)} placeholder="For insurance purposes" style={inputStyle} onFocus={focusRust} onBlur={blurStone} />
                   </div>
                 </div>
-              )}
 
-              {/* Step 4: Contact Information */}
-              {currentStep === 4 && (
-                <div className="space-y-8">
-                  <h3 className="text-2xl font-bold mb-6 text-center">Contact Information</h3>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Full Name</label>
-                      <div className="relative">
-                        <User className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="text"
-                          value={formData.contactInfo.name}
-                          onChange={(e) => handleInputChange('name', e.target.value, 'contactInfo')}
-                          placeholder="Your full name"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Company</label>
-                      <div className="relative">
-                        <Building className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="text"
-                          value={formData.contactInfo.company}
-                          onChange={(e) => handleInputChange('company', e.target.value, 'contactInfo')}
-                          placeholder="Company name"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Email</label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="email"
-                          value={formData.contactInfo.email}
-                          onChange={(e) => handleInputChange('email', e.target.value, 'contactInfo')}
-                          placeholder="your@email.com"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Phone</label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-                        <input
-                          type="tel"
-                          value={formData.contactInfo.phone}
-                          onChange={(e) => handleInputChange('phone', e.target.value, 'contactInfo')}
-                          placeholder="+1 (555) 123-4567"
-                          className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-green-500 focus:outline-none"
-                          required
-                        />
-                      </div>
-                    </div>
+                <div>
+                  <FieldLabel>Dimensions (cm) — L × W × H</FieldLabel>
+                  <div className="grid grid-cols-3 gap-4">
+                    {(['length', 'width', 'height'] as const).map(dim => (
+                      <input key={dim} type="number" value={formData.dimensions[dim]} onChange={e => set(dim, e.target.value, 'dimensions')} placeholder={dim.charAt(0).toUpperCase() + dim.slice(1)} style={inputStyle} onFocus={focusRust} onBlur={blurStone} />
+                    ))}
                   </div>
                 </div>
-              )}
 
-              {/* Navigation Buttons */}
-              <div className="flex justify-between mt-12">
+                <div>
+                  <FieldLabel required>Cargo Type</FieldLabel>
+                  <select
+                    value={formData.cargoType}
+                    onChange={e => set('cargoType', e.target.value)}
+                    style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                    onFocus={focusRust} onBlur={blurStone}
+                    required
+                  >
+                    <option value="">Select cargo type</option>
+                    {CARGO_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                  </select>
+                </div>
+              </div>
+            )}
+
+            {/* ── STEP 3 ── */}
+            {step === 3 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div>
+                  <FieldLabel>Special Handling Requirements</FieldLabel>
+                  <div className="grid md:grid-cols-2 gap-0" style={{ marginTop: '0.75rem', border: '1.5px solid #C4B49A' }}>
+                    {SPECIAL_REQS.map((req, i) => (
+                      <label
+                        key={req}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: '0.75rem',
+                          padding: '0.875rem 1rem',
+                          borderRight: i % 2 === 0 ? '1px solid #C4B49A' : 'none',
+                          borderBottom: i < SPECIAL_REQS.length - 2 ? '1px solid #C4B49A' : 'none',
+                          cursor: 'pointer',
+                          backgroundColor: checked.includes(req) ? 'rgba(196,113,59,0.06)' : 'transparent',
+                        }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={checked.includes(req)}
+                          onChange={() => toggleReq(req)}
+                          style={{ accentColor: rust, width: '14px', height: '14px', flexShrink: 0 }}
+                        />
+                        <span style={{ fontFamily: lora, fontSize: '0.875rem', color: navy }}>{req}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <FieldLabel>Additional Notes</FieldLabel>
+                  <textarea
+                    value={formData.specialRequirements}
+                    onChange={e => set('specialRequirements', e.target.value)}
+                    placeholder="Any special handling instructions, packaging needs, or other requirements…"
+                    rows={5}
+                    style={{ ...inputStyle, resize: 'vertical' }}
+                    onFocus={focusRust} onBlur={blurStone}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* ── STEP 4 ── */}
+            {step === 4 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <FieldLabel required>Full Name</FieldLabel>
+                    <input type="text" value={formData.contactInfo.name} onChange={e => set('name', e.target.value, 'contactInfo')} placeholder="Your full name" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
+                  </div>
+                  <div>
+                    <FieldLabel>Company</FieldLabel>
+                    <input type="text" value={formData.contactInfo.company} onChange={e => set('company', e.target.value, 'contactInfo')} placeholder="Company or organisation" style={inputStyle} onFocus={focusRust} onBlur={blurStone} />
+                  </div>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <FieldLabel required>Email Address</FieldLabel>
+                    <input type="email" value={formData.contactInfo.email} onChange={e => set('email', e.target.value, 'contactInfo')} placeholder="your@email.com" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
+                  </div>
+                  <div>
+                    <FieldLabel required>Phone Number</FieldLabel>
+                    <input type="tel" value={formData.contactInfo.phone} onChange={e => set('phone', e.target.value, 'contactInfo')} placeholder="+1 (555) 123-4567" style={inputStyle} onFocus={focusRust} onBlur={blurStone} required />
+                  </div>
+                </div>
+
+                {/* Summary */}
+                <div style={{ borderTop: `1px solid #C4B49A`, paddingTop: '1.5rem' }}>
+                  <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>Quote Summary</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid #C4B49A' }}>
+                    {[
+                      ['Service', serviceOptions.find(s => s.id === formData.serviceType)?.name || '—'],
+                      ['Origin', formData.origin || '—'],
+                      ['Destination', formData.destination || '—'],
+                      ['Date', formData.shipmentDate || '—'],
+                      ['Weight', formData.weight ? `${formData.weight} kg` : '—'],
+                      ['Cargo Type', formData.cargoType || '—'],
+                    ].map(([k, v], i) => (
+                      <div key={k} style={{ padding: '0.75rem 1rem', borderRight: i % 2 === 0 ? '1px solid #C4B49A' : 'none', borderBottom: i < 4 ? '1px solid #C4B49A' : 'none' }}>
+                        <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust, marginBottom: '0.2rem' }}>{k}</p>
+                        <p style={{ fontFamily: lora, fontSize: '0.875rem', color: navy }}>{v}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ── NAV BUTTONS ── */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid #C4B49A' }}>
+              <button
+                type="button"
+                onClick={() => setStep(s => Math.max(s - 1, 1))}
+                disabled={step === 1}
+                style={{
+                  padding: '0.75rem 1.75rem',
+                  backgroundColor: 'transparent',
+                  border: `1.5px solid ${step === 1 ? 'rgba(196,181,154,0.4)' : '#C4B49A'}`,
+                  color: step === 1 ? '#9E8E7E' : navy,
+                  fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase',
+                  cursor: step === 1 ? 'not-allowed' : 'pointer',
+                }}
+              >
+                ← Previous
+              </button>
+              {step < 4 ? (
                 <button
                   type="button"
-                  onClick={prevStep}
-                  className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
-                    currentStep === 1
-                      ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
-                      : 'bg-gray-700 hover:bg-gray-600 text-white'
-                  }`}
-                  disabled={currentStep === 1}
+                  onClick={() => setStep(s => Math.min(s + 1, 4))}
+                  style={{
+                    padding: '0.75rem 1.75rem',
+                    backgroundColor: navy,
+                    color: cream,
+                    border: 'none',
+                    fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = rust)}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = navy)}
                 >
-                  Previous
+                  Next Step →
                 </button>
+              ) : (
+                <button
+                  type="submit"
+                  style={{
+                    padding: '0.75rem 2rem',
+                    backgroundColor: rust,
+                    color: cream,
+                    border: 'none',
+                    fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
+                >
+                  Submit Quote Request →
+                </button>
+              )}
+            </div>
+          </form>
 
-                {currentStep < 4 ? (
-                  <button
-                    type="button"
-                    onClick={nextStep}
-                    className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200"
-                  >
-                    Next Step
-                  </button>
-                ) : (
-                  <button
-                    type="submit"
-                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
-                  >
-                    Submit Quote Request
-                  </button>
-                )}
-              </div>
-            </form>
-          </div>
-
-          {/* Contact Alternative */}
-          <div className="mt-12 text-center">
-            <p className="text-gray-400 mb-4">Prefer to speak with someone directly?</p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
-                href="tel:+1-555-GREEN-01"
-                className="flex items-center justify-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-all duration-200"
+          {/* ── DIRECT CONTACT ALTERNATIVE ── */}
+          <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #C4B49A', textAlign: 'center' }}>
+            <p style={{ fontFamily: lora, fontSize: '0.9rem', color: '#5A4E44', marginBottom: '1.25rem' }}>
+              Prefer to speak with someone directly?
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+              <a href="tel:+1-555-GREEN-01" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #C4B49A', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
               >
-                <Phone className="h-5 w-5" />
-                <span>Call: +1 (555) GREEN-01</span>
+                📞 Call: +1 (555) GREEN-01
               </a>
-              <a
-                href="mailto:quotes@greensphere.com"
-                className="flex items-center justify-center space-x-2 bg-gray-800 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-all duration-200"
+              <a href="mailto:quotes@greensphere.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #C4B49A', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
               >
-                <Mail className="h-5 w-5" />
-                <span>Email: quotes@greensphere.com</span>
+                ✉️ quotes@greensphere.com
               </a>
             </div>
           </div>
         </div>
       </section>
+
     </div>
   );
 }

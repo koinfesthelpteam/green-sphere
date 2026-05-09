@@ -1,167 +1,140 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 'use client';
 
 import React from 'react';
 import { format } from 'date-fns';
-import { 
-  CheckCircle, 
-  Clock, 
-  Package, 
-  Truck, 
-  MapPin, 
-  Home,
-  AlertCircle,
-  RotateCcw
-} from 'lucide-react';
 import { TrackingTimeline as TimelineType, TimelineEvent } from '@/types';
 
-interface TrackingTimelineProps {
-  timeline: TimelineType;
+const cream  = '#F5F0E8';
+const navy   = '#0D1B3E';
+const rust   = '#C4713B';
+const muted  = 'rgba(245,240,232,0.55)';
+const border = 'rgba(245,240,232,0.1)';
+const serif  = "'Playfair Display', Georgia, serif";
+const lora   = "'Lora', Georgia, serif";
+const mono   = "'Courier New', monospace";
+
+const STATUS_META: Record<string, { label: string; color: string }> = {
+  created:          { label: 'Order Created',       color: 'rgba(245,240,232,0.35)' },
+  picked_up:        { label: 'Picked Up',            color: '#64B5F6' },
+  in_transit:       { label: 'In Transit',           color: '#FFD54F' },
+  out_for_delivery: { label: 'Out for Delivery',     color: '#CE93D8' },
+  delivered:        { label: 'Delivered',            color: '#8BC34A' },
+  exception:        { label: 'Exception',            color: '#FF8A80' },
+  returned:         { label: 'Returned to Sender',   color: '#FFAB40' },
+};
+
+function getStatusLabel(status: string) {
+  return STATUS_META[status]?.label ?? status.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+}
+function getStatusColor(status: string) {
+  return STATUS_META[status]?.color ?? rust;
 }
 
-export default function TrackingTimeline({ timeline }: TrackingTimelineProps) {
-  const getStatusIcon = (status: string) => {
-    const icons = {
-      created: Package,
-      picked_up: CheckCircle,
-      in_transit: Truck,
-      out_for_delivery: MapPin,
-      delivered: Home,
-      exception: AlertCircle,
-      returned: RotateCcw
-    };
-    
-    const IconComponent = icons[status as keyof typeof icons] || Clock;
-    return <IconComponent className="h-5 w-5" />;
-  };
+interface Props { timeline: TimelineType }
 
-  const getStatusColor = (status: string, isCompleted: boolean) => {
-    if (!isCompleted) {
-      return 'bg-gray-600 text-gray-400 border-gray-600';
-    }
-
-    const colors = {
-      created: 'bg-gray-800 text-gray-400 border-gray-600',
-      picked_up: 'bg-blue-900/50 text-blue-400 border-blue-600',
-      in_transit: 'bg-yellow-900/50 text-yellow-400 border-yellow-600',
-      out_for_delivery: 'bg-purple-900/50 text-purple-400 border-purple-600',
-      delivered: 'bg-green-900/50 text-green-400 border-green-600',
-      exception: 'bg-red-900/50 text-red-400 border-red-600',
-      returned: 'bg-orange-900/50 text-orange-400 border-orange-600'
-    };
-
-    return colors[status as keyof typeof colors] || 'bg-gray-600 text-gray-400 border-gray-600';
-  };
-
-  const getStatusDescription = (status: string) => {
-    const descriptions = {
-      created: 'Shipment created and ready for pickup',
-      picked_up: 'Package picked up from sender',
-      in_transit: 'Package is in transit to destination',
-      out_for_delivery: 'Package is out for delivery',
-      delivered: 'Package delivered successfully',
-      exception: 'Delivery exception occurred',
-      returned: 'Package returned to sender'
-    };
-    
-    return descriptions[status as keyof typeof descriptions] || 'Status update';
-  };
+export default function TrackingTimeline({ timeline }: Props) {
+  const total     = timeline.timeline.length;
+  const completed = timeline.timeline.filter((e: TimelineEvent) => e.isCompleted).length;
+  const pct       = Math.round((completed / total) * 100);
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-800">
-        <div className="flex items-center space-x-2">
-          <Clock className="h-5 w-5 text-green-500" />
-          <h3 className="text-lg font-semibold text-white">Package Journey</h3>
-        </div>
-        <div className="text-right">
-          <div className="text-sm text-gray-400">Estimated Delivery</div>
-          <div className="font-medium text-green-400">
-            {format(new Date(timeline.estimatedDelivery), 'MMM dd, yyyy')}
-          </div>
+    <div style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderTop: `3px solid ${rust}`, padding: '1.75rem' }}>
+
+      {/* header */}
+      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: '1.5rem', paddingBottom: '1rem', borderBottom: `1px solid ${border}` }}>
+        <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust }}>
+          Package Journey
+        </p>
+        <div style={{ textAlign: 'right' }}>
+          <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: muted, marginBottom: '0.2rem' }}>Est. Delivery</p>
+          <p style={{ fontFamily: serif, fontSize: '0.95rem', color: cream }}>
+            {format(new Date(timeline.estimatedDelivery), 'dd MMM yyyy')}
+          </p>
         </div>
       </div>
 
-      {/* Timeline */}
-      <div className="relative pl-8">
-        {timeline.timeline.map((event: TimelineEvent, index: number) => (
-          <div key={index} className="relative mb-6 last:mb-0">
-            {/* Vertical line */}
-            {index < timeline.timeline.length - 1 && (
-              <div className="absolute top-6 left-[-24px] w-0.5 h-full bg-gray-700">
-                <div 
-                  className={`w-full h-full bg-green-500 transition-all duration-1000 ${
-                    event.isCompleted ? 'opacity-100' : 'opacity-0'
-                  }`}
-                ></div>
-              </div>
-            )}
-            
-            {/* Status dot */}
-            <div className={`
-              absolute left-[-28px] top-1 w-8 h-8 rounded-full flex items-center justify-center border-2
-              ${getStatusColor(event.status, event.isCompleted)} transition-all duration-300
-              ${event.isCompleted && event.status === timeline.currentStatus ? 'animate-pulse' : ''}
-            `}>
-              {getStatusIcon(event.status)}
-            </div>
+      {/* event list */}
+      <div style={{ paddingLeft: '1.25rem', borderLeft: `2px solid rgba(245,240,232,0.1)`, position: 'relative' }}>
+        {timeline.timeline.map((event: TimelineEvent, i: number) => {
+          const isCurrent = event.status === timeline.currentStatus && event.isCompleted;
+          const dotColor  = event.isCompleted ? getStatusColor(event.status) : 'rgba(245,240,232,0.15)';
 
-            {/* Content */}
-            <div className="bg-gray-800/30 rounded-lg p-4">
-              <div className="flex items-center justify-between">
-                <h4 className="font-medium text-white capitalize">
-                  {event.status.replace('_', ' ')}
-                </h4>
+          return (
+            <div
+              key={i}
+              style={{ position: 'relative', paddingBottom: i < total - 1 ? '1.5rem' : '0' }}
+            >
+              {/* dot */}
+              <div style={{
+                position: 'absolute',
+                left: '-1.625rem',
+                top: '0.25rem',
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: dotColor,
+                border: `2px solid ${event.isCompleted ? dotColor : 'rgba(245,240,232,0.15)'}`,
+                boxShadow: isCurrent ? `0 0 0 4px rgba(196,113,59,0.2)` : 'none',
+              }} />
+
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
+                <div style={{ flex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
+                    <p style={{
+                      fontFamily: lora,
+                      fontSize: '0.9rem',
+                      fontWeight: 500,
+                      color: event.isCompleted ? cream : 'rgba(245,240,232,0.3)',
+                    }}>
+                      {getStatusLabel(event.status)}
+                    </p>
+                    {isCurrent && (
+                      <span style={{ fontFamily: mono, fontSize: '0.55rem', letterSpacing: '0.12em', textTransform: 'uppercase', backgroundColor: rust, color: cream, padding: '1px 6px' }}>
+                        Current
+                      </span>
+                    )}
+                  </div>
+                  {(event.description || !event.isCompleted) && (
+                    <p style={{ fontFamily: lora, fontSize: '0.8rem', color: event.isCompleted ? muted : 'rgba(245,240,232,0.2)', lineHeight: 1.6, marginBottom: '0.2rem' }}>
+                      {event.description ?? 'Expected soon'}
+                    </p>
+                  )}
+                  {event.location && (
+                    <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.08em', color: rust }}>
+                      ◆ {event.location.city}, {event.location.state}, {event.location.country}
+                    </p>
+                  )}
+                  {!event.isCompleted && !event.timestamp && (
+                    <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.08em', color: 'rgba(245,240,232,0.25)' }}>
+                      Expected soon
+                    </p>
+                  )}
+                </div>
+
                 {event.timestamp && (
-                  <span className="text-sm text-gray-400 flex-shrink-0 ml-4">
-                    {format(new Date(event.timestamp), 'MMM dd, HH:mm')}
+                  <span style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.05em', color: muted, whiteSpace: 'nowrap', flexShrink: 0 }}>
+                    {format(new Date(event.timestamp), 'dd MMM · HH:mm')}
                   </span>
                 )}
               </div>
-
-              <p className="text-sm text-gray-400 mt-1">
-                {event.description || getStatusDescription(event.status)}
-              </p>
-
-              {/* Location */}
-              {event.location && (
-                <div className="flex items-center space-x-1 mt-2 text-xs text-gray-400">
-                  <MapPin className="h-3 w-3" />
-                  <span>
-                    {event.location.city}, {event.location.state}, {event.location.country}
-                  </span>
-                </div>
-              )}
-
-              {/* Expected time for future events */}
-              {!event.isCompleted && !event.timestamp && (
-                <div className="flex items-center space-x-1 mt-2 text-xs text-gray-400">
-                  <Clock className="h-3 w-3" />
-                  <span>Expected soon</span>
-                </div>
-              )}
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Progress Bar */}
-      <div className="mt-8 pt-6 border-t border-gray-800">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-white">Progress</span>
-          <span className="text-sm text-gray-400">
-            {Math.round((timeline.timeline.filter(e => e.isCompleted).length / timeline.timeline.length) * 100)}%
-          </span>
+      {/* progress bar */}
+      <div style={{ marginTop: '1.75rem', paddingTop: '1.25rem', borderTop: `1px solid ${border}` }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.5rem' }}>
+          <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust }}>Progress</p>
+          <p style={{ fontFamily: mono, fontSize: '0.68rem', color: cream }}>{pct}%</p>
         </div>
-        <div className="w-full bg-gray-700 rounded-full h-2">
-          <div 
-            className="bg-green-500 h-2 rounded-full transition-all duration-500"
-            style={{ 
-              width: `${(timeline.timeline.filter(e => e.isCompleted).length / timeline.timeline.length) * 100}%` 
-            }}
-          ></div>
+        <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(245,240,232,0.1)' }}>
+          <div style={{ height: '100%', width: `${pct}%`, backgroundColor: rust, transition: 'width 0.6s ease' }} />
         </div>
       </div>
+
     </div>
   );
 }

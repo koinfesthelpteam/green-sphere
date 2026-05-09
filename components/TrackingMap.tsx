@@ -1,312 +1,171 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
-import { MapPin, Navigation, Package, Home } from 'lucide-react';
 import { Location, PublicShipment } from '@/types';
 
-interface Coordinates {
-  lat: number;
-  lng: number;
-}
+interface Coordinates { lat: number; lng: number }
+interface CoordinatesState { sender: Coordinates | null; recipient: Coordinates | null; current: Coordinates | null }
+interface TrackingMapProps { shipment: PublicShipment }
+interface LeafletHTMLElement extends HTMLElement { _leaflet_id?: number }
 
-interface CoordinatesState {
-  sender: Coordinates | null;
-  recipient: Coordinates | null;
-  current: Coordinates | null;
-}
+declare global { interface Window { L: any } }
 
-interface TrackingMapProps {
-  shipment: PublicShipment;
-}
+const cream = '#F5F0E8';
+const navy  = '#0D1B3E';
+const rust  = '#C4713B';
+const muted = 'rgba(245,240,232,0.55)';
+const mono  = "'Courier New', monospace";
+const lora  = "'Lora', Georgia, serif";
+const serif = "'Playfair Display', Georgia, serif";
 
-interface LeafletHTMLElement extends HTMLElement {
-  _leaflet_id?: number;
-}
+const getDistance = (a: Coordinates, b: Coordinates) => {
+  const R = 6371, dLat = (b.lat - a.lat) * Math.PI / 180, dLon = (b.lng - a.lng) * Math.PI / 180;
+  const x = Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(x), Math.sqrt(1-x));
+};
 
-declare global {
-  interface Window {
-    L: any;
-  }
-}
+const geocodeLocation = async (loc: Location): Promise<Coordinates | null> => {
+  try {
+    const q = encodeURIComponent(`${loc.city}, ${loc.state}, ${loc.country}`);
+    const data = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${q}&limit=1`).then(r => r.json());
+    return data[0] ? { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) } : null;
+  } catch { return null; }
+};
 
-const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
-  const [mapLoaded, setMapLoaded] = useState(false);
-  const [coordinates, setCoordinates] = useState<CoordinatesState>({
-    sender: null,
-    recipient: null,
-    current: null
+/* Dot SVG markers — no rounded blobs, just clean squares with rust fill */
+const makeIcon = (L: any, color: string, label: string) =>
+  L.divIcon({
+    html: `<div style="width:10px;height:10px;background:${color};border:2px solid #F5F0E8;box-shadow:0 0 0 1px ${color}"></div>`,
+    className: '',
+    iconSize: [10, 10],
+    iconAnchor: [5, 5],
   });
 
-  const geocodeLocation = async (location: Location): Promise<Coordinates | null> => {
-    try {
-      const query = `${location.city}, ${location.state}, ${location.country}`;
-      const response = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`
-      );
-      const data = await response.json();
-      
-      if (data && data.length > 0) {
-        return {
-          lat: parseFloat(data[0].lat),
-          lng: parseFloat(data[0].lon)
-        };
-      }
-      return null;
-    } catch (error) {
-      console.error('Geocoding error:', error);
-      return null;
-    }
-  };
+const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
+  const [mapLoaded, setMapLoaded]       = useState(false);
+  const [coordinates, setCoordinates]   = useState<CoordinatesState>({ sender: null, recipient: null, current: null });
 
   useEffect(() => {
-    const initializeMap = async () => {
-      if (!shipment) return;
+    (async () => {
+      const [s, r, c] = await Promise.all([
+        geocodeLocation(shipment.sender),
+        geocodeLocation(shipment.recipient),
+        shipment.currentLocation ? geocodeLocation(shipment.currentLocation) : null,
+      ]);
+      setCoordinates({ sender: s, recipient: r, current: c });
 
-      try {
-        const [senderCoords, recipientCoords, currentCoords] = await Promise.all([
-          geocodeLocation(shipment.sender),
-          geocodeLocation(shipment.recipient),
-          shipment.currentLocation ? geocodeLocation(shipment.currentLocation) : Promise.resolve(null)
-        ]);
-
-        setCoordinates({
-          sender: senderCoords,
-          recipient: recipientCoords,
-          current: currentCoords
-        });
-
-        if (!window.L) {
-          const leafletScript = document.createElement('script');
-          leafletScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
-          leafletScript.onload = () => {
-            const leafletCSS = document.createElement('link');
-            leafletCSS.rel = 'stylesheet';
-            leafletCSS.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
-            document.head.appendChild(leafletCSS);
-            setMapLoaded(true);
-          };
-          document.head.appendChild(leafletScript);
-        } else {
-          setMapLoaded(true);
-        }
-      } catch (error) {
-        console.error('Map initialization error:', error);
-      }
-    };
-
-    initializeMap();
+      if (!window.L) {
+        const css = document.createElement('link');
+        css.rel = 'stylesheet'; css.href = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css';
+        document.head.appendChild(css);
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js';
+        script.onload = () => setMapLoaded(true);
+        document.head.appendChild(script);
+      } else { setMapLoaded(true); }
+    })();
   }, [shipment]);
 
   useEffect(() => {
     if (!mapLoaded || !coordinates.sender || !coordinates.recipient) return;
-
-    const mapContainer = document.getElementById('tracking-map') as LeafletHTMLElement;
-    if (!mapContainer || mapContainer._leaflet_id) return;
+    const el = document.getElementById('tracking-map') as LeafletHTMLElement;
+    if (!el || el._leaflet_id) return;
 
     try {
-      const map = window.L.map('tracking-map', {
-        zoomControl: true,
-        scrollWheelZoom: true
-      });
-
-      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 18
+      const L = window.L;
+      /* Dark-ish muted map tile — CartoDB dark matter without labels for cleaner look */
+      const map = L.map('tracking-map', { zoomControl: true, scrollWheelZoom: false });
+      L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
+        maxZoom: 18,
       }).addTo(map);
 
-      const senderIcon = window.L.divIcon({
-        html: `<div class="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full border-2 border-white shadow-lg">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10 2L3 7v11a2 2 0 002 2h10a2 2 0 002-2V7l-7-5z"/>
-          </svg>
-        </div>`,
-        className: 'custom-marker',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
+      const markers: any[] = [];
 
-      const recipientIcon = window.L.divIcon({
-        html: `<div class="flex items-center justify-center w-8 h-8 bg-green-600 rounded-full border-2 border-white shadow-lg">
-          <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.84L7.25 9.035 14.394 6.92a1 1 0 000-1.84l-4-2z"/>
-          </svg>
-        </div>`,
-        className: 'custom-marker',
-        iconSize: [32, 32],
-        iconAnchor: [16, 16]
-      });
+      const addMarker = (coord: Coordinates, color: string, popup: string) => {
+        const m = L.marker([coord.lat, coord.lng], { icon: makeIcon(L, color, '') })
+          .addTo(map)
+          .bindPopup(`<div style="font-family:${mono};font-size:0.72rem;letter-spacing:0.06em;color:${navy};padding:4px 2px">${popup}</div>`);
+        markers.push(m);
+        return m;
+      };
 
-      const currentIcon = coordinates.current ? window.L.divIcon({
-        html: `<div class="flex items-center justify-center w-10 h-10 bg-red-600 rounded-full border-2 border-white shadow-lg animate-pulse">
-          <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-          </svg>
-        </div>`,
-        className: 'custom-marker',
-        iconSize: [40, 40],
-        iconAnchor: [20, 20]
-      }) : null;
-
-      const senderMarker = window.L.marker([coordinates.sender.lat, coordinates.sender.lng], {
-        icon: senderIcon
-      }).addTo(map).bindPopup(`
-        <div class="p-2">
-          <h3 class="font-bold text-blue-600">Origin</h3>
-          <p class="text-sm">${shipment.sender.name || 'Unknown Sender'}</p>
-          <p class="text-xs text-gray-600">${shipment.sender.city}, ${shipment.sender.state}</p>
-        </div>
-      `);
-
-      const recipientMarker = window.L.marker([coordinates.recipient.lat, coordinates.recipient.lng], {
-        icon: recipientIcon
-      }).addTo(map).bindPopup(`
-        <div class="p-2">
-          <h3 class="font-bold text-green-600">Destination</h3>
-          <p class="text-sm">${shipment.recipient.name || 'Unknown Recipient'}</p>
-          <p class="text-xs text-gray-600">${shipment.recipient.city}, ${shipment.recipient.state}</p>
-        </div>
-      `);
-
-      let currentMarker = null;
-      if (coordinates.current && currentIcon && shipment.currentLocation) {
-        currentMarker = window.L.marker([coordinates.current.lat, coordinates.current.lng], {
-          icon: currentIcon
-        }).addTo(map).bindPopup(`
-          <div class="p-2">
-            <h3 class="font-bold text-red-600">Current Location</h3>
-            <p class="text-xs text-gray-600">${shipment.currentLocation.name || 'Current Location'}, ${shipment.currentLocation.city}, ${shipment.currentLocation.state}</p>
-            <p class="text-xs text-gray-500">Status: ${shipment.status.current.replace('_', ' ').toUpperCase()}</p>
-          </div>
-        `);
+      addMarker(coordinates.sender!, rust, `ORIGIN — ${shipment.sender.city}, ${shipment.sender.state}`);
+      addMarker(coordinates.recipient!, '#8BC34A', `DESTINATION — ${shipment.recipient.city}, ${shipment.recipient.state}`);
+      if (coordinates.current && shipment.currentLocation) {
+        addMarker(coordinates.current, cream, `CURRENT — ${shipment.currentLocation.city}, ${shipment.currentLocation.state}`);
       }
 
-      const routePoints: [number, number][] = [
-        [coordinates.sender.lat, coordinates.sender.lng]
+      const routePts: [number, number][] = [
+        [coordinates.sender!.lat, coordinates.sender!.lng],
+        ...(coordinates.current ? [[coordinates.current.lat, coordinates.current.lng] as [number, number]] : []),
+        [coordinates.recipient!.lat, coordinates.recipient!.lng],
       ];
 
-      if (coordinates.current) {
-        routePoints.push([coordinates.current.lat, coordinates.current.lng]);
-      }
+      const delivered = shipment.status.current === 'delivered';
+      L.polyline(routePts, { color: delivered ? '#8BC34A' : rust, weight: 2, opacity: 0.7, dashArray: delivered ? undefined : '8 6' }).addTo(map);
 
-      routePoints.push([coordinates.recipient.lat, coordinates.recipient.lng]);
-
-      const isDelivered = shipment.status.current === 'delivered';
-      const routeLine = window.L.polyline(routePoints, {
-        color: isDelivered ? '#10B981' : '#EF4444',
-        weight: 3,
-        opacity: 0.8,
-        dashArray: isDelivered ? undefined : '10, 10'
-      }).addTo(map);
-
-      const group = new window.L.featureGroup([
-        senderMarker,
-        recipientMarker,
-        ...(currentMarker ? [currentMarker] : [])
-      ]);
-      map.fitBounds(group.getBounds().pad(0.1));
-
-      return () => {
-        if (map) {
-          map.remove();
-        }
-      };
-    } catch (error) {
-      console.error('Error creating map:', error);
-    }
+      map.fitBounds(L.featureGroup(markers).getBounds().pad(0.15));
+    } catch (e) { console.error('Map error:', e); }
   }, [mapLoaded, coordinates, shipment]);
 
-  if (!shipment) {
-    return (
-      <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-        <div className="text-center py-8">
-          <MapPin className="h-12 w-12 text-gray-500 mx-auto mb-4" />
-          <p className="text-gray-400">No shipment data available</p>
-        </div>
-      </div>
-    );
-  }
+  if (!shipment) return null;
+
+  const { sender, recipient, current } = coordinates;
+  const dist = sender && recipient ? Math.round(getDistance(sender, recipient)).toLocaleString() : null;
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 mb-6">
-      <h2 className="text-lg font-semibold text-white mb-6 flex items-center space-x-2">
-        <Navigation className="h-5 w-5 text-red-500" />
-        <span>Route Map</span>
-      </h2>
-      
-      <div 
-        id="tracking-map" 
-        className="w-full h-96 rounded-lg border border-gray-700 bg-gray-800"
-        style={{ minHeight: '400px' }}
-      />
-      
-      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
-            <Home className="w-3 h-3 text-white" />
-          </div>
-          <span className="text-gray-300">Origin</span>
-        </div>
-        
-        <div className="flex items-center space-x-2">
-          <div className="w-6 h-6 bg-green-600 rounded-full flex items-center justify-center">
-            <MapPin className="w-3 h-3 text-white" />
-          </div>
-          <span className="text-gray-300">Destination</span>
-        </div>
-        
-        {coordinates.current && (
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center animate-pulse">
-              <Package className="w-3 h-3 text-white" />
+    <div style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderTop: `3px solid ${rust}`, padding: '1.75rem', marginBottom: '0' }}>
+
+      <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+        Route Map
+      </p>
+
+      {/* map container */}
+      <div style={{ position: 'relative' }}>
+        <div id="tracking-map" style={{ width: '100%', height: '380px', backgroundColor: '#0A1020' }} />
+        {!mapLoaded && (
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#0A1020' }}>
+            <div style={{ textAlign: 'center' }}>
+              <div style={{ width: '24px', height: '24px', border: `2px solid rgba(245,240,232,0.15)`, borderTopColor: rust, borderRadius: '50%', animation: 'spin 0.7s linear infinite', margin: '0 auto 0.75rem' }} />
+              <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.4)' }}>Loading map…</p>
+              <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
-            <span className="text-gray-300">Current</span>
           </div>
         )}
       </div>
 
-      <div className="mt-4 p-4 bg-gray-800/50 rounded-lg">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
-          <div>
-            <span className="text-gray-400">Distance:</span>
-            <span className="text-white ml-2">
-              {coordinates.sender && coordinates.recipient 
-                ? `~${Math.round(getDistance(coordinates.sender, coordinates.recipient))} km`
-                : 'Calculating...'
-              }
-            </span>
-          </div>
-          <div>
-            <span className="text-gray-400">Status:</span>
-            <span className="text-white ml-2 capitalize">
-              {shipment.status.current.replace('_', ' ')}
-            </span>
-          </div>
+      {/* legend + stats */}
+      <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid rgba(245,240,232,0.08)`, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', alignItems: 'center' }}>
+          {[
+            { color: rust,     label: 'Origin' },
+            { color: '#8BC34A', label: 'Destination' },
+            ...(current ? [{ color: cream, label: 'Current Position' }] : []),
+          ].map(({ color, label }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+              <div style={{ width: '8px', height: '8px', backgroundColor: color, flexShrink: 0 }} />
+              <span style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: muted }}>{label}</span>
+            </div>
+          ))}
         </div>
+        {dist && (
+          <div style={{ display: 'flex', gap: '1.5rem' }}>
+            <div>
+              <span style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: rust }}>Distance </span>
+              <span style={{ fontFamily: mono, fontSize: '0.72rem', color: cream }}>~{dist} km</span>
+            </div>
+            <div>
+              <span style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: rust }}>Status </span>
+              <span style={{ fontFamily: mono, fontSize: '0.72rem', color: cream, textTransform: 'capitalize' }}>
+                {shipment.status.current.replace(/_/g, ' ')}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
-      
-      {!mapLoaded && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75 rounded-lg">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-red-500 mx-auto mb-2"></div>
-            <p className="text-gray-400 text-sm">Loading map...</p>
-          </div>
-        </div>
-      )}
     </div>
   );
-};
-
-const getDistance = (point1: Coordinates, point2: Coordinates): number => {
-  const R = 6371;
-  const dLat = (point2.lat - point1.lat) * Math.PI / 180;
-  const dLon = (point2.lng - point1.lng) * Math.PI / 180;
-  const a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(point1.lat * Math.PI / 180) * Math.cos(point2.lat * Math.PI / 180) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  const distance = R * c;
-  return distance;
 };
 
 export default TrackingMap;

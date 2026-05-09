@@ -2,92 +2,64 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, User, MessageSquare, Package, CreditCard, AlertCircle, CheckCircle2 } from 'lucide-react';
-import toast from 'react-hot-toast';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
+import Link from 'next/link';
+
+const cream  = '#F5F0E8';
+const navy   = '#0D1B3E';
+const rust   = '#C4713B';
+const muted  = 'rgba(245,240,232,0.6)';
+const border = 'rgba(245,240,232,0.1)';
+const serif  = "'Playfair Display', Georgia, serif";
+const lora   = "'Lora', Georgia, serif";
+const mono   = "'Courier New', monospace";
+
+/* reusable field label */
+function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
+  return (
+    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#5A4E44', marginBottom: '0.45rem' }}>
+      {children}{required && <span style={{ color: rust, marginLeft: '3px' }}>*</span>}
+    </label>
+  );
+}
+
+/* reusable text input */
+const inputStyle: React.CSSProperties = {
+  width: '100%',
+  padding: '0.75rem 1rem',
+  backgroundColor: 'transparent',
+  border: '1.5px solid #C4B49A',
+  color: navy,
+  fontFamily: lora,
+  fontSize: '0.9rem',
+  outline: 'none',
+  boxSizing: 'border-box',
+};
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    subject: 'general',
-    trackingNumber: '',
-    message: '',
-    priority: 'normal'
+    name: '', email: '', phone: '', subject: 'general',
+    trackingNumber: '', message: '', priority: 'normal',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const contactInfo = [
-    {
-      icon: <Phone className="h-8 w-8 text-green-500" />,
-      title: '24/7 Phone Support',
-      details: ['+1 (555) 123-SHIP', '+1 (555) 123-7447'],
-      description: 'Available around the clock for urgent matters'
-    },
-    {
-      icon: <Mail className="h-8 w-8 text-green-500" />,
-      title: 'Email Support',
-      details: ['support@shiptracker.com', 'sales@shiptracker.com'],
-      description: 'For detailed inquiries and documentation'
-    },
-    {
-      icon: <MapPin className="h-8 w-8 text-green-500" />,
-      title: 'Headquarters',
-      details: ['1234 Logistics Ave', 'Shipping City, SC 12345'],
-      description: 'Visit our main office for in-person assistance'
-    },
-    {
-      icon: <Clock className="h-8 w-8 text-green-500" />,
-      title: 'Business Hours',
-      details: ['Customer Service: 24/7', 'Office: Mon-Fri 8AM-6PM EST'],
-      description: 'Different departments have varying hours'
-    }
-  ];
-
-  const subjectOptions = [
-    { value: 'general', label: 'General Inquiry', icon: <MessageSquare className="h-4 w-4" /> },
-    { value: 'tracking', label: 'Tracking Issue', icon: <Package className="h-4 w-4" /> },
-    { value: 'payment', label: 'Payment/Billing', icon: <CreditCard className="h-4 w-4" /> },
-    { value: 'complaint', label: 'Complaint', icon: <AlertCircle className="h-4 w-4" /> },
-    { value: 'partnership', label: 'Business Partnership', icon: <User className="h-4 w-4" /> }
-  ];
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(p => ({ ...p, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Basic validation
     if (!formData.name || !formData.email || !formData.message) {
       toast.error('Please fill in all required fields');
-      setIsSubmitting(false);
       return;
     }
-
-    // Simulate API call
+    setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      toast.success('Message sent successfully! We\'ll get back to you within 2 hours.');
-      
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: 'general',
-        trackingNumber: '',
-        message: '',
-        priority: 'normal'
-      });
-    } catch (error) {
+      await new Promise(r => setTimeout(r, 2000));
+      toast.success("Message received. We'll be in touch within 2 hours.");
+      setFormData({ name: '', email: '', phone: '', subject: 'general', trackingNumber: '', message: '', priority: 'normal' });
+    } catch {
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
@@ -95,435 +67,334 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white pt-16">
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-green-900"></div>
-        <div className="absolute inset-0 opacity-10">
-          <Image 
-            src="/image/support1.avif"
-            alt="Contact background"
-            height={500}
-            width={500}
-            className="w-full h-full object-cover"
-          />
-        </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
-              Contact
-              <span className="block bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
-                Us
-              </span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto">
-              Get in touch with our expert team. Whether you need help with tracking, payments, 
-              or have questions about our services, we&lsquo;re here to assist you 24/7.
-            </p>
-          </div>
-        </div>
+    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
 
-        {/* Floating Animation Elements */}
-        <div className="absolute top-20 left-20 w-4 h-4 bg-green-500 rounded-full animate-ping"></div>
-        <div className="absolute bottom-40 right-20 w-6 h-6 bg-green-600 rounded-full animate-pulse"></div>
-        <div className="absolute top-1/2 left-10 w-2 h-2 bg-white rounded-full animate-bounce"></div>
+      {/* ── HERO ── */}
+      <section className="relative" style={{ minHeight: '65vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=1920&h=800&fit=crop&auto=format"
+            alt="Freight operations"
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.25) 0%, rgba(10,16,32,0.88) 100%)' }} />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pb-16 w-full">
+          <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: cream, marginBottom: '0.75rem' }}>
+            Get in Touch
+          </p>
+          <h1 style={{ fontFamily: serif, fontSize: 'clamp(2.5rem, 6vw, 4.5rem)', color: cream, lineHeight: 1.05, maxWidth: '18ch' }}>
+            We&apos;re here.<br />
+            <em style={{ fontStyle: 'italic', color: rust }}>Talk to us.</em>
+          </h1>
+        </div>
       </section>
 
-      {/* Contact Information */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">
-              Get in <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Touch</span>
-            </h2>
-            <p className="text-xl text-gray-400">
-              Multiple ways to reach our support team
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-            {contactInfo.map((info, index) => (
-              <div 
-                key={index}
-                className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300 group hover:transform hover:-translate-y-2"
+      {/* ── CONTACT CARDS ── */}
+      <section style={{ backgroundColor: navy, borderTop: `4px solid ${rust}` }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0" style={{ borderTop: `1px solid ${border}`, borderLeft: `1px solid ${border}` }}>
+            {[
+              {
+                label: 'Phone',
+                heading: '24/7 Phone Support',
+                lines: ['+1 (555) 123-7447', '+1 (555) 123-4567'],
+                note: 'Available for urgent shipment matters',
+              },
+              {
+                label: 'Email',
+                heading: 'Email Support',
+                lines: ['support@greensphereservices.com', 'sales@greensphereservices.com'],
+                note: 'Detailed inquiries &amp; documentation',
+              },
+              {
+                label: 'Office',
+                heading: 'Headquarters',
+                lines: ['14 Harbour Court', 'Trade District, SC 12345'],
+                note: 'In-person visits by appointment',
+              },
+              {
+                label: 'Hours',
+                heading: 'Business Hours',
+                lines: ['Customer Service: 24/7', 'Office: Mon–Fri 8AM–6PM'],
+                note: 'All times in EST',
+              },
+            ].map((card, i) => (
+              <div
+                key={i}
+                style={{ padding: '2rem 1.5rem', borderRight: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}
               >
-                <div className="mb-4 group-hover:scale-110 transition-transform">
-                  {info.icon}
-                </div>
-                <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-green-400 transition-colors">
-                  {info.title}
-                </h3>
-                <div className="space-y-1 mb-3">
-                  {info.details.map((detail, detailIndex) => (
-                    <p key={detailIndex} className="text-gray-300">
-                      {detail}
-                    </p>
-                  ))}
-                </div>
-                <p className="text-gray-400 text-sm">
-                  {info.description}
+                <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: rust, marginBottom: '0.5rem' }}>
+                  {card.label}
                 </p>
+                <h3 style={{ fontFamily: serif, fontSize: '1.05rem', color: cream, marginBottom: '0.75rem' }}>
+                  {card.heading}
+                </h3>
+                {card.lines.map((l, j) => (
+                  <p key={j} style={{ fontFamily: mono, fontSize: '0.72rem', color: muted, letterSpacing: '0.04em', lineHeight: 1.7 }}>
+                    {l}
+                  </p>
+                ))}
+                <p style={{ fontFamily: lora, fontSize: '0.78rem', color: 'rgba(245,240,232,0.35)', fontStyle: 'italic', marginTop: '0.6rem' }} dangerouslySetInnerHTML={{ __html: card.note }} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Form */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Form */}
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8 hover:border-green-500/30 transition-all duration-300">
-              <h2 className="text-3xl font-bold mb-6">
-                Send us a <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Message</span>
-              </h2>
-              
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name and Email */}
-                <div className="grid md:grid-cols-2 gap-4">
+      {/* ── FORM + SIDEBAR ── */}
+      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+
+          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+            <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, whiteSpace: 'nowrap' }}>
+              Send a Message
+            </p>
+            <h2 style={{ fontFamily: serif, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: navy, lineHeight: 1.1 }}>
+              How can we help you?
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-12 items-start">
+
+            {/* FORM */}
+            <div className="lg:col-span-2">
+              <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Full Name *
-                    </label>
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white placeholder-gray-400 outline-none transition-colors"
-                      placeholder="Your full name"
+                    <FieldLabel required>Full Name</FieldLabel>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Your full name" style={inputStyle}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Email Address *
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white placeholder-gray-400 outline-none transition-colors"
-                      placeholder="your.email@example.com"
+                    <FieldLabel required>Email Address</FieldLabel>
+                    <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="your.email@example.com" style={inputStyle}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     />
                   </div>
                 </div>
 
-                {/* Phone and Subject */}
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Phone Number
-                    </label>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white placeholder-gray-400 outline-none transition-colors"
-                      placeholder="+1 (555) 123-4567"
+                    <FieldLabel>Phone Number</FieldLabel>
+                    <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" style={inputStyle}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Subject *
-                    </label>
-                    <select
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white outline-none transition-colors"
+                    <FieldLabel required>Subject</FieldLabel>
+                    <select name="subject" value={formData.subject} onChange={handleChange} required style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     >
-                      {subjectOptions.map((option) => (
-                        <option key={option.value} value={option.value}>
-                          {option.label}
-                        </option>
-                      ))}
+                      <option value="general">General Inquiry</option>
+                      <option value="tracking">Tracking Issue</option>
+                      <option value="payment">Payment / Billing</option>
+                      <option value="complaint">Complaint</option>
+                      <option value="partnership">Business Partnership</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Tracking Number and Priority */}
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Tracking Number
-                      <span className="text-xs text-gray-500 ml-1">(if applicable)</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="trackingNumber"
-                      value={formData.trackingNumber}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white placeholder-gray-400 outline-none transition-colors"
-                      placeholder="e.g., ST123456789"
+                    <FieldLabel>Tracking Reference</FieldLabel>
+                    <input type="text" name="trackingNumber" value={formData.trackingNumber} onChange={handleChange} placeholder="GSS-2024-XXXXX" style={{ ...inputStyle, fontFamily: mono, letterSpacing: '0.05em' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
-                      Priority
-                    </label>
-                    <select
-                      name="priority"
-                      value={formData.priority}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white outline-none transition-colors"
+                    <FieldLabel>Priority</FieldLabel>
+                    <select name="priority" value={formData.priority} onChange={handleChange} style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                      onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                     >
-                      <option value="low">Low - General inquiry</option>
-                      <option value="normal">Normal - Standard support</option>
-                      <option value="high">High - Urgent matter</option>
-                      <option value="critical">Critical - Emergency</option>
+                      <option value="low">Low — General inquiry</option>
+                      <option value="normal">Normal — Standard support</option>
+                      <option value="high">High — Urgent matter</option>
+                      <option value="critical">Critical — Emergency</option>
                     </select>
                   </div>
                 </div>
 
-                {/* Message */}
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">
-                    Message *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-green-500 text-white placeholder-gray-400 outline-none transition-colors resize-vertical"
-                    placeholder="Please describe your inquiry in detail..."
+                  <FieldLabel required>Message</FieldLabel>
+                  <textarea name="message" value={formData.message} onChange={handleChange} required rows={6} placeholder="Please describe your enquiry in detail…" style={{ ...inputStyle, resize: 'vertical' }}
+                    onFocus={e => (e.currentTarget.style.borderColor = rust)}
+                    onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
                   />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-6 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 disabled:transform-none shadow-lg shadow-red-500/20 disabled:shadow-none flex items-center justify-center space-x-2"
+                  style={{
+                    backgroundColor: isSubmitting ? '#888' : rust,
+                    color: cream,
+                    border: 'none',
+                    padding: '1rem 2rem',
+                    fontFamily: mono,
+                    fontSize: '0.72rem',
+                    letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'background-color 0.2s',
+                  }}
+                  onMouseEnter={e => !isSubmitting && (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseLeave={e => !isSubmitting && (e.currentTarget.style.backgroundColor = rust)}
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
-                      <span>Sending...</span>
+                      <span style={{ width: '14px', height: '14px', border: `2px solid rgba(245,240,232,0.3)`, borderTopColor: cream, borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
+                      Sending…
                     </>
-                  ) : (
-                    <>
-                      <Send className="h-5 w-5" />
-                      <span>Send Message</span>
-                    </>
-                  )}
+                  ) : 'Send Message →'}
                 </button>
+                <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+
               </form>
-
-              {/* Expected Response Time */}
-              <div className="mt-6 p-4 bg-gray-800/30 border border-gray-700 rounded-lg">
-                <div className="flex items-center space-x-2 mb-2">
-                  <CheckCircle2 className="h-5 w-5 text-green-400" />
-                  <span className="text-sm font-medium text-white">Expected Response Times</span>
-                </div>
-                <div className="text-xs text-gray-400 space-y-1">
-                  <p>• Critical: Within 15 minutes</p>
-                  <p>• High: Within 1 hour</p>
-                  <p>• Normal: Within 2 hours</p>
-                  <p>• Low: Within 24 hours</p>
-                </div>
-              </div>
             </div>
 
-            {/* Additional Information */}
-            <div className="space-y-8">
-              {/* Live Support */}
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/30 transition-all duration-300">
-                <h3 className="text-2xl font-semibold mb-4 text-white">
-                  Need Immediate <span className="text-green-400">Help?</span>
-                </h3>
-                <p className="text-gray-400 mb-6">
-                  For urgent matters, our live support options are available 24/7
+            {/* SIDEBAR */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+
+              {/* Response times */}
+              <div style={{ borderTop: `4px solid ${rust}`, backgroundColor: navy, padding: '1.75rem' }}>
+                <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+                  Response Times
                 </p>
-                
-                <div className="space-y-4">
-                  <a 
-                    href="mailto:support@greensphereservices.com"
-                    className="flex items-center p-4 bg-gray-800/50 border border-gray-700 rounded-lg hover:border-green-500/50 transition-all group"
-                  >
-                    <Mail className="h-6 w-6 text-green-500 mr-4 group-hover:scale-110 transition-transform" />
-                    <div>
-                      <div className="text-white font-medium">Send us a mail</div>
-                      <div className="text-gray-400 text-sm">support@greensphereservices.com</div>
-                    </div>
-                  </a>
-                  
-                  {/* <button 
-                    onClick={() => alert('Live chat would open here')}
-                    className="flex items-center p-4 bg-gray-800/50 border border-gray-700 rounded-lg hover:border-green-500/50 transition-all group w-full text-left"
-                  >
-                    <MessageSquare className="h-6 w-6 text-green-500 mr-4 group-hover:scale-110 transition-transform" />
-                    <div>
-                      <div className="text-white font-medium">Live Chat</div>
-                      <div className="text-gray-400 text-sm">Available 6 AM - 2 AM EST</div>
-                    </div>
-                  </button> */}
-                </div>
+                {[
+                  { level: 'Critical', time: 'Within 15 min', color: '#FF8A80' },
+                  { level: 'High',     time: 'Within 1 hour',  color: '#FFD54F' },
+                  { level: 'Normal',   time: 'Within 2 hours', color: cream },
+                  { level: 'Low',      time: 'Within 24 hours', color: muted },
+                ].map(({ level, time, color }) => (
+                  <div key={level} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.6rem', marginBottom: '0.6rem', borderBottom: `1px solid ${border}` }}>
+                    <span style={{ fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: muted }}>{level}</span>
+                    <span style={{ fontFamily: mono, fontSize: '0.7rem', color }}>{time}</span>
+                  </div>
+                ))}
               </div>
 
-              {/* Office Hours */}
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-                <h3 className="text-xl font-semibold mb-4 text-white">Office Hours</h3>
-                <div className="space-y-3 text-sm">
-                  <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                    <span className="text-gray-300">Customer Service</span>
-                    <span className="text-green-400 font-medium">24/7</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                    <span className="text-gray-300">Sales Team</span>
-                    <span className="text-white">Mon-Fri: 8 AM - 8 PM EST</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-gray-800">
-                    <span className="text-gray-300">Technical Support</span>
-                    <span className="text-white">Mon-Sun: 6 AM - 2 AM EST</span>
-                  </div>
-                  <div className="flex justify-between items-center py-2">
-                    <span className="text-gray-300">Office Visit</span>
-                    <span className="text-white">Mon-Fri: 8 AM - 6 PM EST</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* FAQ Link */}
-              <div className="bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-800/30 rounded-xl p-6">
-                <h3 className="text-xl font-semibold mb-3 text-white">
-                  Check Our FAQ First
-                </h3>
-                <p className="text-gray-300 mb-4 text-sm">
-                  Many common questions are answered in our comprehensive FAQ section. 
-                  You might find your answer instantly!
+              {/* Office hours */}
+              <div style={{ borderTop: `3px solid #C4B49A`, backgroundColor: '#fff', padding: '1.75rem' }}>
+                <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+                  Office Hours
                 </p>
-                <a 
-                  href="/support"
-                  className="inline-flex items-center text-green-400 hover:text-green-300 font-medium transition-colors"
-                >
-                  View FAQ Section →
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
-              Visit Our <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Office</span>
-            </h2>
-            <p className="text-xl text-gray-400">
-              Located in the heart of the logistics district
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Map Placeholder */}
-            {/* <div className="relative h-96 bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
-              <Image 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop&auto=format"
-                alt="Office location map"
-                width={500}
-                height={500}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-green-900/20"></div>
-              <div className="absolute top-4 left-4 bg-green-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
-                📍 Our Location
-              </div>
-            </div> */}
-
-            {/* Location Details */}
-            <div className="space-y-6">
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Address</h3>
-                    <p className="text-gray-300">
-                      1234 Logistics Avenue<br />
-                      Shipping City, SC 12345<br />
-                      United States
-                    </p>
+                {[
+                  ['Customer Service', '24 / 7'],
+                  ['Sales Team',       'Mon–Fri 8AM–8PM'],
+                  ['Tech Support',     'Mon–Sun 6AM–2AM'],
+                  ['Office Visits',    'Mon–Fri 8AM–6PM'],
+                ].map(([dept, hours]) => (
+                  <div key={dept} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: '0.6rem', marginBottom: '0.6rem', borderBottom: `1px solid rgba(10,16,32,0.08)` }}>
+                    <span style={{ fontFamily: lora, fontSize: '0.85rem', color: '#5A4E44' }}>{dept}</span>
+                    <span style={{ fontFamily: mono, fontSize: '0.68rem', color: navy, letterSpacing: '0.05em' }}>{hours}</span>
                   </div>
-                </div>
+                ))}
               </div>
 
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-                <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Visiting Hours</h3>
-                    <div className="text-gray-300 space-y-1">
-                      <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
-                      <p>Saturday: 9:00 AM - 4:00 PM</p>
-                      <p>Sunday: Closed</p>
-                      <p className="text-sm text-gray-400 mt-2">
-                        * Please call ahead for appointments
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-                <div className="flex items-start space-x-4">
-                  <Package className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h3 className="text-lg font-semibold text-white mb-2">Services Available</h3>
-                    <ul className="text-gray-300 space-y-1 text-sm">
-                      <li>• Package drop-off and pickup</li>
-                      <li>• In-person consultation</li>
-                      <li>• Account setup assistance</li>
-                      <li>• Payment processing help</li>
-                      <li>• Documentation support</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Emergency Contact */}
-      {/* <section className="py-16 bg-green-900/10 border-t border-green-900/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-gradient-to-r from-green-900/30 to-green-800/20 border border-green-800/30 rounded-xl p-8 text-center">
-            <AlertCircle className="h-12 w-12 text-green-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-white mb-4">
-              Emergency Support
-            </h2>
-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-              For critical shipment issues, lost packages, or security concerns that require 
-              immediate attention, use our emergency hotline available 24/7.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="tel:+15551239911"
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-red-500/30"
+              {/* Email CTA */}
+              <a
+                href="mailto:support@greensphereservices.com"
+                style={{ display: 'block', borderTop: `3px solid ${rust}`, backgroundColor: '#F5F0E8', border: `1.5px solid #C4B49A`, padding: '1.5rem', textDecoration: 'none' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
               >
-                Emergency Hotline: +1 (555) 123-9911
+                <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.4rem' }}>Email Direct</p>
+                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: navy }}>support@greensphereservices.com</p>
               </a>
-              <button 
-                onClick={() => alert('Emergency chat would open here')}
-                className="bg-transparent border-2 border-green-600 hover:bg-green-600/10 text-green-400 hover:text-green-300 px-8 py-3 rounded-lg font-semibold transition-all duration-200"
-              >
-                Emergency Chat
-              </button>
+
+              {/* FAQ */}
+              <div style={{ padding: '1.5rem', backgroundColor: navy }}>
+                <p style={{ fontFamily: serif, fontSize: '1.05rem', color: cream, marginBottom: '0.5rem' }}>Check the FAQ first</p>
+                <p style={{ fontFamily: lora, fontSize: '0.82rem', color: muted, lineHeight: 1.7, marginBottom: '1rem' }}>
+                  Many common shipment and payment questions are answered instantly in our Help Centre.
+                </p>
+                <Link
+                  href="/support"
+                  style={{ fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust, textDecoration: 'none' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = cream)}
+                  onMouseLeave={e => (e.currentTarget.style.color = rust)}
+                >
+                  View Help Centre →
+                </Link>
+              </div>
+
             </div>
           </div>
         </div>
-      </section> */}
+      </section>
+
+      {/* ── LOCATION ── */}
+      <section className="py-24" style={{ backgroundColor: navy }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div style={{ borderBottom: `1px solid ${border}`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+            <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, whiteSpace: 'nowrap' }}>
+              Find Us
+            </p>
+            <h2 style={{ fontFamily: serif, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: cream, lineHeight: 1.1 }}>
+              Visit Our Office
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-start">
+
+            <div style={{ position: 'relative', height: '400px', overflow: 'hidden' }}>
+              <Image
+                src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=900&h=600&fit=crop&auto=format"
+                alt="Office building"
+                fill
+                style={{ objectFit: 'cover' }}
+              />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,27,62,0.6) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem' }}>
+                <span style={{ display: 'inline-block', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px' }}>
+                  ◆ Our Location
+                </span>
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              {[
+                {
+                  label: 'Address',
+                  lines: ['14 Harbour Court', 'Trade District, SC 12345', 'United States'],
+                },
+                {
+                  label: 'Visiting Hours',
+                  lines: ['Monday – Friday: 8:00 AM – 6:00 PM', 'Saturday: 9:00 AM – 4:00 PM', 'Sunday: Closed', '* Please call ahead for appointments'],
+                },
+                {
+                  label: 'Services Available On-Site',
+                  lines: ['Package drop-off and pickup', 'In-person freight consultation', 'Account setup assistance', 'Payment processing help', 'Documentation support'],
+                },
+              ].map(({ label, lines }) => (
+                <div key={label} style={{ borderLeft: `3px solid ${rust}`, paddingLeft: '1.25rem' }}>
+                  <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.5rem' }}>{label}</p>
+                  {lines.map((line, j) => (
+                    <p key={j} style={{ fontFamily: lora, fontSize: '0.875rem', color: line.startsWith('*') ? 'rgba(245,240,232,0.4)' : muted, lineHeight: 1.7 }}>{line}</p>
+                  ))}
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

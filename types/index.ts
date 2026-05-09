@@ -162,7 +162,7 @@ export interface PublicShipment {
   };
   package: {
     dimensions: any;
-    images: boolean;
+    images?: PackageImage[];
     description: string;
     weight: {
       value: number;

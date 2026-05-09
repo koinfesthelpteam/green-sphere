@@ -1,98 +1,158 @@
+
 'use client';
-import Image from "next/image";
+import React from 'react';
+import Image from 'next/image';
+
+const cream = '#F5F0E8';
+const navy  = '#0D1B3E';
+const rust  = '#C4713B';
+const mono  = "'Courier New', monospace";
+const serif = "'Playfair Display', Georgia, serif";
+const lora  = "'Lora', Georgia, serif";
 
 export default function LoadingSkeleton() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      {/* Logo Container */}
-      <div className="flex flex-col items-center justify-center space-y-8">
-        {/* Pulsing Logo */}
-        <div className="relative">
-          {/* Outer glow ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-green-600 opacity-20 animate-ping scale-150"></div>
-          
-          {/* Middle glow ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-green-400 to-green-600 opacity-30 animate-pulse scale-125"></div>
-          
-          {/* Logo container with shadow */}
-          <div className="relative bg-white rounded-full p-8 shadow-2xl border-4 border-green-200 animate-pulse">
-            <Image 
-              src="/images/logo.png" 
-              alt="Loading..." 
-              width={300}
-              height={300}
-              className="w-24 h-24 object-contain filter drop-shadow-lg"
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{ backgroundColor: navy }}
+    >
+      <style>{`
+        @keyframes shimmer {
+          0%   { opacity: 0.3; }
+          50%  { opacity: 0.7; }
+          100% { opacity: 0.3; }
+        }
+        @keyframes slide-in {
+          from { opacity: 0; transform: translateY(12px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .gss-skeleton-fade {
+          animation: shimmer 1.8s ease-in-out infinite;
+        }
+        .gss-slide-in {
+          animation: slide-in 0.5s ease forwards;
+        }
+      `}</style>
+
+      <div className="gss-slide-in" style={{ textAlign: 'center', padding: '2rem' }}>
+
+        {/* Logo */}
+        <div style={{ marginBottom: '2.5rem' }}>
+          <Image
+            src="/images/gss-logo.png"
+            alt="Green Sphere Services"
+            width={90}
+            height={40}
+            style={{ objectFit: 'contain', opacity: 0.85 }}
+          />
+        </div>
+
+        {/* Spinner — thin rust ring, no gradients */}
+        <div style={{ position: 'relative', width: '48px', height: '48px', margin: '0 auto 2rem' }}>
+          <div style={{
+            width: '48px', height: '48px',
+            border: `2px solid rgba(245,240,232,0.1)`,
+            borderTopColor: rust,
+            borderRadius: '50%',
+            animation: 'spin 0.9s linear infinite',
+          }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+
+        {/* Label */}
+        <p style={{
+          fontFamily: mono,
+          fontSize: '0.65rem',
+          letterSpacing: '0.22em',
+          textTransform: 'uppercase',
+          color: 'rgba(245,240,232,0.45)',
+          marginBottom: '2.5rem',
+        }}>
+          Fetching Shipment Data…
+        </p>
+
+        {/* Manifest skeleton rows */}
+        <div style={{ width: '320px', maxWidth: '90vw' }}>
+          {/* Rust accent top */}
+          <div style={{ height: '3px', backgroundColor: rust, marginBottom: '1px' }} />
+
+          {[
+            { w: '45%', wb: '70%' },
+            { w: '55%', wb: '60%' },
+            { w: '35%', wb: '75%' },
+            { w: '50%', wb: '65%' },
+          ].map(({ w, wb }, i) => (
+            <div
+              key={i}
+              className="gss-skeleton-fade"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                padding: '0.7rem 1rem',
+                borderBottom: '1px solid rgba(245,240,232,0.07)',
+                animationDelay: `${i * 0.18}s`,
+              }}
+            >
+              <div style={{ height: '8px', width: w, backgroundColor: 'rgba(196,113,59,0.35)', borderRadius: '1px' }} />
+              <div style={{ height: '8px', width: wb, backgroundColor: 'rgba(245,240,232,0.12)', borderRadius: '1px' }} />
+            </div>
+          ))}
+
+          {/* Progress bar shimmer */}
+          <div style={{ margin: '1.25rem 1rem 0', height: '2px', backgroundColor: 'rgba(245,240,232,0.08)', overflow: 'hidden' }}>
+            <div
+              className="gss-skeleton-fade"
+              style={{ height: '100%', width: '60%', backgroundColor: rust, animationDelay: '0.6s' }}
             />
           </div>
         </div>
 
-        {/* Loading text with animation */}
-        <div className="text-center space-y-3">
-          <h2 className="text-2xl font-bold text-green-800 animate-pulse">
-            Loading Your Package Details
-          </h2>
-          
-          {/* Animated dots */}
-          <div className="flex justify-center space-x-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-bounce"></div>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-            <div className="w-2 h-2 bg-green-600 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-          </div>
-          
-          <p className="text-green-600 text-sm font-medium animate-pulse">
-            Please wait while we fetch your tracking information...
-          </p>
-        </div>
-
-        {/* Optional progress bar */}
-        <div className="w-64 bg-green-100 rounded-full h-2 overflow-hidden">
-          <div className="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full animate-pulse"></div>
-        </div>
-      </div>
-
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-100 rounded-full opacity-30 animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-green-200 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
       </div>
     </div>
   );
 }
 
-// Simple shimmer skeleton component (kept for backward compatibility)
-export function SkeletonBox({ className = "" }: { className?: string }) {
+/* ── utility skeletons (kept for backward compat) ── */
+
+export function SkeletonBox({ className = '', style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <div className={`bg-green-100 rounded animate-pulse ${className}`}></div>
+    <div
+      className={className}
+      style={{ backgroundColor: 'rgba(196,113,59,0.15)', animation: 'shimmer 1.8s ease-in-out infinite', ...style }}
+    />
   );
 }
 
-// Text skeleton (updated for white/green theme)
-export function SkeletonText({ lines = 1, className = "" }: { lines?: number; className?: string }) {
+export function SkeletonText({ lines = 1, className = '' }: { lines?: number; className?: string }) {
   return (
-    <div className={`space-y-2 ${className}`}>
-      {[...Array(lines)].map((_, index) => (
-        <div 
-          key={index} 
-          className={`h-4 bg-green-100 rounded animate-pulse ${
-            index === lines - 1 ? 'w-3/4' : 'w-full'
-          }`}
-        ></div>
+    <div className={className} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      {Array.from({ length: lines }).map((_, i) => (
+        <div
+          key={i}
+          style={{
+            height: '10px',
+            width: i === lines - 1 ? '70%' : '100%',
+            backgroundColor: 'rgba(245,240,232,0.1)',
+            animation: `shimmer 1.8s ease-in-out ${i * 0.15}s infinite`,
+          }}
+        />
       ))}
     </div>
   );
 }
 
-// Card skeleton (updated for white/green theme)
-export function SkeletonCard({ className = "" }: { className?: string }) {
+export function SkeletonCard({ className = '' }: { className?: string }) {
   return (
-    <div className={`bg-white border-2 border-green-100 rounded-xl p-6 shadow-lg ${className}`}>
-      <div className="space-y-4">
-        <SkeletonBox className="h-6 w-1/3" />
-        <SkeletonText lines={3} />
-        <div className="flex justify-between">
-          <SkeletonBox className="h-4 w-1/4" />
-          <SkeletonBox className="h-4 w-1/4" />
-        </div>
+    <div
+      className={className}
+      style={{ borderTop: `3px solid ${rust}`, backgroundColor: `rgba(255,255,255,0.03)`, padding: '1.5rem' }}
+    >
+      <SkeletonBox style={{ height: '14px', width: '35%', marginBottom: '1rem' }} />
+      <SkeletonText lines={3} />
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem' }}>
+        <SkeletonBox style={{ height: '10px', width: '25%' }} />
+        <SkeletonBox style={{ height: '10px', width: '25%' }} />
       </div>
     </div>
   );

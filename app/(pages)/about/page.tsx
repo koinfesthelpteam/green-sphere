@@ -1,245 +1,275 @@
 'use client';
 
 import React from 'react';
-import { Package, Users, Globe, Shield, Clock, Award, Target, Heart } from 'lucide-react';
 import Image from 'next/image';
 
-export default function AboutPage() {
-  const stats = [
-    { icon: Package, value: '500K+', label: 'Packages Delivered' },
-    { icon: Users, value: '10K+', label: 'Happy Customers' },
-    { icon: Globe, value: '180+', label: 'Countries Served' },
-    { icon: Clock, value: '24/7', label: 'Customer Support' },
-  ];
+const cream  = '#F5F0E8';
+const navy   = '#0D1B3E';
+const rust   = '#C4713B';
+const muted  = 'rgba(245,240,232,0.6)';
+const border = 'rgba(245,240,232,0.1)';
+const serif  = "'Playfair Display', Georgia, serif";
+const lora   = "'Lora', Georgia, serif";
+const mono   = "'Courier New', monospace";
 
-  const values = [
-    {
-      icon: Shield,
-      title: 'Security First',
-      description: 'Your packages and data are protected with enterprise-grade security measures.'
-    },
-    {
-      icon: Target,
-      title: 'Precision Tracking',
-      description: 'Advanced technology provides accurate, real-time location updates.'
-    },
-    {
-      icon: Heart,
-      title: 'Customer Focused',
-      description: 'Every decision we make prioritizes our customers\' needs and satisfaction.'
-    },
-    {
-      icon: Award,
-      title: 'Excellence Driven',
-      description: 'We strive for perfection in every aspect of our service delivery.'
-    }
-  ];
-
+function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-black text-white pt-16">
-      {/* Hero Section */}
-      <section className="relative py-20 overflow-hidden">
+    <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '0.75rem' }}>
+      {children}
+    </p>
+  );
+}
+
+function SectionHeading({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
+  return (
+    <h2 style={{ fontFamily: serif, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: light ? cream : navy, lineHeight: 1.12, marginBottom: '0' }}>
+      {children}
+    </h2>
+  );
+}
+
+export default function AboutPage() {
+  return (
+    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+
+      {/* ── HERO ── */}
+      <section className="relative" style={{ minHeight: '62vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
         <div className="absolute inset-0 z-0">
-          <Image 
-            src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&h=800&fit=crop&auto=format"
-            alt="About us background"
-            width={500}
-            height={500}
-            className="w-full h-full object-cover"
+          <Image
+            src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=1920&h=900&fit=crop&auto=format"
+            alt="Cargo operations"
+            fill
+            className="object-cover object-center"
+            priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/90"></div>
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.3) 0%, rgba(10,16,32,0.85) 100%)' }} />
         </div>
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              About <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Green Sphere Services</span>
-            </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              We&apos;re revolutionizing the logistics industry with cutting-edge tracking technology 
-              and secure cryptocurrency payment solutions, making global shipping accessible to everyone.
-            </p>
-          </div>
-        </div>
-      </section>
 
-      {/* Mission & Vision */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8 hover:border-green-500/50 transition-all duration-300">
-              <h2 className="text-3xl font-bold mb-6 text-green-400">Our Mission</h2>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                To democratize global logistics by providing secure, transparent, and efficient 
-                shipping solutions that bridge traditional logistics with modern payment technologies. 
-                We believe everyone deserves access to reliable shipping services, regardless of 
-                their preferred payment method.
-              </p>
-            </div>
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-8 hover:border-green-500/50 transition-all duration-300">
-              <h2 className="text-3xl font-bold mb-6 text-green-400">Our Vision</h2>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                To become the world&apos;s leading platform for crypto-enabled logistics, setting new 
-                standards for transparency, security, and customer satisfaction in the shipping industry. 
-                We envision a future where global commerce is seamless and accessible to all.
-              </p>
-            </div>
+        {/* top manifest strip */}
+        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.12)`, backgroundColor: 'rgba(13,27,62,0.6)', backdropFilter: 'blur(6px)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(245,240,232,0.5)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+            <span>Green Sphere Services</span>
+            <span style={{ color: rust }}>◆</span>
+            <span>Est. 2018</span>
+            <span style={{ color: rust }}>◆</span>
+            <span>About Us</span>
           </div>
+        </div>
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pb-16 w-full">
+          <SectionLabel>Our Story</SectionLabel>
+          <h1 style={{ fontFamily: serif, fontSize: 'clamp(2.5rem, 6vw, 5rem)', color: cream, lineHeight: 1.05, maxWidth: '18ch' }}>
+            Moving the world&apos;s goods, <em style={{ color: rust, fontStyle: 'italic' }}>reliably.</em>
+          </h1>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-16 bg-gradient-to-r from-green-900/20 via-black to-green-900/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => {
-              const Icon = stat.icon;
-              return (
-                <div key={index} className="text-center group">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-green-500 to-green-600 rounded-full mb-4 group-hover:scale-110 transition-transform">
-                    <Icon className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-4xl font-bold text-green-500 mb-2">{stat.value}</div>
-                  <div className="text-gray-400">{stat.label}</div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Values */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Our <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Values</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              The principles that guide everything we do and drive our commitment to excellence.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => {
-              const Icon = value.icon;
-              return (
-                <div key={index} className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300 group">
-                  <div className="inline-flex items-center justify-center w-12 h-12 bg-gradient-to-r from-green-500 to-green-600 rounded-lg mb-4 group-hover:scale-110 transition-transform">
-                    <Icon className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-white group-hover:text-green-400 transition-colors">
-                    {value.title}
-                  </h3>
-                  <p className="text-gray-400 group-hover:text-gray-300 transition-colors">
-                    {value.description}
-                  </p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Team Section */}
-      {/* <section className="py-20 bg-gradient-to-b from-gray-900 to-black" id="team">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Meet Our <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Team</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              The passionate experts behind ShipTracker Pro&apos;s innovative logistics solutions.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300 group">
-                <div className="relative overflow-hidden rounded-lg mb-6">
-                  <Image 
-                    src={member.image}
-                    alt={member.name}
-                    width={500}
-                    height={500}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                </div>
-                <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-green-400 transition-colors">
-                  {member.name}
-                </h3>
-                <p className="text-green-400 font-medium mb-3">{member.role}</p>
-                <p className="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">
-                  {member.description}
-                </p>
+      {/* ── STATS BAR ── */}
+      <section style={{ backgroundColor: navy, borderTop: `4px solid ${rust}` }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            {[
+              { value: '500K+', label: 'Packages Delivered', sub: 'And counting' },
+              { value: '10K+',  label: 'Active Clients',     sub: 'Worldwide' },
+              { value: '180+',  label: 'Countries Served',   sub: 'Global network' },
+              { value: '24/7',  label: 'Support',            sub: 'Any timezone' },
+            ].map((stat, i) => (
+              <div
+                key={i}
+                style={{ padding: '2rem 1rem', textAlign: 'center', borderRight: i < 3 ? `1px solid ${border}` : 'none' }}
+              >
+                <div style={{ fontFamily: serif, fontSize: '2rem', color: rust, marginBottom: '0.25rem' }}>{stat.value}</div>
+                <div style={{ fontFamily: lora, fontSize: '0.875rem', color: cream, marginBottom: '0.15rem' }}>{stat.label}</div>
+                <div style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', color: 'rgba(245,240,232,0.35)', textTransform: 'uppercase' }}>{stat.sub}</div>
               </div>
             ))}
           </div>
         </div>
-      </section> */}
+      </section>
 
-      {/* History Timeline */}
-      <section className="py-20 bg-black">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              Our <span className="bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">Journey</span>
-            </h2>
-            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-              From startup to global logistics leader - here&apos;s how we&apos;ve grown.
-            </p>
+      {/* ── MISSION & VISION ── */}
+      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+            <SectionLabel>Who We Are</SectionLabel>
+            <SectionHeading>Purpose &amp; Direction</SectionHeading>
           </div>
 
-          <div className="relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 w-0.5 h-full bg-gradient-to-b from-green-500 to-green-300"></div>
-            
-            <div className="space-y-12">
+          <div className="grid md:grid-cols-2 gap-12">
+            {[
+              {
+                heading: 'Our Mission',
+                body: 'To make global freight accessible, transparent, and trustworthy — connecting businesses across continents through sea, air, road and rail with end-to-end visibility and modern payment options including cryptocurrency.',
+                img: 'https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=700&h=480&fit=crop&auto=format',
+                alt: 'Cargo ship mission',
+              },
+              {
+                heading: 'Our Vision',
+                body: 'To become the world\'s most trusted multi-modal freight platform — where every shipment, from a single parcel to a full container load, is tracked with precision and settled with ease, regardless of currency or geography.',
+                img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=700&h=480&fit=crop&auto=format',
+                alt: 'Air cargo vision',
+              },
+            ].map(({ heading, body, img, alt }) => (
+              <div key={heading}>
+                <div style={{ position: 'relative', height: '260px', overflow: 'hidden', marginBottom: '1.5rem' }}>
+                  <Image src={img} alt={alt} fill style={{ objectFit: 'cover' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,27,62,0.5) 0%, transparent 60%)' }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, borderTop: `4px solid ${rust}` }} />
+                </div>
+                <h3 style={{ fontFamily: serif, fontSize: '1.5rem', color: navy, marginBottom: '0.75rem' }}>{heading}</h3>
+                <p style={{ fontFamily: lora, fontSize: '1rem', color: '#3D3530', lineHeight: 1.8 }}>{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── VALUES ── */}
+      <section className="py-24" style={{ backgroundColor: navy }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div style={{ borderBottom: `1px solid ${border}`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+            <SectionLabel>Principles</SectionLabel>
+            <SectionHeading light>What we stand for</SectionHeading>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0" style={{ borderTop: `1px solid ${border}`, borderLeft: `1px solid ${border}` }}>
+            {[
+              {
+                icon: '🛡',
+                title: 'Security First',
+                body: 'Enterprise-grade protection for your cargo data and cryptocurrency transactions, with full chain-of-custody documentation.',
+              },
+              {
+                icon: '📍',
+                title: 'Precision Tracking',
+                body: 'Real-time location data across all transport modes — every checkpoint, every status change, delivered instantly.',
+              },
+              {
+                icon: '🤝',
+                title: 'Client Focused',
+                body: 'Every operational decision is made through one lens: does it make our clients\' supply chains more reliable?',
+              },
+              {
+                icon: '🏆',
+                title: 'Excellence Driven',
+                body: '99.9% on-time delivery rate maintained through rigorous partner vetting and proactive shipment monitoring.',
+              },
+            ].map((v, i) => (
+              <div
+                key={i}
+                style={{ padding: '2rem', borderRight: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}
+              >
+                <div style={{ fontSize: '1.5rem', marginBottom: '1rem' }}>{v.icon}</div>
+                <h3 style={{ fontFamily: serif, fontSize: '1.15rem', color: cream, marginBottom: '0.6rem' }}>{v.title}</h3>
+                <p style={{ fontFamily: lora, fontSize: '0.875rem', color: muted, lineHeight: 1.75 }}>{v.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── JOURNEY TIMELINE ── */}
+      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+            <SectionLabel>History</SectionLabel>
+            <SectionHeading>Our Journey</SectionHeading>
+          </div>
+
+          {/* Horizontal timeline for desktop, stacked for mobile */}
+          <div className="hidden md:block" style={{ position: 'relative', paddingBottom: '3rem' }}>
+            {/* Spine */}
+            <div style={{ position: 'absolute', top: '22px', left: 0, right: 0, height: '2px', backgroundColor: '#C4B49A' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0' }}>
               {[
-                {
-                  year: '2020',
-                  title: 'Company Founded',
-                  description: 'ShipTracker Pro was established with a vision to revolutionize logistics.'
-                },
-                {
-                  year: '2021',
-                  title: 'Crypto Integration',
-                  description: 'First to integrate cryptocurrency payments into logistics platform.'
-                },
-                {
-                  year: '2022',
-                  title: 'Global Expansion',
-                  description: 'Expanded operations to over 50 countries worldwide.'
-                },
-                {
-                  year: '2023',
-                  title: 'Advanced Tracking',
-                  description: 'Launched real-time tracking system.'
-                },
-                {
-                  year: '2024',
-                  title: 'Industry Leader',
-                  description: 'Became the leading crypto-enabled logistics platform globally.'
-                }
-              ].map((milestone, index) => (
-                <div key={index} className={`flex items-center ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'}`}>
-                  <div className="flex-1"></div>
-                  <div className="relative z-10">
-                    <div className="w-4 h-4 bg-green-500 rounded-full border-4 border-black"></div>
-                  </div>
-                  <div className="flex-1 px-8">
-                    <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 hover:border-green-500/50 transition-all duration-300">
-                      <div className="text-green-400 font-bold text-lg mb-2">{milestone.year}</div>
-                      <h3 className="text-xl font-semibold text-white mb-2">{milestone.title}</h3>
-                      <p className="text-gray-400">{milestone.description}</p>
-                    </div>
-                  </div>
+                { year: '2018', title: 'Founded',           body: 'Green Sphere Services established with a focus on multi-modal freight for emerging markets.' },
+                { year: '2019', title: 'Network Built',     body: 'Partnerships established with 40+ carriers across sea, air and road corridors.' },
+                { year: '2021', title: 'Crypto Payments',   body: 'First freight platform in our segment to integrate Bitcoin, ETH and Litecoin settlement.' },
+                { year: '2022', title: 'Global Expansion',  body: 'Operations extended to 120+ countries; dedicated Lagos and Nairobi operations hubs opened.' },
+                { year: '2024', title: 'Industry Leader',   body: '500K+ shipments delivered. Recognised as the leading crypto-enabled logistics platform.' },
+              ].map((m, i) => (
+                <div key={i} style={{ paddingTop: '3rem', paddingRight: '1.5rem', position: 'relative' }}>
+                  {/* dot */}
+                  <div style={{
+                    position: 'absolute', top: '14px', left: 0,
+                    width: '18px', height: '18px', borderRadius: '50%',
+                    backgroundColor: rust, border: `3px solid #F5F0E8`,
+                    transform: 'translateX(-50%)',
+                  }} />
+                  <p style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.15em', color: rust, marginBottom: '0.4rem' }}>{m.year}</p>
+                  <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.4rem' }}>{m.title}</p>
+                  <p style={{ fontFamily: lora, fontSize: '0.82rem', color: '#5A4E44', lineHeight: 1.7 }}>{m.body}</p>
                 </div>
               ))}
             </div>
           </div>
+
+          {/* Mobile stacked */}
+          <div className="md:hidden space-y-0" style={{ borderLeft: `2px solid #C4B49A`, marginLeft: '0.5rem', paddingLeft: '1.5rem' }}>
+            {[
+              { year: '2018', title: 'Founded',          body: 'Established with a focus on multi-modal freight for emerging markets.' },
+              { year: '2019', title: 'Network Built',    body: 'Partnerships with 40+ carriers across sea, air and road corridors.' },
+              { year: '2021', title: 'Crypto Payments',  body: 'First to integrate Bitcoin, ETH and Litecoin for freight settlement.' },
+              { year: '2022', title: 'Global Expansion', body: 'Extended to 120+ countries; Lagos and Nairobi hubs opened.' },
+              { year: '2024', title: 'Industry Leader',  body: '500K+ shipments delivered. Leading crypto-enabled logistics platform.' },
+            ].map((m, i) => (
+              <div key={i} style={{ position: 'relative', paddingBottom: '1.75rem' }}>
+                <div style={{ position: 'absolute', left: '-1.85rem', top: '0.3rem', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: rust, border: `2px solid #F5F0E8` }} />
+                <p style={{ fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', color: rust, marginBottom: '0.25rem' }}>{m.year}</p>
+                <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.3rem' }}>{m.title}</p>
+                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: '#5A4E44', lineHeight: 1.7 }}>{m.body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
+
+      {/* ── PHOTO COLLAGE + CREDENTIALS ── */}
+      <section className="py-24" style={{ backgroundColor: navy }}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+
+            <div>
+              <SectionLabel>Credentials</SectionLabel>
+              <SectionHeading light>Recognised. Certified. Trusted.</SectionHeading>
+              <p style={{ fontFamily: lora, fontSize: '1rem', color: muted, lineHeight: 1.8, marginTop: '1.25rem', marginBottom: '2rem' }}>
+                We hold all required industry certifications and maintain active membership in
+                the world&apos;s leading freight and customs associations — so your cargo moves
+                without friction across every border.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                {[
+                  'IATA Certified Agent',
+                  'FIATA Member',
+                  'ISO 9001:2015 Compliant',
+                  'Customs Brokerage Licensed',
+                  'WCA Freight Network',
+                  'AEO Status (EU)',
+                ].map((c, i) => (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                    <span style={{ color: rust, fontSize: '0.55rem' }}>◆</span>
+                    <span style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.08em', color: 'rgba(245,240,232,0.7)', textTransform: 'uppercase' }}>{c}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridTemplateRows: '1fr 1fr', gap: '4px', height: '420px' }}>
+              <div style={{ position: 'relative', gridRow: 'span 2' }}>
+                <Image src="https://images.unsplash.com/photo-1565793298595-6a879b1d9492?w=600&h=800&fit=crop&auto=format" alt="Port workers" fill style={{ objectFit: 'cover' }} />
+              </div>
+              <div style={{ position: 'relative' }}>
+                <Image src="https://images.unsplash.com/photo-1587293852726-70cdb56c2866?w=400&h=300&fit=crop&auto=format" alt="Warehouse" fill style={{ objectFit: 'cover' }} />
+              </div>
+              <div style={{ position: 'relative' }}>
+                <Image src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400&h=300&fit=crop&auto=format" alt="Road freight" fill style={{ objectFit: 'cover' }} />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }

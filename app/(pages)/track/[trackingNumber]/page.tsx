@@ -5,21 +5,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { 
-  Package, 
-  ArrowLeft, 
-  MapPin, 
-  Clock, 
-  AlertCircle,
-  CreditCard,
-  Truck,
-  Building,
-  Box,
-  Send,
-  Plane,
-  Home,
-  Image as ImageIcon
-} from 'lucide-react';
+import { ArrowLeft, Image as ImageIcon } from 'lucide-react';
 import { format } from 'date-fns';
 import { trackingApi } from '@/lib/api';
 import { PublicShipment, TrackingTimeline } from '@/types';
@@ -29,102 +15,147 @@ import LoadingSkeleton from '@/components/LoadingSkeleton';
 import TrackingMap from '@/components/TrackingMap';
 import Image from 'next/image';
 
+/* ── shared token helpers ──────────────────────────────────────── */
+const cream = '#F5F0E8';
+const navy  = '#0D1B3E';
+const rust  = '#C4713B';
+const muted = 'rgba(245,240,232,0.55)';
+const border = 'rgba(245,240,232,0.1)';
+const serif  = "'Playfair Display', Georgia, serif";
+const lora   = "'Lora', Georgia, serif";
+const mono   = "'Courier New', monospace";
+
+const tag = (label: string, bg = navy, color = cream): React.ReactNode => (
+  <span
+    style={{
+      display: 'inline-block',
+      fontFamily: mono,
+      fontSize: '0.62rem',
+      letterSpacing: '0.18em',
+      textTransform: 'uppercase',
+      backgroundColor: bg,
+      color,
+      padding: '3px 10px',
+    }}
+  >
+    {label}
+  </span>
+);
+
+/* ── progress steps ────────────────────────────────────────────── */
+const STEPS = [
+  { key: 'created',          label: 'Order Created' },
+  { key: 'picked_up',        label: 'Picked Up' },
+  { key: 'in_transit',       label: 'In Transit' },
+  { key: 'out_for_delivery', label: 'Out for Delivery' },
+  { key: 'delivered',        label: 'Delivered' },
+];
+
+function ManifestRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div
+      className="flex items-baseline justify-between py-2.5"
+      style={{ borderBottom: `1px solid ${border}` }}
+    >
+      <span style={{ fontFamily: mono, fontSize: '0.67rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust }}>
+        {label}
+      </span>
+      <span style={{ fontFamily: mono, fontSize: '0.8rem', color: cream, textAlign: 'right', maxWidth: '60%' }}>
+        {value}
+      </span>
+    </div>
+  );
+}
+
+function Card({ children, style }: { children: React.ReactNode; style?: React.CSSProperties }) {
+  return (
+    <div style={{ backgroundColor: 'rgba(255,255,255,0.04)', borderTop: `3px solid ${rust}`, padding: '1.75rem', ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function CardHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+      {children}
+    </p>
+  );
+}
+
 export default function TrackingPage() {
-  const params = useParams();
-  const router = useRouter();
+  const params  = useParams();
+  const router  = useRouter();
   const trackingNumber = params.trackingNumber as string;
 
-  const [shipment, setShipment] = useState<PublicShipment | null>(null);
-  const [timeline, setTimeline] = useState<TrackingTimeline | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [shipment, setShipment]           = useState<PublicShipment | null>(null);
+  const [timeline, setTimeline]           = useState<TrackingTimeline | null>(null);
+  const [loading, setLoading]             = useState(true);
+  const [error, setError]                 = useState<string | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   useEffect(() => {
     if (!trackingNumber) return;
-
-    const fetchTrackingData = async () => {
+    const fetch = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
-        const [shipmentResponse, timelineResponse] = await Promise.all([
+        setLoading(true); setError(null);
+        const [sr, tr] = await Promise.all([
           trackingApi.track(trackingNumber),
-          trackingApi.getTimeline(trackingNumber)
+          trackingApi.getTimeline(trackingNumber),
         ]);
-
-        if (shipmentResponse.success && shipmentResponse.data) {
-          setShipment(shipmentResponse.data);
-          console.log('Fetched shipment data:', shipmentResponse.data);
-        } else {
-          setError(shipmentResponse.message || 'Shipment not found');
-        }
-
-        if (timelineResponse.success && timelineResponse.data) {
-          setTimeline(timelineResponse.data);
-        }
-
+        if (sr.success && sr.data)   setShipment(sr.data);
+        else                          setError(sr.message || 'Shipment not found');
+        if (tr.success && tr.data)   setTimeline(tr.data);
       } catch (err: any) {
-        console.error('Error fetching tracking data:', err);
         setError(err.response?.data?.message || 'Failed to fetch tracking information');
-      } finally {
-        setLoading(false);
-      }
+      } finally { setLoading(false); }
     };
-
-    fetchTrackingData();
+    fetch();
   }, [trackingNumber]);
 
-  const getPaymentStatusColor = (status: string) => {
-    const colors = {
-      pending: 'text-yellow-400 bg-yellow-900/50',
-      paid: 'text-green-400 bg-green-900/50',
-      failed: 'text-red-400 bg-red-900/50',
-      refunded: 'text-gray-400 bg-gray-800'
+  const paymentStatusTag = (status: string) => {
+    const map: Record<string, [string, string]> = {
+      pending:  ['#B87A00', '#FFF8E1'],
+      paid:     ['#1E2D1A', '#8BC34A'],
+      failed:   ['#5C1A1A', '#FF8A80'],
+      refunded: [navy,      muted as string],
     };
-    return colors[status as keyof typeof colors] || 'text-gray-400 bg-gray-800';
+    const [bg, color] = map[status] || [navy, cream];
+    return tag(status.toUpperCase(), bg, color);
   };
 
   const getProgressSteps = () => {
-    const steps = [
-      { key: 'created', label: 'Order Created', icon: Package },
-      { key: 'picked_up', label: 'Picked Up', icon: Truck },
-      { key: 'in_transit', label: 'In Transit', icon: Plane },
-      { key: 'out_for_delivery', label: 'Out for Delivery', icon: MapPin },
-      { key: 'delivered', label: 'Delivered', icon: Home }
-    ];
-
-    const currentStatus = shipment?.status.current;
-    const currentIndex = steps.findIndex(step => step.key === currentStatus);
-
-    return steps.map((step, index) => ({
-      ...step,
-      completed: index <= currentIndex,
-      current: index === currentIndex,
-      upcoming: index > currentIndex
-    }));
+    const idx = STEPS.findIndex(s => s.key === shipment?.status.current);
+    return STEPS.map((s, i) => ({ ...s, completed: i <= idx, current: i === idx }));
   };
 
-  if (loading) {
-    return <LoadingSkeleton />;
-  }
+  /* ── loading ── */
+  if (loading) return <LoadingSkeleton />;
 
+  /* ── error ── */
   if (error) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center px-4">
-        <div className="text-center max-w-md">
-          <AlertCircle className="h-16 w-16 text-red-500 mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-white mb-2">Shipment Not Found</h1>
-          <p className="text-gray-400 mb-6">{error}</p>
-          <div className="space-y-3">
-            <button 
+      <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: navy }}>
+        <div style={{ maxWidth: '420px', width: '100%', textAlign: 'center' }}>
+          <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+            Tracking Error
+          </p>
+          <h1 style={{ fontFamily: serif, fontSize: '2rem', color: cream, marginBottom: '0.75rem' }}>
+            Shipment Not Found
+          </h1>
+          <p style={{ fontFamily: lora, color: muted, marginBottom: '2rem' }}>{error}</p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            <button
               onClick={() => router.back()}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-200 w-full"
+              style={{ backgroundColor: rust, color: cream, border: 'none', padding: '0.875rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
             >
               Try Another Number
             </button>
-            <Link href="/" className="bg-transparent border-2 border-gray-700 hover:border-red-500 text-white hover:text-red-400 px-6 py-3 rounded-lg font-semibold transition-all duration-200 w-full block text-center">
-              Go Home
+            <Link
+              href="/"
+              style={{ border: `1.5px solid ${border}`, color: muted, padding: '0.875rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none', textAlign: 'center' }}
+            >
+              Return Home
             </Link>
           </div>
         </div>
@@ -132,268 +163,228 @@ export default function TrackingPage() {
     );
   }
 
-  if (!shipment) {
-    return null;
-  }
+  if (!shipment) return null;
 
   const progressSteps = getProgressSteps();
   const paymentStatus = shipment.payment?.status || 'pending';
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      <header className="bg-black/90 backdrop-blur-md border-b border-gray-800 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <button 
-                onClick={() => router.back()}
-                className="p-2 hover:bg-gray-800 rounded-lg transition-colors text-gray-400 hover:text-white"
-              >
-                <ArrowLeft className="h-5 w-5" />
-              </button>
-              <div className="flex items-center space-x-2">
-                <Image
-                  src='/images/chat.png'
-                  width={120}
-                  height={120}
-                  alt='logo'
-                />
-              </div>
-            </div>
-            <div className="text-sm text-gray-400">
-              Tracking: <span className="font-mono font-medium text-white">{trackingNumber}</span>
-            </div>
+    <div className="min-h-screen" style={{ backgroundColor: '#0A1020', color: cream }}>
+
+      {/* ── sticky header ── */}
+      <header
+        style={{
+          position: 'sticky', top: 0, zIndex: 40,
+          backgroundColor: 'rgba(13,27,62,0.97)',
+          backdropFilter: 'blur(10px)',
+          borderBottom: `1px solid ${border}`,
+        }}
+      >
+        {/* rust strip */}
+        <div style={{ backgroundColor: rust, height: '3px' }} />
+        <div className="max-w-7xl mx-auto px-6 lg:px-12" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button
+              onClick={() => router.back()}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: muted, display: 'flex', alignItems: 'center', gap: '0.35rem', fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+              onMouseEnter={e => (e.currentTarget.style.color = cream)}
+              onMouseLeave={e => (e.currentTarget.style.color = muted as string)}
+            >
+              <ArrowLeft size={14} /> Back
+            </button>
+            <span style={{ color: border, fontSize: '0.8rem' }}>|</span>
+            <Image src="/images/chat.png" width={80} height={36} alt="logo" style={{ objectFit: 'contain' }} />
+          </div>
+          <div style={{ fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.12em', color: muted }}>
+            REF: <span style={{ color: cream }}>{trackingNumber}</span>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
-                Package {shipment.status.current.replace('_', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-              </h1>
-              <p className="text-gray-400">
-                Last updated: {format(new Date(shipment.status.lastUpdated), 'MMM dd, yyyy HH:mm')}
-              </p>
-            </div>
-            
-            {shipment.payment.status === 'pending' && (
-              <div className="mt-4 sm:mt-0 space-x-2 flex flex-wrap gap-2">
-                <button
-                  onClick={() => setShowPaymentModal(true)}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg shadow-red-500/20 flex items-center space-x-2"
-                >
-                  <CreditCard className="h-4 w-4" />
-                  <span>Make Payment</span>
-                </button>
-              </div>
-            )}
-          </div>
+      <div className="max-w-7xl mx-auto px-6 lg:px-12 py-12">
 
-          <div className="relative">
-            <div className="flex justify-between items-center mb-4">
-              {progressSteps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div key={step.key} className="flex flex-col items-center relative">
-                    {index < progressSteps.length - 1 && (
-                      <div className="absolute top-6 left-6 w-full h-0.5 -z-10">
-                        <div className="w-full h-full bg-gray-700"></div>
-                        <div 
-                          className={`h-full bg-green-500 transition-all duration-1000 ${
-                            step.completed ? 'w-full' : 'w-0'
-                          }`}
-                        ></div>
-                      </div>
-                    )}
-                    
-                    <div className={`
-                      w-12 h-12 rounded-full flex items-center justify-center border-2 transition-all duration-300
-                      ${step.completed 
-                        ? 'bg-green-600 border-green-500 text-white' 
-                        : step.current
-                        ? 'bg-green-600 border-green-500 text-white animate-pulse'
-                        : 'bg-gray-800 border-gray-600 text-gray-400'
-                      }
-                    `}>
-                      <Icon className="h-5 w-5" />
-                    </div>
-                    
-                    <div className="text-center mt-2">
-                      <div className={`text-sm font-medium ${
-                        step.completed || step.current ? 'text-white' : 'text-gray-400'
-                      }`}>
-                        {step.label}
-                      </div>
-                      {step.current && (
-                        <div className="text-xs text-green-400 mt-1">Current</div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+        {/* ── title row ── */}
+        <div style={{ borderBottom: `1px solid ${border}`, paddingBottom: '1.5rem', marginBottom: '2.5rem', display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '1rem' }}>
+          <div>
+            <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '0.5rem' }}>
+              Live Shipment Status
+            </p>
+            <h1 style={{ fontFamily: serif, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: cream, lineHeight: 1.1, marginBottom: '0.4rem' }}>
+              {shipment.status.current.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+            </h1>
+            <p style={{ fontFamily: mono, fontSize: '0.7rem', color: muted }}>
+              Last updated — {format(new Date(shipment.status.lastUpdated), "dd MMM yyyy · HH:mm 'UTC'")}
+            </p>
           </div>
+          {shipment.payment.status === 'pending' && (
+            <button
+              onClick={() => setShowPaymentModal(true)}
+              style={{ backgroundColor: rust, color: cream, border: 'none', padding: '0.75rem 1.75rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
+            >
+              Make Payment →
+            </button>
+          )}
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 mb-6">
-              <h2 className="text-lg font-semibold text-white mb-6 flex items-center space-x-2">
-                <Send className="h-5 w-5 text-green-500" />
-                <span>Shipping Route</span>
-              </h2>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
-                      <Send className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-400">FROM</div>
-                      <div className="font-semibold text-white">{shipment.sender.name || 'Unknown Sender'}</div>
-                    </div>
-                  </div>
-                  <div className="ml-13 space-y-1">
-                    <div className="text-gray-300">{shipment.sender.city}, {shipment.sender.state}</div>
-                    <div className="text-gray-400">{shipment.sender.country}</div>
-                  </div>
-                </div>
-
-                <div className="bg-gray-800/50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3 mb-3">
-                    <div className="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
-                      <Home className="h-5 w-5 text-white" />
-                    </div>
-                    <div>
-                      <div className="text-sm text-gray-400">TO</div>
-                      <div className="font-semibold text-white">{shipment.recipient.name || 'Unknown Recipient'}</div>
-                    </div>
-                  </div>
-                  <div className="ml-13 space-y-1">
-                    <div className="text-gray-300">{shipment.recipient.city}, {shipment.recipient.state}</div>
-                    <div className="text-gray-400">{shipment.recipient.country}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <TrackingMap shipment={shipment} />
-
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6 mb-6">
-              <h2 className="text-lg font-semibold text-white mb-6 flex items-center space-x-2">
-                <Box className="h-5 w-5 text-green-500" />
-                <span>Package Information</span>
-              </h2>
-              
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-gray-800/30 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-1">Description</div>
-                  <div className="font-medium text-white">{shipment.package.description}</div>
-                </div>
-                <div className="bg-gray-800/30 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-1">Weight</div>
-                  <div className="font-medium text-white">
-                    {shipment.package.weight.value} {shipment.package.weight.unit}
-                  </div>
-                </div>
-                {shipment.package.dimensions && (
-                  <div className="bg-gray-800/30 rounded-lg p-4">
-                    <div className="text-sm text-gray-400 mb-1">Dimensions</div>
-                    <div className="font-medium text-white">
-                      {shipment.package.dimensions.length} x {shipment.package.dimensions.width} x {shipment.package.dimensions.height} {shipment.package.dimensions.unit}
-                    </div>
-                  </div>
+        {/* ── progress track ── */}
+        <div style={{ marginBottom: '3rem', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', minWidth: '560px', position: 'relative' }}>
+            {progressSteps.map((step, i) => (
+              <div key={step.key} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
+                {/* connector line */}
+                {i < progressSteps.length - 1 && (
+                  <div style={{ position: 'absolute', top: '14px', left: '50%', width: '100%', height: '2px', backgroundColor: step.completed ? rust : 'rgba(245,240,232,0.12)', zIndex: 0 }} />
                 )}
-                <div className="bg-gray-800/30 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-1">Service Type</div>
-                  <div className="font-medium text-white capitalize">{shipment.service.type}</div>
+                {/* dot */}
+                <div style={{
+                  position: 'relative', zIndex: 1,
+                  width: '28px', height: '28px',
+                  borderRadius: '50%',
+                  backgroundColor: step.completed ? rust : 'rgba(245,240,232,0.08)',
+                  border: `2px solid ${step.completed ? rust : 'rgba(245,240,232,0.2)'}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  {step.completed && <span style={{ color: cream, fontSize: '0.6rem' }}>✓</span>}
+                  {step.current && !step.completed && <span style={{ width: '8px', height: '8px', backgroundColor: rust, borderRadius: '50%', display: 'block' }} />}
                 </div>
-                <div className="bg-gray-800/30 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-1">Estimated Delivery</div>
-                  <div className="font-medium text-green-400">
-                    {format(new Date(shipment.service.estimatedDelivery), 'MMM dd, yyyy')}
-                  </div>
-                </div>
-                <div className="bg-gray-800/30 rounded-lg p-4">
-                  <div className="text-sm text-gray-400 mb-1">Created</div>
-                  <div className="font-medium text-white">
-                    {format(new Date(shipment.createdAt), 'MMM dd, yyyy')}
-                  </div>
-                </div>
-                {shipment.currentLocation && (
-                  <div className="bg-gray-800/30 rounded-lg p-4">
-                    <div className="text-sm text-gray-400 mb-1">Current Location</div>
-                    <div className="font-medium text-white">
-                      {shipment.currentLocation.city}, {shipment.currentLocation.state}
-                    </div>
-                  </div>
-                )}
-                <div className="bg-gray-800/30 rounded-lg p-4 sm:col-span-2 lg:col-span-3">
-                  <div className="text-sm text-gray-400 mb-2">Package Images</div>
-                  {shipment.package.images && Array.isArray(shipment.package.images) && shipment.package.images.length > 0 ? (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                      {shipment.package.images.map((image, index) => (
-                        <div key={image.filename || index} className="relative group">
-                          <Image
-                            src={image.path || image.url || '/images/default-package.jpg'}
-                            alt={image.description || `Package image ${index + 1}`}
-                            width={500}
-                            height={500}
-                            className="w-full h-32 object-cover rounded-lg border border-gray-700"
-                            onError={(e) => {
-                              e.currentTarget.src = '/images/delivery.jpg';
-                            }}
-                          />
-                          {image.description && (
-                            <div className="absolute inset-0 bg-black/75 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center p-2 rounded-lg">
-                              <p className="text-xs text-white text-center">{image.description}</p>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="flex items-center justify-center py-4 text-gray-400">
-                      <ImageIcon className="h-6 w-6 mr-2" />
-                      <span>No images available</span>
-                    </div>
+                <div style={{ marginTop: '0.6rem', textAlign: 'center', padding: '0 0.25rem' }}>
+                  <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.08em', textTransform: 'uppercase', color: step.completed ? cream : muted }}>
+                    {step.label}
+                  </p>
+                  {step.current && (
+                    <p style={{ fontFamily: mono, fontSize: '0.55rem', color: rust, marginTop: '0.2rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                      ◆ Current
+                    </p>
                   )}
                 </div>
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-              <h2 className="text-lg font-semibold text-white mb-6 flex items-center space-x-2">
-                <Clock className="h-5 w-5 text-green-500" />
-                <span>Detailed Timeline</span>
-              </h2>
-              
+        {/* ── main grid ── */}
+        <div className="grid lg:grid-cols-3 gap-8">
+
+          {/* LEFT: 2 cols */}
+          <div className="lg:col-span-2 space-y-8">
+
+            {/* Route */}
+            <Card>
+              <CardHeading>Shipping Route</CardHeading>
+              <div className="grid md:grid-cols-2 gap-6">
+                {[
+                  { dir: 'Origin', party: shipment.sender },
+                  { dir: 'Destination', party: shipment.recipient },
+                ].map(({ dir, party }) => (
+                  <div key={dir} style={{ borderLeft: `3px solid ${rust}`, paddingLeft: '1rem' }}>
+                    <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.35rem' }}>{dir}</p>
+                    <p style={{ fontFamily: serif, fontSize: '1.1rem', color: cream, marginBottom: '0.25rem' }}>{party.name || '—'}</p>
+                    <p style={{ fontFamily: lora, fontSize: '0.85rem', color: muted }}>
+                      {party.city}, {party.state}<br />{party.country}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            {/* Map */}
+            <TrackingMap shipment={shipment} />
+
+            {/* Package Info */}
+            <Card>
+              <CardHeading>Package Information</CardHeading>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0' }}>
+                {[
+                  ['Description',        shipment.package.description],
+                  ['Weight',             `${shipment.package.weight.value} ${shipment.package.weight.unit}`],
+                  ['Service Type',       shipment.service.type],
+                  ['Est. Delivery',      format(new Date(shipment.service.estimatedDelivery), 'dd MMM yyyy')],
+                  ['Created',            format(new Date(shipment.createdAt), 'dd MMM yyyy')],
+                  ...(shipment.currentLocation
+                    ? [['Current Location', `${shipment.currentLocation.city}, ${shipment.currentLocation.state}`]]
+                    : []),
+                  ...(shipment.package.dimensions
+                    ? [['Dimensions', `${shipment.package.dimensions.length}×${shipment.package.dimensions.width}×${shipment.package.dimensions.height} ${shipment.package.dimensions.unit}`]]
+                    : []),
+                ].map(([label, value], i) => (
+                  <div
+                    key={i}
+                    style={{ padding: '1rem', borderRight: '1px solid rgba(245,240,232,0.08)', borderBottom: '1px solid rgba(245,240,232,0.08)' }}
+                  >
+                    <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.3rem' }}>{label}</p>
+                    <p style={{ fontFamily: lora, fontSize: '0.9rem', color: cream }}>{value}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Images */}
+              <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(245,240,232,0.08)' }}>
+                <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
+                  Package Images
+                </p>
+                {shipment.package.images && shipment.package.images.length > 0 ? (
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: '0.75rem' }}>
+                    {shipment.package.images.map((image: any, index: number) => (
+                      <div key={image.filename || index} style={{ position: 'relative', height: '130px', overflow: 'hidden' }}>
+                        <Image
+                          src={image.path || image.url || '/images/default-package.jpg'}
+                          alt={image.description || `Package image ${index + 1}`}
+                          fill
+                          style={{ objectFit: 'cover' }}
+                          onError={(e) => { e.currentTarget.src = '/images/delivery.jpg'; }}
+                        />
+                        {image.description && (
+                          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(10,16,32,0.82)', opacity: 0, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem' }}
+                            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
+                            onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
+                          >
+                            <p style={{ fontFamily: lora, fontSize: '0.78rem', color: cream, textAlign: 'center' }}>{image.description}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: muted, padding: '1rem 0' }}>
+                    <ImageIcon size={16} />
+                    <span style={{ fontFamily: lora, fontSize: '0.85rem' }}>No images available</span>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {/* Timeline */}
+            <Card>
+              <CardHeading>Shipment Timeline</CardHeading>
               {timeline ? (
                 <TrackingTimelines timeline={timeline} />
               ) : shipment.tracking && shipment.tracking.length > 0 ? (
-                <div className="space-y-4">
-                  {shipment.tracking.map((event, index) => (
-                    <div key={index} className="flex items-start space-x-4 pb-4 border-b border-gray-800 last:border-b-0">
-                      <div className="flex-shrink-0 w-2 h-2 bg-green-500 rounded-full mt-2"></div>
-                      <div className="flex-grow">
-                        <div className="flex justify-between items-start">
+                <div style={{ paddingLeft: '0.5rem' }}>
+                  {shipment.tracking.map((event: any, index: number) => (
+                    <div
+                      key={index}
+                      style={{ display: 'flex', gap: '1rem', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(245,240,232,0.07)', marginBottom: '1.25rem' }}
+                    >
+                      <div style={{ flexShrink: 0, paddingTop: '0.35rem' }}>
+                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: rust }} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
                           <div>
-                            <h4 className="font-medium text-white capitalize">
-                              {event.status.replace('_', ' ')}
-                            </h4>
-                            <p className="text-gray-400 text-sm">{event.description}</p>
+                            <p style={{ fontFamily: lora, fontWeight: 600, color: cream, fontSize: '0.9rem', textTransform: 'capitalize' }}>
+                              {event.status.replace(/_/g, ' ')}
+                            </p>
+                            <p style={{ fontFamily: lora, fontSize: '0.82rem', color: muted, marginTop: '0.2rem' }}>{event.description}</p>
                             {event.location && (
-                              <p className="text-gray-500 text-xs">
+                              <p style={{ fontFamily: mono, fontSize: '0.65rem', color: rust, marginTop: '0.2rem', letterSpacing: '0.08em' }}>
                                 {event.location.city}, {event.location.state}
                               </p>
                             )}
                           </div>
-                          <span className="text-xs text-gray-500">
-                            {format(new Date(event.timestamp), 'MMM dd, HH:mm')}
+                          <span style={{ fontFamily: mono, fontSize: '0.65rem', color: muted, whiteSpace: 'nowrap', letterSpacing: '0.06em' }}>
+                            {format(new Date(event.timestamp), 'dd MMM · HH:mm')}
                           </span>
                         </div>
                       </div>
@@ -401,103 +392,95 @@ export default function TrackingPage() {
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <Clock className="h-12 w-12 text-gray-500 mx-auto mb-4" />
-                  <p className="text-gray-400">No detailed timeline available</p>
-                </div>
+                <p style={{ fontFamily: lora, color: muted, fontSize: '0.9rem' }}>No timeline entries yet.</p>
               )}
-            </div>
+            </Card>
+
           </div>
 
-          <div className="space-y-6">
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-              <h3 className="font-semibold text-white mb-4 flex items-center space-x-2">
-                <CreditCard className="h-5 w-5 text-green-500" />
-                <span>Payment Details</span>
-              </h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Amount</span>
-                  <span className="font-bold text-white text-lg">
-                    ${shipment.payment.amount} {shipment.payment.currency}
-                  </span>
-                </div>
-                {shipment.payment.paymentType === 'partial' && (
-                  <div className="text-sm text-yellow-400">
-                    The sender has paid 50% of the total amount (${shipment.payment.baseAmount}). 
-                    Please pay the remaining ${shipment.payment.amount} to proceed with the shipment.
-                  </div>
-                )}
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-400">Status</span>
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getPaymentStatusColor(paymentStatus)}`}>
-                    {paymentStatus.toUpperCase()}
-                  </span>
-                </div>
-                {shipment.payment.paymentType === 'partial' && (
-                  <div className="p-4 bg-yellow-900/20 border border-yellow-500/20 rounded-lg flex items-start space-x-3">
-                    <AlertCircle className="h-5 w-5 text-yellow-400 mt-0.5 flex-shrink-0" />
-                    <div className="text-sm text-yellow-100">
-                      <strong>Action Required:</strong> The shipment will remain on hold until the remaining payment is completed. 
-                      Please make the payment to move the shipment to &quot;In Transit&quot; status.
-                    </div>
-                  </div>
-                )}
-                {shipment.payment.allowedMethods && shipment.payment.allowedMethods.length > 0 && (
-                  <div className="pt-2 border-t border-gray-700">
-                    <div className="text-sm text-gray-400 mb-2">Allowed Payment Methods</div>
-                    <div className="flex flex-wrap gap-2">
-                      {shipment.payment.allowedMethods.map((method: string) => (
-                        <span key={method} className="px-2 py-1 bg-gray-800 text-gray-300 rounded text-xs uppercase">
-                          {method}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                {shipment.payment.paidAt && (
-                  <div className="flex justify-between items-center pt-2 border-t border-gray-700">
-                    <span className="text-gray-400">Paid At</span>
-                    <span className="font-medium text-green-400">
-                      {format(new Date(shipment.payment.paidAt), 'MMM dd, yyyy')}
-                    </span>
-                  </div>
-                )}
-                {shipment.payment.status === 'pending' && (
-                  <div className="pt-2 border-t border-gray-700">
-                    <div className="text-sm text-gray-300 mb-2">Payment Instructions</div>
-                    <div className="text-xs text-gray-400 leading-relaxed">
-                      {shipment.paymentInstructions?.message || 
-                       "Contact our admin team via email to receive specific payment details and wallet addresses."}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
+          {/* RIGHT: sidebar */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
 
-            <div className="bg-gradient-to-br from-red-900/20 via-black to-red-900/20 border border-red-500/20 rounded-xl p-6">
-              <h3 className="font-semibold text-white mb-3 flex items-center space-x-2">
-                <Building className="h-5 w-5 text-green-500" />
-                <span>Need Help?</span>
-              </h3>
-              <p className="text-gray-400 text-sm mb-4">
-                Contact our support team for assistance with your shipment or payment.
+            {/* Payment */}
+            <Card>
+              <CardHeading>Payment Details</CardHeading>
+              <div style={{ marginBottom: '1rem', paddingBottom: '1rem', borderBottom: `1px solid ${border}` }}>
+                <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: muted, marginBottom: '0.3rem' }}>Amount Due</p>
+                <p style={{ fontFamily: serif, fontSize: '1.75rem', color: cream }}>
+                  ${shipment.payment.amount} <span style={{ fontSize: '1rem', color: muted }}>{shipment.payment.currency}</span>
+                </p>
+              </div>
+              <ManifestRow label="Status" value={paymentStatusTag(paymentStatus)} />
+              {shipment.payment.paidAt && (
+                <ManifestRow label="Settled" value={format(new Date(shipment.payment.paidAt), 'dd MMM yyyy')} />
+              )}
+              {shipment.payment.allowedMethods?.length > 0 && (
+                <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid ${border}` }}>
+                  <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust, marginBottom: '0.6rem' }}>Accepted Methods</p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
+                    {shipment.payment.allowedMethods.map((m: string) => (
+                      <span key={m} style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: `1px solid rgba(196,113,59,0.4)`, color: muted, padding: '2px 8px' }}>
+                        {m}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {shipment.payment.paymentType === 'partial' && (
+                <div style={{ marginTop: '1rem', padding: '0.875rem', backgroundColor: 'rgba(184,122,0,0.12)', borderLeft: `3px solid #B87A00` }}>
+                  <p style={{ fontFamily: lora, fontSize: '0.82rem', color: '#FFF8E1', lineHeight: 1.6 }}>
+                    The sender has covered 50% (${shipment.payment.baseAmount}). The remaining
+                    ${shipment.payment.amount} is required to proceed.
+                  </p>
+                </div>
+              )}
+              {paymentStatus === 'pending' && (
+                <>
+                  <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid ${border}` }}>
+                    <p style={{ fontFamily: lora, fontSize: '0.82rem', color: muted, lineHeight: 1.6 }}>
+                      {shipment.paymentInstructions?.message ||
+                        'Contact our team via email to receive wallet addresses and payment details.'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowPaymentModal(true)}
+                    style={{ marginTop: '1rem', width: '100%', backgroundColor: rust, color: cream, border: 'none', padding: '0.875rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                    onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
+                  >
+                    Pay Now →
+                  </button>
+                </>
+              )}
+            </Card>
+
+            {/* Help */}
+            <Card>
+              <CardHeading>Need Assistance?</CardHeading>
+              <p style={{ fontFamily: lora, fontSize: '0.875rem', color: muted, lineHeight: 1.7, marginBottom: '1.25rem' }}>
+                Our freight specialists are available around the clock to assist with
+                your shipment or payment enquiry.
               </p>
-              <div className="space-y-2">
-                <Link 
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
+                <Link
                   href="/support"
-                  className="block bg-green-600 hover:bg-green-700 text-white text-center py-2 px-4 rounded-lg font-medium transition-colors duration-200"
+                  style={{ display: 'block', textAlign: 'center', padding: '0.75rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
                 >
                   Contact Support
                 </Link>
-                <Link 
+                <Link
                   href="/"
-                  className="block border border-gray-600 hover:border-green-500 text-gray-300 hover:text-white text-center py-2 px-4 rounded-lg font-medium transition-all duration-200"
+                  style={{ display: 'block', textAlign: 'center', padding: '0.75rem', border: `1.5px solid rgba(245,240,232,0.2)`, color: muted, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = cream)}
+                  onMouseLeave={e => (e.currentTarget.style.color = muted as string)}
                 >
-                  Track Another Package
+                  Track Another Shipment
                 </Link>
               </div>
-            </div>
+            </Card>
+
           </div>
         </div>
       </div>
@@ -508,10 +491,7 @@ export default function TrackingPage() {
           amount={shipment.payment.amount}
           currency={shipment.payment.currency}
           onClose={() => setShowPaymentModal(false)}
-          onPaymentComplete={() => {
-            setShowPaymentModal(false);
-            window.location.reload();
-          }}
+          onPaymentComplete={() => { setShowPaymentModal(false); window.location.reload(); }}
         />
       )}
     </div>

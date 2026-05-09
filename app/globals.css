@@ -1,13 +1,32 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
 
-html{
+html {
   scroll-behavior: smooth;
 }
 
+/* Reset all heading/body fonts to our custom stack */
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Nunito', cursive;
+  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
 }
 
-p, a, li, button, input, textarea {
-  font-family: 'Inter', sans-serif;
+p, a, li, button, input, textarea, select {
+  font-family: 'Lora', Georgia, serif;
+}
+
+/* Monospace for labels, tracking numbers, manifests */
+.font-mono,
+code,
+pre {
+  font-family: 'Courier New', 'Courier', monospace;
+}
+
+/* Smooth image rendering */
+img {
+  image-rendering: auto;
+}
+
+/* Remove outline on divs that receive focus programmatically */
+div:focus {
+  outline: none;
 }

@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Package, Menu, X, Home, Info, Phone, HelpCircle } from 'lucide-react';
 import Image from 'next/image';
 
 export default function Navbar() {
@@ -11,110 +10,218 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
 
-  // Hide navbar on admin pages
-  const hideNavbar = pathname?.startsWith('/admin') || pathname === '/login' || pathname === '/register';
+  const hideNavbar =
+    pathname?.startsWith('/admin') ||
+    pathname === '/login' ||
+    pathname === '/register';
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 30);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   if (hideNavbar) return null;
 
   const navigation = [
-    { name: 'Home', href: '/', icon: Home },
-    { name: 'About', href: '/about', icon: Info },
-    { name: 'Services', href: '/services', icon: Package },
-    { name: 'Support', href: '/support', icon: HelpCircle },
-    { name: 'Contact', href: '/contact', icon: Phone },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Support', href: '/support' },
+    { name: 'Contact', href: '/contact' },
   ];
 
+  const navBg = scrolled
+    ? 'rgba(13,27,62,0.97)'
+    : 'rgba(13,27,62,0.72)';
+
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled ? 'bg-black/95 backdrop-blur-md shadow-lg' : 'bg-black/90 backdrop-blur-sm'
-      } border-b border-gray-800`}
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-400"
+      style={{
+        backgroundColor: navBg,
+        backdropFilter: 'blur(10px)',
+        borderBottom: scrolled
+          ? '1px solid rgba(196,113,59,0.4)'
+          : '1px solid rgba(245,240,232,0.1)',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-18">
+      {/* Top manifest strip */}
+      <div
+        style={{
+          backgroundColor: '#C4713B',
+          borderBottom: 'none',
+          padding: '3px 0',
+          textAlign: 'center',
+        }}
+      >
+        <p
+          style={{
+            fontFamily: "'Courier New', monospace",
+            fontSize: '0.65rem',
+            letterSpacing: '0.22em',
+            color: '#F5F0E8',
+            textTransform: 'uppercase',
+            margin: 0,
+          }}
+        >
+          Sea · Air · Road · Rail — Global Freight &amp; Logistics Since 2018
+        </p>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2 group">
+          <Link href="/" className="flex items-center gap-3 flex-shrink-0">
             <Image
-              src='/images/chat.png'
-              alt='logo'
-              width={100}
-              height={120}
+              src="/images/gss-logo.png"
+              alt="Green Sphere Services"
+              width={60}
+              height={30}
+              style={{ objectFit: 'contain' }}
             />
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-1">
             {navigation.map((item) => {
-              const Icon = item.icon;
               const isActive = pathname === item.href;
               return (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center space-x-1 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-gray-800/50 ${
-                    isActive 
-                      ? 'text-green-500 bg-green-800/30' 
-                      : 'text-gray-300 hover:text-white'
-                  }`}
+                  className="relative px-4 py-2 text-sm transition-colors duration-200"
+                  style={{
+                    fontFamily: "'Courier New', monospace",
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    fontSize: '0.72rem',
+                    color: isActive ? '#C4713B' : 'rgba(245,240,232,0.75)',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) =>
+                    !isActive && (e.currentTarget.style.color = '#F5F0E8')
+                  }
+                  onMouseLeave={(e) =>
+                    !isActive && (e.currentTarget.style.color = 'rgba(245,240,232,0.75)')
+                  }
                 >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
+                  {item.name}
+                  {isActive && (
+                    <span
+                      className="absolute bottom-0 left-4 right-4 h-px"
+                      style={{ backgroundColor: '#C4713B' }}
+                    />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors"
-            aria-expanded="false"
+          {/* CTA + hamburger */}
+          <div className="flex items-center gap-4">
+            <Link
+              href="/quote"
+              className="hidden md:inline-block px-5 py-2 text-xs transition-all duration-200"
+              style={{
+                fontFamily: "'Courier New', monospace",
+                letterSpacing: '0.15em',
+                textTransform: 'uppercase',
+                backgroundColor: '#C4713B',
+                color: '#F5F0E8',
+                textDecoration: 'none',
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.backgroundColor = '#A85D2E')
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.backgroundColor = '#C4713B')
+              }
+            >
+              Get a Quote
+            </Link>
+
+            {/* Mobile hamburger */}
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden flex flex-col justify-center items-center gap-1.5 w-9 h-9"
+              aria-label="Toggle menu"
+            >
+              <span
+                className="block w-6 h-px transition-all duration-200"
+                style={{
+                  backgroundColor: '#F5F0E8',
+                  transform: isOpen ? 'rotate(45deg) translate(3px, 3px)' : 'none',
+                }}
+              />
+              <span
+                className="block w-6 h-px transition-all duration-200"
+                style={{
+                  backgroundColor: '#F5F0E8',
+                  opacity: isOpen ? 0 : 1,
+                }}
+              />
+              <span
+                className="block w-6 h-px transition-all duration-200"
+                style={{
+                  backgroundColor: '#F5F0E8',
+                  transform: isOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
+                }}
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile drawer */}
+      <div
+        className="md:hidden overflow-hidden transition-all duration-300"
+        style={{
+          maxHeight: isOpen ? '400px' : '0',
+          backgroundColor: '#0D1B3E',
+          borderTop: isOpen ? '1px solid rgba(196,113,59,0.3)' : 'none',
+        }}
+      >
+        <nav className="px-6 py-5 flex flex-col gap-1">
+          {navigation.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsOpen(false)}
+                className="py-3 text-sm"
+                style={{
+                  fontFamily: "'Courier New', monospace",
+                  letterSpacing: '0.15em',
+                  textTransform: 'uppercase',
+                  fontSize: '0.75rem',
+                  color: isActive ? '#C4713B' : 'rgba(245,240,232,0.7)',
+                  borderBottom: '1px solid rgba(245,240,232,0.07)',
+                  textDecoration: 'none',
+                }}
+              >
+                {isActive ? '◆ ' : ''}{item.name}
+              </Link>
+            );
+          })}
+          <Link
+            href="/quote"
+            onClick={() => setIsOpen(false)}
+            className="mt-4 py-3 text-xs text-center"
+            style={{
+              fontFamily: "'Courier New', monospace",
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              backgroundColor: '#C4713B',
+              color: '#F5F0E8',
+              textDecoration: 'none',
+            }}
           >
-            <span className="sr-only">Open main menu</span>
-            {isOpen ? (
-              <X className="block h-6 w-6" />
-            ) : (
-              <Menu className="block h-6 w-6" />
-            )}
-          </button>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div 
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
-          } overflow-hidden`}
-        >
-          <nav className="px-2 pt-2 pb-3 space-y-1 bg-gray-900/50 rounded-lg mt-2 backdrop-blur-sm">
-            {navigation.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  onClick={() => setIsOpen(false)}
-                  className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    isActive 
-                      ? 'text-red-500 bg-gray-800/50' 
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800/30'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
+            Get a Quote →
+          </Link>
+        </nav>
       </div>
     </header>
   );
