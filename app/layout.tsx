@@ -31,13 +31,13 @@ export default function RootLayout({
             toastOptions={{
               duration: 4000,
               style: {
-                background: '#363636',
+                background: '#1f2937',
                 color: '#fff',
               },
               success: {
                 duration: 3000,
                 iconTheme: {
-                  primary: '#10B981',
+                  primary: '#16a34a',
                   secondary: '#fff',
                 },
               },

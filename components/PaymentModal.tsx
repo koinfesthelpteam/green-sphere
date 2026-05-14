@@ -16,11 +16,11 @@ interface PaymentModalProps {
   onPaymentComplete?: () => void;
 }
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.12)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.12)';
 const tele   = '#24A1DE';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
@@ -30,7 +30,7 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.75rem 1rem',
   backgroundColor: 'rgba(255,255,255,0.05)',
-  border: `1.5px solid rgba(245,240,232,0.2)`,
+  border: `1.5px solid rgba(240,253,244,0.2)`,
   color: cream,
   fontFamily: lora,
   fontSize: '0.875rem',
@@ -38,7 +38,7 @@ const inputStyle: React.CSSProperties = {
   boxSizing: 'border-box',
 };
 
-const chevronSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`;
+const chevronSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%2316a34a'/%3E%3C/svg%3E")`;
 
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
@@ -154,7 +154,7 @@ export default function PaymentModal({
   const focusRust  = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     (e.currentTarget.style.borderColor = rust);
   const blurBorder = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-    (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.2)');
+    (e.currentTarget.style.borderColor = 'rgba(240,253,244,0.2)');
 
   /* ── loading ── */
   if (loading) {
@@ -162,7 +162,7 @@ export default function PaymentModal({
       <div
         style={{
           position: 'fixed', inset: 0,
-          backgroundColor: 'rgba(10,16,32,0.88)',
+          backgroundColor: 'rgba(3,7,18,0.88)',
           backdropFilter: 'blur(8px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           zIndex: 50, padding: '1rem',
@@ -172,7 +172,7 @@ export default function PaymentModal({
           <div
             style={{
               width: '28px', height: '28px',
-              border: `2px solid rgba(245,240,232,0.2)`,
+              border: `2px solid rgba(240,253,244,0.2)`,
               borderTopColor: rust,
               borderRadius: '50%',
               animation: 'spin 0.7s linear infinite',
@@ -194,7 +194,7 @@ export default function PaymentModal({
     <div
       style={{
         position: 'fixed', inset: 0,
-        backgroundColor: 'rgba(10,16,32,0.88)',
+        backgroundColor: 'rgba(3,7,18,0.88)',
         backdropFilter: 'blur(8px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         zIndex: 50, padding: '1rem',
@@ -271,7 +271,7 @@ export default function PaymentModal({
                 <span
                   style={{
                     fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase',
-                    color: paymentStatus === 'paid' ? '#8BC34A' : '#FFD54F',
+                    color: paymentStatus === 'paid' ? '#22c55e' : '#FFD54F',
                   }}
                 >
                   {paymentStatus}
@@ -293,8 +293,8 @@ export default function PaymentModal({
                       style={{
                         fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase',
                         padding: '3px 9px',
-                        border: `1px solid ${ok ? rust : 'rgba(245,240,232,0.15)'}`,
-                        color: ok ? cream : 'rgba(245,240,232,0.3)',
+                        border: `1px solid ${ok ? rust : 'rgba(240,253,244,0.15)'}`,
+                        color: ok ? cream : 'rgba(240,253,244,0.3)',
                       }}
                     >
                       {ok ? '◆ ' : ''}{m.label}
@@ -379,7 +379,7 @@ export default function PaymentModal({
             style={{
               marginBottom: '1.5rem',
               padding: '0.875rem 1rem',
-              borderLeft: `3px solid rgba(245,240,232,0.2)`,
+              borderLeft: `3px solid rgba(240,253,244,0.2)`,
               backgroundColor: 'rgba(255,255,255,0.03)',
             }}
           >
@@ -449,7 +449,7 @@ export default function PaymentModal({
               type="submit"
               disabled={requestingDetails}
               style={{
-                backgroundColor: requestingDetails ? 'rgba(196,113,59,0.5)' : rust,
+                backgroundColor: requestingDetails ? 'rgba(22,163,74,0.5)' : rust,
                 color: cream,
                 border: 'none',
                 padding: '0.875rem',
@@ -464,7 +464,7 @@ export default function PaymentModal({
                 gap: '0.5rem',
                 transition: 'background-color 0.2s',
               }}
-              onMouseEnter={e => { if (!requestingDetails) e.currentTarget.style.backgroundColor = '#A85D2E'; }}
+              onMouseEnter={e => { if (!requestingDetails) e.currentTarget.style.backgroundColor = '#15803d'; }}
               onMouseLeave={e => { if (!requestingDetails) e.currentTarget.style.backgroundColor = rust; }}
             >
               {requestingDetails ? (
@@ -472,7 +472,7 @@ export default function PaymentModal({
                   <span
                     style={{
                       width: '12px', height: '12px',
-                      border: `2px solid rgba(245,240,232,0.3)`,
+                      border: `2px solid rgba(240,253,244,0.3)`,
                       borderTopColor: cream,
                       borderRadius: '50%',
                       animation: 'spin 0.7s linear infinite',
@@ -502,7 +502,7 @@ export default function PaymentModal({
             backgroundColor: 'rgba(255,255,255,0.02)',
           }}
         >
-          <p style={{ fontFamily: lora, fontSize: '0.78rem', color: 'rgba(245,240,232,0.4)', lineHeight: 1.65 }}>
+          <p style={{ fontFamily: lora, fontSize: '0.78rem', color: 'rgba(240,253,244,0.4)', lineHeight: 1.65 }}>
             <strong style={{ color: muted }}>Note:</strong> All payments are processed manually by our admin team.
             Email confirmations are sent for all payment activities. Contact support if you experience any issues.
           </p>

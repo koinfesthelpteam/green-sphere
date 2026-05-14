@@ -48,7 +48,7 @@ export default function Footer() {
     fontSize: '0.65rem',
     letterSpacing: '0.2em',
     textTransform: 'uppercase' as const,
-    color: '#C4713B',
+    color: '#16a34a',
     marginBottom: '1rem',
     display: 'block',
   };
@@ -56,7 +56,7 @@ export default function Footer() {
   const linkStyle: React.CSSProperties = {
     fontFamily: "'Lora', Georgia, serif",
     fontSize: '0.875rem',
-    color: 'rgba(245,240,232,0.55)',
+    color: 'rgba(240,253,244,0.55)',
     textDecoration: 'none',
     display: 'block',
     paddingBottom: '0.5rem',
@@ -64,7 +64,7 @@ export default function Footer() {
   };
 
   return (
-    <footer style={{ backgroundColor: '#0A1020', borderTop: '4px solid #C4713B' }}>
+    <footer style={{ backgroundColor: '#030712', borderTop: '4px solid #16a34a' }}>
 
       {/* Main footer body */}
       <div className="max-w-7xl mx-auto px-6 lg:px-12 py-16">
@@ -87,7 +87,7 @@ export default function Footer() {
               style={{
                 fontFamily: "'Lora', Georgia, serif",
                 fontSize: '0.9rem',
-                color: 'rgba(245,240,232,0.55)',
+                color: 'rgba(240,253,244,0.55)',
                 maxWidth: '32ch',
               }}
             >
@@ -99,7 +99,7 @@ export default function Footer() {
             {/* Contact block — manifest style */}
             <div
               className="space-y-3 pt-5"
-              style={{ borderTop: '1px solid rgba(245,240,232,0.1)' }}
+              style={{ borderTop: '1px solid rgba(240,253,244,0.1)' }}
             >
               {[
                 { label: 'Address', value: '14 Harbour Court, Trade District' },
@@ -113,7 +113,7 @@ export default function Footer() {
                       fontSize: '0.62rem',
                       letterSpacing: '0.15em',
                       textTransform: 'uppercase',
-                      color: '#C4713B',
+                      color: '#16a34a',
                       minWidth: '4.5rem',
                       flexShrink: 0,
                     }}
@@ -124,7 +124,7 @@ export default function Footer() {
                     style={{
                       fontFamily: "'Courier New', monospace",
                       fontSize: '0.75rem',
-                      color: 'rgba(245,240,232,0.6)',
+                      color: 'rgba(240,253,244,0.6)',
                     }}
                   >
                     {value}
@@ -145,10 +145,10 @@ export default function Footer() {
                       href={link.href}
                       style={linkStyle}
                       onMouseEnter={(e) =>
-                        (e.currentTarget.style.color = '#F5F0E8')
+                        (e.currentTarget.style.color = '#f0fdf4')
                       }
                       onMouseLeave={(e) =>
-                        (e.currentTarget.style.color = 'rgba(245,240,232,0.55)')
+                        (e.currentTarget.style.color = 'rgba(240,253,244,0.55)')
                       }
                     >
                       {link.name}
@@ -164,8 +164,8 @@ export default function Footer() {
       {/* Certifications bar */}
       <div
         style={{
-          borderTop: '1px solid rgba(245,240,232,0.08)',
-          borderBottom: '1px solid rgba(245,240,232,0.08)',
+          borderTop: '1px solid rgba(240,253,244,0.08)',
+          borderBottom: '1px solid rgba(240,253,244,0.08)',
           backgroundColor: 'rgba(255,255,255,0.02)',
         }}
       >
@@ -180,10 +180,10 @@ export default function Footer() {
                   fontSize: '0.65rem',
                   letterSpacing: '0.12em',
                   textTransform: 'uppercase',
-                  color: 'rgba(245,240,232,0.35)',
+                  color: 'rgba(240,253,244,0.35)',
                 }}
               >
-                <span style={{ color: '#C4713B', fontSize: '0.5rem' }}>◆</span>
+                <span style={{ color: '#16a34a', fontSize: '0.5rem' }}>◆</span>
                 {cert}
               </span>
             )
@@ -199,7 +199,7 @@ export default function Footer() {
               fontFamily: "'Courier New', monospace",
               fontSize: '0.68rem',
               letterSpacing: '0.1em',
-              color: 'rgba(245,240,232,0.3)',
+              color: 'rgba(240,253,244,0.3)',
               textTransform: 'uppercase',
             }}
           >
@@ -223,13 +223,13 @@ export default function Footer() {
                   fontSize: '0.65rem',
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
-                  color: 'rgba(245,240,232,0.3)',
+                  color: 'rgba(240,253,244,0.3)',
                   textDecoration: 'none',
                   transition: 'color 0.2s',
                 }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#C4713B')}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#16a34a')}
                 onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = 'rgba(245,240,232,0.3)')
+                  (e.currentTarget.style.color = 'rgba(240,253,244,0.3)')
                 }
               >
                 {label}

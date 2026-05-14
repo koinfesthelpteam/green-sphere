@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -43,7 +43,7 @@ const SPECIAL_REQS = [
 /* ── field label ── */
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#5A4E44', marginBottom: '0.45rem' }}>
+    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#374151', marginBottom: '0.45rem' }}>
       {children}{required && <span style={{ color: rust, marginLeft: '3px' }}>*</span>}
     </label>
   );
@@ -51,13 +51,13 @@ function FieldLabel({ children, required }: { children: React.ReactNode; require
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '0.75rem 1rem',
-  backgroundColor: 'transparent', border: '1.5px solid #C4B49A',
+  backgroundColor: 'transparent', border: '1.5px solid #86efac',
   color: navy, fontFamily: lora, fontSize: '0.9rem', outline: 'none', boxSizing: 'border-box',
 };
 const focusRust = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
   (e.currentTarget.style.borderColor = rust);
 const blurStone = (e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
-  (e.currentTarget.style.borderColor = '#C4B49A');
+  (e.currentTarget.style.borderColor = '#86efac');
 
 export default function GetQuotePage() {
   const [formData, setFormData] = useState<FormData>({
@@ -89,7 +89,7 @@ export default function GetQuotePage() {
     return (
       <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: navy }}>
         <div style={{ maxWidth: '540px', width: '100%' }}>
-          <div style={{ borderTop: `4px solid ${rust}`, backgroundColor: 'rgba(245,240,232,0.04)', padding: '3rem' }}>
+          <div style={{ borderTop: `4px solid ${rust}`, backgroundColor: 'rgba(240,253,244,0.04)', padding: '3rem' }}>
             <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
               Quote Request Received
             </p>
@@ -114,7 +114,7 @@ export default function GetQuotePage() {
             <Link
               href="/"
               style={{ display: 'inline-block', padding: '0.875rem 2rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
             >
               Return to Homepage →
@@ -133,7 +133,7 @@ export default function GetQuotePage() {
   ];
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: navy }}>
 
       {/* ── HERO ── */}
       <section className="relative" style={{ minHeight: '60vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
@@ -143,11 +143,11 @@ export default function GetQuotePage() {
             alt="Global logistics"
             fill className="object-cover" priority
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.2) 0%, rgba(10,16,32,0.88) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(3,7,18,0.2) 0%, rgba(3,7,18,0.88) 100%)' }} />
         </div>
 
-        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.1)`, backgroundColor: 'rgba(13,27,62,0.65)', backdropFilter: 'blur(6px)' }}>
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(245,240,232,0.45)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.1)`, backgroundColor: 'rgba(17,24,39,0.65)', backdropFilter: 'blur(6px)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(240,253,244,0.45)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
             <span>Green Sphere Services</span>
             <span style={{ color: rust }}>◆</span>
             <span>Request a Quote</span>
@@ -155,7 +155,7 @@ export default function GetQuotePage() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pb-14 w-full">
-          <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color:  cream , marginBottom: '0.75rem' }} className='bg-blue-950 w-fit p-2 rounded-full'>
+          <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color:  cream , marginBottom: '0.75rem' }} className='bg-green-950 w-fit p-2 rounded-full'>
             Freight Pricing
           </p>
           <h1 style={{ fontFamily: serif, fontSize: 'clamp(2.25rem, 5vw, 4rem)', color: cream, lineHeight: 1.05 }}>
@@ -165,11 +165,11 @@ export default function GetQuotePage() {
       </section>
 
       {/* ── FORM ── */}
-      <section className="py-20" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-20" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-4xl mx-auto px-6 lg:px-12">
 
           {/* Step indicator — manifest style */}
-          <div style={{ display: 'flex', alignItems: 'stretch', marginBottom: '3rem', borderTop: `3px solid ${rust}`, borderBottom: `1px solid #C4B49A` }}>
+          <div style={{ display: 'flex', alignItems: 'stretch', marginBottom: '3rem', borderTop: `3px solid ${rust}`, borderBottom: `1px solid #86efac` }}>
             {STEPS.map((s, i) => {
               const done    = step > i + 1;
               const current = step === i + 1;
@@ -178,14 +178,14 @@ export default function GetQuotePage() {
                   key={i}
                   style={{
                     flex: 1, padding: '1rem 0.75rem', textAlign: 'center',
-                    borderRight: i < 3 ? '1px solid #C4B49A' : 'none',
+                    borderRight: i < 3 ? '1px solid #86efac' : 'none',
                     backgroundColor: current ? navy : 'transparent',
                   }}
                 >
-                  <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.18em', color: done ? rust : current ? rust : '#9E8E7E', marginBottom: '0.2rem' }}>
+                  <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.18em', color: done ? rust : current ? rust : '#6b7280', marginBottom: '0.2rem' }}>
                     {done ? '✓' : s.n}
                   </p>
-                  <p style={{ fontFamily: lora, fontSize: '0.8rem', color: current ? cream : done ? navy : '#9E8E7E', fontWeight: current ? 500 : 400 }}>
+                  <p style={{ fontFamily: lora, fontSize: '0.8rem', color: current ? cream : done ? navy : '#6b7280', fontWeight: current ? 500 : 400 }}>
                     {s.label}
                   </p>
                 </div>
@@ -207,8 +207,8 @@ export default function GetQuotePage() {
                         onClick={() => set('serviceType', svc.id)}
                         style={{
                           padding: '1.25rem',
-                          border: `1.5px solid ${formData.serviceType === svc.id ? rust : '#C4B49A'}`,
-                          backgroundColor: formData.serviceType === svc.id ? 'rgba(196,113,59,0.06)' : 'transparent',
+                          border: `1.5px solid ${formData.serviceType === svc.id ? rust : '#86efac'}`,
+                          backgroundColor: formData.serviceType === svc.id ? 'rgba(22,163,74,0.06)' : 'transparent',
                           cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: '1rem',
                           transition: 'border-color 0.2s',
@@ -220,7 +220,7 @@ export default function GetQuotePage() {
                         <span style={{ fontSize: '1.5rem' }}>{svc.icon}</span>
                         <div>
                           <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.2rem' }}>{svc.name}</p>
-                          <p style={{ fontFamily: lora, fontSize: '0.8rem', color: '#5A4E44' }}>{svc.desc}</p>
+                          <p style={{ fontFamily: lora, fontSize: '0.8rem', color: '#374151' }}>{svc.desc}</p>
                         </div>
                         {formData.serviceType === svc.id && (
                           <span style={{ marginLeft: 'auto', color: rust, fontFamily: mono, fontSize: '0.7rem' }}>◆</span>
@@ -276,7 +276,7 @@ export default function GetQuotePage() {
                   <select
                     value={formData.cargoType}
                     onChange={e => set('cargoType', e.target.value)}
-                    style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                    style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%2316a34a'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
                     onFocus={focusRust} onBlur={blurStone}
                     required
                   >
@@ -292,17 +292,17 @@ export default function GetQuotePage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 <div>
                   <FieldLabel>Special Handling Requirements</FieldLabel>
-                  <div className="grid md:grid-cols-2 gap-0" style={{ marginTop: '0.75rem', border: '1.5px solid #C4B49A' }}>
+                  <div className="grid md:grid-cols-2 gap-0" style={{ marginTop: '0.75rem', border: '1.5px solid #86efac' }}>
                     {SPECIAL_REQS.map((req, i) => (
                       <label
                         key={req}
                         style={{
                           display: 'flex', alignItems: 'center', gap: '0.75rem',
                           padding: '0.875rem 1rem',
-                          borderRight: i % 2 === 0 ? '1px solid #C4B49A' : 'none',
-                          borderBottom: i < SPECIAL_REQS.length - 2 ? '1px solid #C4B49A' : 'none',
+                          borderRight: i % 2 === 0 ? '1px solid #86efac' : 'none',
+                          borderBottom: i < SPECIAL_REQS.length - 2 ? '1px solid #86efac' : 'none',
                           cursor: 'pointer',
-                          backgroundColor: checked.includes(req) ? 'rgba(196,113,59,0.06)' : 'transparent',
+                          backgroundColor: checked.includes(req) ? 'rgba(22,163,74,0.06)' : 'transparent',
                         }}
                       >
                         <input
@@ -356,9 +356,9 @@ export default function GetQuotePage() {
                 </div>
 
                 {/* Summary */}
-                <div style={{ borderTop: `1px solid #C4B49A`, paddingTop: '1.5rem' }}>
+                <div style={{ borderTop: `1px solid #86efac`, paddingTop: '1.5rem' }}>
                   <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>Quote Summary</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid #C4B49A' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0', border: '1px solid #86efac' }}>
                     {[
                       ['Service', serviceOptions.find(s => s.id === formData.serviceType)?.name || '—'],
                       ['Origin', formData.origin || '—'],
@@ -367,7 +367,7 @@ export default function GetQuotePage() {
                       ['Weight', formData.weight ? `${formData.weight} kg` : '—'],
                       ['Cargo Type', formData.cargoType || '—'],
                     ].map(([k, v], i) => (
-                      <div key={k} style={{ padding: '0.75rem 1rem', borderRight: i % 2 === 0 ? '1px solid #C4B49A' : 'none', borderBottom: i < 4 ? '1px solid #C4B49A' : 'none' }}>
+                      <div key={k} style={{ padding: '0.75rem 1rem', borderRight: i % 2 === 0 ? '1px solid #86efac' : 'none', borderBottom: i < 4 ? '1px solid #86efac' : 'none' }}>
                         <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust, marginBottom: '0.2rem' }}>{k}</p>
                         <p style={{ fontFamily: lora, fontSize: '0.875rem', color: navy }}>{v}</p>
                       </div>
@@ -378,7 +378,7 @@ export default function GetQuotePage() {
             )}
 
             {/* ── NAV BUTTONS ── */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid #C4B49A' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '2.5rem', paddingTop: '2rem', borderTop: '1px solid #86efac' }}>
               <button
                 type="button"
                 onClick={() => setStep(s => Math.max(s - 1, 1))}
@@ -386,8 +386,8 @@ export default function GetQuotePage() {
                 style={{
                   padding: '0.75rem 1.75rem',
                   backgroundColor: 'transparent',
-                  border: `1.5px solid ${step === 1 ? 'rgba(196,181,154,0.4)' : '#C4B49A'}`,
-                  color: step === 1 ? '#9E8E7E' : navy,
+                  border: `1.5px solid ${step === 1 ? 'rgba(196,181,154,0.4)' : '#86efac'}`,
+                  color: step === 1 ? '#6b7280' : navy,
                   fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase',
                   cursor: step === 1 ? 'not-allowed' : 'pointer',
                 }}
@@ -420,7 +420,7 @@ export default function GetQuotePage() {
                     border: 'none',
                     fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
                 >
                   Submit Quote Request →
@@ -430,20 +430,20 @@ export default function GetQuotePage() {
           </form>
 
           {/* ── DIRECT CONTACT ALTERNATIVE ── */}
-          <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #C4B49A', textAlign: 'center' }}>
-            <p style={{ fontFamily: lora, fontSize: '0.9rem', color: '#5A4E44', marginBottom: '1.25rem' }}>
+          <div style={{ marginTop: '4rem', paddingTop: '2rem', borderTop: '1px solid #86efac', textAlign: 'center' }}>
+            <p style={{ fontFamily: lora, fontSize: '0.9rem', color: '#374151', marginBottom: '1.25rem' }}>
               Prefer to speak with someone directly?
             </p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
-              <a href="tel:+1-555-GREEN-01" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #C4B49A', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
+              <a href="tel:+1-555-GREEN-01" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #86efac', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#86efac')}
               >
                 📞 Call: +1 (555) GREEN-01
               </a>
-              <a href="mailto:quotes@greensphere.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #C4B49A', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
+              <a href="mailto:quotes@greensphere.com" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.75rem 1.5rem', border: '1.5px solid #86efac', color: navy, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'border-color 0.2s' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#86efac')}
               >
                 ✉️ quotes@greensphere.com
               </a>

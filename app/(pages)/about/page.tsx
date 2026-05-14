@@ -3,11 +3,11 @@
 import React from 'react';
 import Image from 'next/image';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -30,7 +30,7 @@ function SectionHeading({ children, light = false }: { children: React.ReactNode
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: navy }}>
 
       {/* ── HERO ── */}
       <section className="relative" style={{ minHeight: '62vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
@@ -42,12 +42,12 @@ export default function AboutPage() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.3) 0%, rgba(10,16,32,0.85) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(3,7,18,0.3) 0%, rgba(3,7,18,0.85) 100%)' }} />
         </div>
 
         {/* top manifest strip */}
-        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.12)`, backgroundColor: 'rgba(13,27,62,0.6)', backdropFilter: 'blur(6px)' }}>
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(245,240,232,0.5)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.12)`, backgroundColor: 'rgba(17,24,39,0.6)', backdropFilter: 'blur(6px)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(240,253,244,0.5)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
             <span>Green Sphere Services</span>
             <span style={{ color: rust }}>◆</span>
             <span>Est. 2018</span>
@@ -80,7 +80,7 @@ export default function AboutPage() {
               >
                 <div style={{ fontFamily: serif, fontSize: '2rem', color: rust, marginBottom: '0.25rem' }}>{stat.value}</div>
                 <div style={{ fontFamily: lora, fontSize: '0.875rem', color: cream, marginBottom: '0.15rem' }}>{stat.label}</div>
-                <div style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', color: 'rgba(245,240,232,0.35)', textTransform: 'uppercase' }}>{stat.sub}</div>
+                <div style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', color: 'rgba(240,253,244,0.35)', textTransform: 'uppercase' }}>{stat.sub}</div>
               </div>
             ))}
           </div>
@@ -88,9 +88,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── MISSION & VISION ── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ borderBottom: `1px solid #86efac`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
             <SectionLabel>Who We Are</SectionLabel>
             <SectionHeading>Purpose &amp; Direction</SectionHeading>
           </div>
@@ -113,11 +113,11 @@ export default function AboutPage() {
               <div key={heading}>
                 <div style={{ position: 'relative', height: '260px', overflow: 'hidden', marginBottom: '1.5rem' }}>
                   <Image src={img} alt={alt} fill style={{ objectFit: 'cover' }} />
-                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,27,62,0.5) 0%, transparent 60%)' }} />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(17,24,39,0.5) 0%, transparent 60%)' }} />
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, borderTop: `4px solid ${rust}` }} />
                 </div>
                 <h3 style={{ fontFamily: serif, fontSize: '1.5rem', color: navy, marginBottom: '0.75rem' }}>{heading}</h3>
-                <p style={{ fontFamily: lora, fontSize: '1rem', color: '#3D3530', lineHeight: 1.8 }}>{body}</p>
+                <p style={{ fontFamily: lora, fontSize: '1rem', color: '#1f2937', lineHeight: 1.8 }}>{body}</p>
               </div>
             ))}
           </div>
@@ -169,9 +169,9 @@ export default function AboutPage() {
       </section>
 
       {/* ── JOURNEY TIMELINE ── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ borderBottom: `1px solid #86efac`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
             <SectionLabel>History</SectionLabel>
             <SectionHeading>Our Journey</SectionHeading>
           </div>
@@ -179,7 +179,7 @@ export default function AboutPage() {
           {/* Horizontal timeline for desktop, stacked for mobile */}
           <div className="hidden md:block" style={{ position: 'relative', paddingBottom: '3rem' }}>
             {/* Spine */}
-            <div style={{ position: 'absolute', top: '22px', left: 0, right: 0, height: '2px', backgroundColor: '#C4B49A' }} />
+            <div style={{ position: 'absolute', top: '22px', left: 0, right: 0, height: '2px', backgroundColor: '#86efac' }} />
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0' }}>
               {[
                 { year: '2018', title: 'Founded',           body: 'Green Sphere Services established with a focus on multi-modal freight for emerging markets.' },
@@ -193,19 +193,19 @@ export default function AboutPage() {
                   <div style={{
                     position: 'absolute', top: '14px', left: 0,
                     width: '18px', height: '18px', borderRadius: '50%',
-                    backgroundColor: rust, border: `3px solid #F5F0E8`,
+                    backgroundColor: rust, border: `3px solid #f0fdf4`,
                     transform: 'translateX(-50%)',
                   }} />
                   <p style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.15em', color: rust, marginBottom: '0.4rem' }}>{m.year}</p>
                   <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.4rem' }}>{m.title}</p>
-                  <p style={{ fontFamily: lora, fontSize: '0.82rem', color: '#5A4E44', lineHeight: 1.7 }}>{m.body}</p>
+                  <p style={{ fontFamily: lora, fontSize: '0.82rem', color: '#374151', lineHeight: 1.7 }}>{m.body}</p>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Mobile stacked */}
-          <div className="md:hidden space-y-0" style={{ borderLeft: `2px solid #C4B49A`, marginLeft: '0.5rem', paddingLeft: '1.5rem' }}>
+          <div className="md:hidden space-y-0" style={{ borderLeft: `2px solid #86efac`, marginLeft: '0.5rem', paddingLeft: '1.5rem' }}>
             {[
               { year: '2018', title: 'Founded',          body: 'Established with a focus on multi-modal freight for emerging markets.' },
               { year: '2019', title: 'Network Built',    body: 'Partnerships with 40+ carriers across sea, air and road corridors.' },
@@ -214,10 +214,10 @@ export default function AboutPage() {
               { year: '2024', title: 'Industry Leader',  body: '500K+ shipments delivered. Leading crypto-enabled logistics platform.' },
             ].map((m, i) => (
               <div key={i} style={{ position: 'relative', paddingBottom: '1.75rem' }}>
-                <div style={{ position: 'absolute', left: '-1.85rem', top: '0.3rem', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: rust, border: `2px solid #F5F0E8` }} />
+                <div style={{ position: 'absolute', left: '-1.85rem', top: '0.3rem', width: '12px', height: '12px', borderRadius: '50%', backgroundColor: rust, border: `2px solid #f0fdf4` }} />
                 <p style={{ fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', color: rust, marginBottom: '0.25rem' }}>{m.year}</p>
                 <p style={{ fontFamily: serif, fontSize: '1rem', color: navy, marginBottom: '0.3rem' }}>{m.title}</p>
-                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: '#5A4E44', lineHeight: 1.7 }}>{m.body}</p>
+                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: '#374151', lineHeight: 1.7 }}>{m.body}</p>
               </div>
             ))}
           </div>
@@ -248,7 +248,7 @@ export default function AboutPage() {
                 ].map((c, i) => (
                   <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
                     <span style={{ color: rust, fontSize: '0.55rem' }}>◆</span>
-                    <span style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.08em', color: 'rgba(245,240,232,0.7)', textTransform: 'uppercase' }}>{c}</span>
+                    <span style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.08em', color: 'rgba(240,253,244,0.7)', textTransform: 'uppercase' }}>{c}</span>
                   </div>
                 ))}
               </div>

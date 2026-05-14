@@ -6,21 +6,21 @@ import React from 'react';
 import { format } from 'date-fns';
 import { TrackingTimeline as TimelineType, TimelineEvent } from '@/types';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.55)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.55)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
 
 const STATUS_META: Record<string, { label: string; color: string }> = {
-  created:          { label: 'Order Created',       color: 'rgba(245,240,232,0.35)' },
+  created:          { label: 'Order Created',       color: 'rgba(240,253,244,0.35)' },
   picked_up:        { label: 'Picked Up',            color: '#64B5F6' },
   in_transit:       { label: 'In Transit',           color: '#FFD54F' },
   out_for_delivery: { label: 'Out for Delivery',     color: '#CE93D8' },
-  delivered:        { label: 'Delivered',            color: '#8BC34A' },
+  delivered:        { label: 'Delivered',            color: '#22c55e' },
   exception:        { label: 'Exception',            color: '#FF8A80' },
   returned:         { label: 'Returned to Sender',   color: '#FFAB40' },
 };
@@ -56,10 +56,10 @@ export default function TrackingTimeline({ timeline }: Props) {
       </div>
 
       {/* event list */}
-      <div style={{ paddingLeft: '1.25rem', borderLeft: `2px solid rgba(245,240,232,0.1)`, position: 'relative' }}>
+      <div style={{ paddingLeft: '1.25rem', borderLeft: `2px solid rgba(240,253,244,0.1)`, position: 'relative' }}>
         {timeline.timeline.map((event: TimelineEvent, i: number) => {
           const isCurrent = event.status === timeline.currentStatus && event.isCompleted;
-          const dotColor  = event.isCompleted ? getStatusColor(event.status) : 'rgba(245,240,232,0.15)';
+          const dotColor  = event.isCompleted ? getStatusColor(event.status) : 'rgba(240,253,244,0.15)';
 
           return (
             <div
@@ -75,8 +75,8 @@ export default function TrackingTimeline({ timeline }: Props) {
                 height: '12px',
                 borderRadius: '50%',
                 backgroundColor: dotColor,
-                border: `2px solid ${event.isCompleted ? dotColor : 'rgba(245,240,232,0.15)'}`,
-                boxShadow: isCurrent ? `0 0 0 4px rgba(196,113,59,0.2)` : 'none',
+                border: `2px solid ${event.isCompleted ? dotColor : 'rgba(240,253,244,0.15)'}`,
+                boxShadow: isCurrent ? `0 0 0 4px rgba(22,163,74,0.2)` : 'none',
               }} />
 
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
@@ -86,7 +86,7 @@ export default function TrackingTimeline({ timeline }: Props) {
                       fontFamily: lora,
                       fontSize: '0.9rem',
                       fontWeight: 500,
-                      color: event.isCompleted ? cream : 'rgba(245,240,232,0.3)',
+                      color: event.isCompleted ? cream : 'rgba(240,253,244,0.3)',
                     }}>
                       {getStatusLabel(event.status)}
                     </p>
@@ -97,7 +97,7 @@ export default function TrackingTimeline({ timeline }: Props) {
                     )}
                   </div>
                   {(event.description || !event.isCompleted) && (
-                    <p style={{ fontFamily: lora, fontSize: '0.8rem', color: event.isCompleted ? muted : 'rgba(245,240,232,0.2)', lineHeight: 1.6, marginBottom: '0.2rem' }}>
+                    <p style={{ fontFamily: lora, fontSize: '0.8rem', color: event.isCompleted ? muted : 'rgba(240,253,244,0.2)', lineHeight: 1.6, marginBottom: '0.2rem' }}>
                       {event.description ?? 'Expected soon'}
                     </p>
                   )}
@@ -107,7 +107,7 @@ export default function TrackingTimeline({ timeline }: Props) {
                     </p>
                   )}
                   {!event.isCompleted && !event.timestamp && (
-                    <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.08em', color: 'rgba(245,240,232,0.25)' }}>
+                    <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.08em', color: 'rgba(240,253,244,0.25)' }}>
                       Expected soon
                     </p>
                   )}
@@ -130,7 +130,7 @@ export default function TrackingTimeline({ timeline }: Props) {
           <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust }}>Progress</p>
           <p style={{ fontFamily: mono, fontSize: '0.68rem', color: cream }}>{pct}%</p>
         </div>
-        <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(245,240,232,0.1)' }}>
+        <div style={{ width: '100%', height: '3px', backgroundColor: 'rgba(240,253,244,0.1)' }}>
           <div style={{ height: '100%', width: `${pct}%`, backgroundColor: rust, transition: 'width 0.6s ease' }} />
         </div>
       </div>

@@ -10,10 +10,10 @@ interface LeafletHTMLElement extends HTMLElement { _leaflet_id?: number }
 
 declare global { interface Window { L: any } }
 
-const cream = '#F5F0E8';
-const navy  = '#0D1B3E';
-const rust  = '#C4713B';
-const muted = 'rgba(245,240,232,0.55)';
+const cream = '#f0fdf4';
+const navy  = '#111827';
+const rust  = '#16a34a';
+const muted = 'rgba(240,253,244,0.55)';
 const mono  = "'Courier New', monospace";
 const lora  = "'Lora', Georgia, serif";
 const serif = "'Playfair Display', Georgia, serif";
@@ -35,7 +35,7 @@ const geocodeLocation = async (loc: Location): Promise<Coordinates | null> => {
 /* Dot SVG markers — no rounded blobs, just clean squares with rust fill */
 const makeIcon = (L: any, color: string, label: string) =>
   L.divIcon({
-    html: `<div style="width:10px;height:10px;background:${color};border:2px solid #F5F0E8;box-shadow:0 0 0 1px ${color}"></div>`,
+    html: `<div style="width:10px;height:10px;background:${color};border:2px solid #f0fdf4;box-shadow:0 0 0 1px ${color}"></div>`,
     className: '',
     iconSize: [10, 10],
     iconAnchor: [5, 5],
@@ -91,7 +91,7 @@ const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
       };
 
       addMarker(coordinates.sender!, rust, `ORIGIN — ${shipment.sender.city}, ${shipment.sender.state}`);
-      addMarker(coordinates.recipient!, '#8BC34A', `DESTINATION — ${shipment.recipient.city}, ${shipment.recipient.state}`);
+      addMarker(coordinates.recipient!, '#22c55e', `DESTINATION — ${shipment.recipient.city}, ${shipment.recipient.state}`);
       if (coordinates.current && shipment.currentLocation) {
         addMarker(coordinates.current, cream, `CURRENT — ${shipment.currentLocation.city}, ${shipment.currentLocation.state}`);
       }
@@ -103,7 +103,7 @@ const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
       ];
 
       const delivered = shipment.status.current === 'delivered';
-      L.polyline(routePts, { color: delivered ? '#8BC34A' : rust, weight: 2, opacity: 0.7, dashArray: delivered ? undefined : '8 6' }).addTo(map);
+      L.polyline(routePts, { color: delivered ? '#22c55e' : rust, weight: 2, opacity: 0.7, dashArray: delivered ? undefined : '8 6' }).addTo(map);
 
       map.fitBounds(L.featureGroup(markers).getBounds().pad(0.15));
     } catch (e) { console.error('Map error:', e); }
@@ -123,12 +123,12 @@ const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
 
       {/* map container */}
       <div style={{ position: 'relative' }}>
-        <div id="tracking-map" style={{ width: '100%', height: '380px', backgroundColor: '#0A1020' }} />
+        <div id="tracking-map" style={{ width: '100%', height: '380px', backgroundColor: '#030712' }} />
         {!mapLoaded && (
-          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#0A1020' }}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#030712' }}>
             <div style={{ textAlign: 'center' }}>
-              <div style={{ width: '24px', height: '24px', border: `2px solid rgba(245,240,232,0.15)`, borderTopColor: rust, borderRadius: '50%', animation: 'spin 0.7s linear infinite', margin: '0 auto 0.75rem' }} />
-              <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.4)' }}>Loading map…</p>
+              <div style={{ width: '24px', height: '24px', border: `2px solid rgba(240,253,244,0.15)`, borderTopColor: rust, borderRadius: '50%', animation: 'spin 0.7s linear infinite', margin: '0 auto 0.75rem' }} />
+              <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(240,253,244,0.4)' }}>Loading map…</p>
               <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
             </div>
           </div>
@@ -136,11 +136,11 @@ const TrackingMap: React.FC<TrackingMapProps> = ({ shipment }) => {
       </div>
 
       {/* legend + stats */}
-      <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid rgba(245,240,232,0.08)`, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
+      <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: `1px solid rgba(240,253,244,0.08)`, display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '0.75rem' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1.25rem', alignItems: 'center' }}>
           {[
             { color: rust,     label: 'Origin' },
-            { color: '#8BC34A', label: 'Destination' },
+            { color: '#22c55e', label: 'Destination' },
             ...(current ? [{ color: cream, label: 'Current Position' }] : []),
           ].map(({ color, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>

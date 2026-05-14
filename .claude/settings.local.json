@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\USER\\\\Documents\\\\green-sphere\" -Directory | Where-Object { $_.Name -notmatch '^\\\\.next|node_modules' } | Select-Object -ExpandProperty Name)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\USER\\\\Documents\\\\green-sphere\" -Recurse -File)",
+      "Bash(Select-Object FullName)",
+      "PowerShell(head -50)",
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" -o -name \"*.jsx\" -o -name \"*.js\" -o -name \"*.css\" -o -name \"*.scss\" -o -name \"tailwind.config.*\" \\\\\\))",
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" -o -name \"*.jsx\" -o -name \"*.js\" -o -name \"*.css\" -o -name \"*.scss\" \\\\\\))",
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f -name \"tailwind.config.*\")",
+      "Bash(grep -n \"className\" \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\\\\components\\\\ProtectedRoutes.tsx\")",
+      "Bash(grep -rn \"className\" \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\\\\\\\\app\\\\\\(pages\\)\\\\quote\\\\page.tsx\")",
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f -name \"*.tsx\")"
+    ]
+  }
+}

@@ -6,11 +6,11 @@ import Image from 'next/image';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -18,7 +18,7 @@ const mono   = "'Courier New', monospace";
 /* reusable field label */
 function FieldLabel({ children, required }: { children: React.ReactNode; required?: boolean }) {
   return (
-    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#5A4E44', marginBottom: '0.45rem' }}>
+    <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: '#374151', marginBottom: '0.45rem' }}>
       {children}{required && <span style={{ color: rust, marginLeft: '3px' }}>*</span>}
     </label>
   );
@@ -29,7 +29,7 @@ const inputStyle: React.CSSProperties = {
   width: '100%',
   padding: '0.75rem 1rem',
   backgroundColor: 'transparent',
-  border: '1.5px solid #C4B49A',
+  border: '1.5px solid #86efac',
   color: navy,
   fontFamily: lora,
   fontSize: '0.9rem',
@@ -67,7 +67,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: navy }}>
 
       {/* ── HERO ── */}
       <section className="relative" style={{ minHeight: '65vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
@@ -79,7 +79,7 @@ export default function ContactPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.25) 0%, rgba(10,16,32,0.88) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(3,7,18,0.25) 0%, rgba(3,7,18,0.88) 100%)' }} />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pb-16 w-full">
           <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: cream, marginBottom: '0.75rem' }}>
@@ -137,7 +137,7 @@ export default function ContactPage() {
                     {l}
                   </p>
                 ))}
-                <p style={{ fontFamily: lora, fontSize: '0.78rem', color: 'rgba(245,240,232,0.35)', fontStyle: 'italic', marginTop: '0.6rem' }} dangerouslySetInnerHTML={{ __html: card.note }} />
+                <p style={{ fontFamily: lora, fontSize: '0.78rem', color: 'rgba(240,253,244,0.35)', fontStyle: 'italic', marginTop: '0.6rem' }} dangerouslySetInnerHTML={{ __html: card.note }} />
               </div>
             ))}
           </div>
@@ -145,10 +145,10 @@ export default function ContactPage() {
       </section>
 
       {/* ── FORM + SIDEBAR ── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ borderBottom: `1px solid #86efac`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
             <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, whiteSpace: 'nowrap' }}>
               Send a Message
             </p>
@@ -168,14 +168,14 @@ export default function ContactPage() {
                     <FieldLabel required>Full Name</FieldLabel>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Your full name" style={inputStyle}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     />
                   </div>
                   <div>
                     <FieldLabel required>Email Address</FieldLabel>
                     <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="your.email@example.com" style={inputStyle}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     />
                   </div>
                 </div>
@@ -185,14 +185,14 @@ export default function ContactPage() {
                     <FieldLabel>Phone Number</FieldLabel>
                     <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 123-4567" style={inputStyle}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     />
                   </div>
                   <div>
                     <FieldLabel required>Subject</FieldLabel>
-                    <select name="subject" value={formData.subject} onChange={handleChange} required style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                    <select name="subject" value={formData.subject} onChange={handleChange} required style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%2316a34a'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     >
                       <option value="general">General Inquiry</option>
                       <option value="tracking">Tracking Issue</option>
@@ -208,14 +208,14 @@ export default function ContactPage() {
                     <FieldLabel>Tracking Reference</FieldLabel>
                     <input type="text" name="trackingNumber" value={formData.trackingNumber} onChange={handleChange} placeholder="GSS-2024-XXXXX" style={{ ...inputStyle, fontFamily: mono, letterSpacing: '0.05em' }}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     />
                   </div>
                   <div>
                     <FieldLabel>Priority</FieldLabel>
-                    <select name="priority" value={formData.priority} onChange={handleChange} style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%23C4713B'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
+                    <select name="priority" value={formData.priority} onChange={handleChange} style={{ ...inputStyle, appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M6 8L0 0h12z' fill='%2316a34a'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center' }}
                       onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                      onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                      onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                     >
                       <option value="low">Low — General inquiry</option>
                       <option value="normal">Normal — Standard support</option>
@@ -229,7 +229,7 @@ export default function ContactPage() {
                   <FieldLabel required>Message</FieldLabel>
                   <textarea name="message" value={formData.message} onChange={handleChange} required rows={6} placeholder="Please describe your enquiry in detail…" style={{ ...inputStyle, resize: 'vertical' }}
                     onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                    onBlur={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                    onBlur={e => (e.currentTarget.style.borderColor = '#86efac')}
                   />
                 </div>
 
@@ -252,12 +252,12 @@ export default function ContactPage() {
                     gap: '0.5rem',
                     transition: 'background-color 0.2s',
                   }}
-                  onMouseEnter={e => !isSubmitting && (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseEnter={e => !isSubmitting && (e.currentTarget.style.backgroundColor = '#15803d')}
                   onMouseLeave={e => !isSubmitting && (e.currentTarget.style.backgroundColor = rust)}
                 >
                   {isSubmitting ? (
                     <>
-                      <span style={{ width: '14px', height: '14px', border: `2px solid rgba(245,240,232,0.3)`, borderTopColor: cream, borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
+                      <span style={{ width: '14px', height: '14px', border: `2px solid rgba(240,253,244,0.3)`, borderTopColor: cream, borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
                       Sending…
                     </>
                   ) : 'Send Message →'}
@@ -289,7 +289,7 @@ export default function ContactPage() {
               </div>
 
               {/* Office hours */}
-              <div style={{ borderTop: `3px solid #C4B49A`, backgroundColor: '#fff', padding: '1.75rem' }}>
+              <div style={{ borderTop: `3px solid #86efac`, backgroundColor: '#fff', padding: '1.75rem' }}>
                 <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
                   Office Hours
                 </p>
@@ -299,8 +299,8 @@ export default function ContactPage() {
                   ['Tech Support',     'Mon–Sun 6AM–2AM'],
                   ['Office Visits',    'Mon–Fri 8AM–6PM'],
                 ].map(([dept, hours]) => (
-                  <div key={dept} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: '0.6rem', marginBottom: '0.6rem', borderBottom: `1px solid rgba(10,16,32,0.08)` }}>
-                    <span style={{ fontFamily: lora, fontSize: '0.85rem', color: '#5A4E44' }}>{dept}</span>
+                  <div key={dept} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', paddingBottom: '0.6rem', marginBottom: '0.6rem', borderBottom: `1px solid rgba(3,7,18,0.08)` }}>
+                    <span style={{ fontFamily: lora, fontSize: '0.85rem', color: '#374151' }}>{dept}</span>
                     <span style={{ fontFamily: mono, fontSize: '0.68rem', color: navy, letterSpacing: '0.05em' }}>{hours}</span>
                   </div>
                 ))}
@@ -309,9 +309,9 @@ export default function ContactPage() {
               {/* Email CTA */}
               <a
                 href="mailto:support@greensphereservices.com"
-                style={{ display: 'block', borderTop: `3px solid ${rust}`, backgroundColor: '#F5F0E8', border: `1.5px solid #C4B49A`, padding: '1.5rem', textDecoration: 'none' }}
+                style={{ display: 'block', borderTop: `3px solid ${rust}`, backgroundColor: '#f0fdf4', border: `1.5px solid #86efac`, padding: '1.5rem', textDecoration: 'none' }}
                 onMouseEnter={e => (e.currentTarget.style.borderColor = rust)}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '#C4B49A')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = '#86efac')}
               >
                 <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.4rem' }}>Email Direct</p>
                 <p style={{ fontFamily: lora, fontSize: '0.85rem', color: navy }}>support@greensphereservices.com</p>
@@ -359,7 +359,7 @@ export default function ContactPage() {
                 fill
                 style={{ objectFit: 'cover' }}
               />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(13,27,62,0.6) 0%, transparent 60%)' }} />
+              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(17,24,39,0.6) 0%, transparent 60%)' }} />
               <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem' }}>
                 <span style={{ display: 'inline-block', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', padding: '4px 10px' }}>
                   ◆ Our Location
@@ -385,7 +385,7 @@ export default function ContactPage() {
                 <div key={label} style={{ borderLeft: `3px solid ${rust}`, paddingLeft: '1.25rem' }}>
                   <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.5rem' }}>{label}</p>
                   {lines.map((line, j) => (
-                    <p key={j} style={{ fontFamily: lora, fontSize: '0.875rem', color: line.startsWith('*') ? 'rgba(245,240,232,0.4)' : muted, lineHeight: 1.7 }}>{line}</p>
+                    <p key={j} style={{ fontFamily: lora, fontSize: '0.875rem', color: line.startsWith('*') ? 'rgba(240,253,244,0.4)' : muted, lineHeight: 1.7 }}>{line}</p>
                   ))}
                 </div>
               ))}

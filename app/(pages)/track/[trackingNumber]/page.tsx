@@ -16,11 +16,11 @@ import TrackingMap from '@/components/TrackingMap';
 import Image from 'next/image';
 
 /* ── shared token helpers ──────────────────────────────────────── */
-const cream = '#F5F0E8';
-const navy  = '#0D1B3E';
-const rust  = '#C4713B';
-const muted = 'rgba(245,240,232,0.55)';
-const border = 'rgba(245,240,232,0.1)';
+const cream = '#f0fdf4';
+const navy  = '#111827';
+const rust  = '#16a34a';
+const muted = 'rgba(240,253,244,0.55)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -116,7 +116,7 @@ export default function TrackingPage() {
   const paymentStatusTag = (status: string) => {
     const map: Record<string, [string, string]> = {
       pending:  ['#B87A00', '#FFF8E1'],
-      paid:     ['#1E2D1A', '#8BC34A'],
+      paid:     ['#14532d', '#22c55e'],
       failed:   ['#5C1A1A', '#FF8A80'],
       refunded: [navy,      muted as string],
     };
@@ -169,13 +169,13 @@ export default function TrackingPage() {
   const paymentStatus = shipment.payment?.status || 'pending';
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#0A1020', color: cream }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#030712', color: cream }}>
 
       {/* ── sticky header ── */}
       <header
         style={{
           position: 'sticky', top: 0, zIndex: 40,
-          backgroundColor: 'rgba(13,27,62,0.97)',
+          backgroundColor: 'rgba(17,24,39,0.97)',
           backdropFilter: 'blur(10px)',
           borderBottom: `1px solid ${border}`,
         }}
@@ -220,7 +220,7 @@ export default function TrackingPage() {
             <button
               onClick={() => setShowPaymentModal(true)}
               style={{ backgroundColor: rust, color: cream, border: 'none', padding: '0.75rem 1.75rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
             >
               Make Payment →
@@ -235,15 +235,15 @@ export default function TrackingPage() {
               <div key={step.key} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', position: 'relative' }}>
                 {/* connector line */}
                 {i < progressSteps.length - 1 && (
-                  <div style={{ position: 'absolute', top: '14px', left: '50%', width: '100%', height: '2px', backgroundColor: step.completed ? rust : 'rgba(245,240,232,0.12)', zIndex: 0 }} />
+                  <div style={{ position: 'absolute', top: '14px', left: '50%', width: '100%', height: '2px', backgroundColor: step.completed ? rust : 'rgba(240,253,244,0.12)', zIndex: 0 }} />
                 )}
                 {/* dot */}
                 <div style={{
                   position: 'relative', zIndex: 1,
                   width: '28px', height: '28px',
                   borderRadius: '50%',
-                  backgroundColor: step.completed ? rust : 'rgba(245,240,232,0.08)',
-                  border: `2px solid ${step.completed ? rust : 'rgba(245,240,232,0.2)'}`,
+                  backgroundColor: step.completed ? rust : 'rgba(240,253,244,0.08)',
+                  border: `2px solid ${step.completed ? rust : 'rgba(240,253,244,0.2)'}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   {step.completed && <span style={{ color: cream, fontSize: '0.6rem' }}>✓</span>}
@@ -311,7 +311,7 @@ export default function TrackingPage() {
                 ].map(([label, value], i) => (
                   <div
                     key={i}
-                    style={{ padding: '1rem', borderRight: '1px solid rgba(245,240,232,0.08)', borderBottom: '1px solid rgba(245,240,232,0.08)' }}
+                    style={{ padding: '1rem', borderRight: '1px solid rgba(240,253,244,0.08)', borderBottom: '1px solid rgba(240,253,244,0.08)' }}
                   >
                     <p style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '0.3rem' }}>{label}</p>
                     <p style={{ fontFamily: lora, fontSize: '0.9rem', color: cream }}>{value}</p>
@@ -320,7 +320,7 @@ export default function TrackingPage() {
               </div>
 
               {/* Images */}
-              <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(245,240,232,0.08)' }}>
+              <div style={{ marginTop: '1.5rem', paddingTop: '1.5rem', borderTop: '1px solid rgba(240,253,244,0.08)' }}>
                 <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: rust, marginBottom: '1rem' }}>
                   Package Images
                 </p>
@@ -336,7 +336,7 @@ export default function TrackingPage() {
                           onError={(e) => { e.currentTarget.src = '/images/delivery.jpg'; }}
                         />
                         {image.description && (
-                          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(10,16,32,0.82)', opacity: 0, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem' }}
+                          <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(3,7,18,0.82)', opacity: 0, transition: 'opacity 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem' }}
                             onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
                             onMouseLeave={e => (e.currentTarget.style.opacity = '0')}
                           >
@@ -365,7 +365,7 @@ export default function TrackingPage() {
                   {shipment.tracking.map((event: any, index: number) => (
                     <div
                       key={index}
-                      style={{ display: 'flex', gap: '1rem', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(245,240,232,0.07)', marginBottom: '1.25rem' }}
+                      style={{ display: 'flex', gap: '1rem', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(240,253,244,0.07)', marginBottom: '1.25rem' }}
                     >
                       <div style={{ flexShrink: 0, paddingTop: '0.35rem' }}>
                         <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: rust }} />
@@ -419,7 +419,7 @@ export default function TrackingPage() {
                   <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: rust, marginBottom: '0.6rem' }}>Accepted Methods</p>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem' }}>
                     {shipment.payment.allowedMethods.map((m: string) => (
-                      <span key={m} style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: `1px solid rgba(196,113,59,0.4)`, color: muted, padding: '2px 8px' }}>
+                      <span key={m} style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.1em', textTransform: 'uppercase', border: `1px solid rgba(22,163,74,0.4)`, color: muted, padding: '2px 8px' }}>
                         {m}
                       </span>
                     ))}
@@ -445,7 +445,7 @@ export default function TrackingPage() {
                   <button
                     onClick={() => setShowPaymentModal(true)}
                     style={{ marginTop: '1rem', width: '100%', backgroundColor: rust, color: cream, border: 'none', padding: '0.875rem', fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', cursor: 'pointer' }}
-                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                    onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
                     onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
                   >
                     Pay Now →
@@ -465,14 +465,14 @@ export default function TrackingPage() {
                 <Link
                   href="/support"
                   style={{ display: 'block', textAlign: 'center', padding: '0.75rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
-                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
                   onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
                 >
                   Contact Support
                 </Link>
                 <Link
                   href="/"
-                  style={{ display: 'block', textAlign: 'center', padding: '0.75rem', border: `1.5px solid rgba(245,240,232,0.2)`, color: muted, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+                  style={{ display: 'block', textAlign: 'center', padding: '0.75rem', border: `1.5px solid rgba(240,253,244,0.2)`, color: muted, fontFamily: mono, fontSize: '0.68rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
                   onMouseEnter={e => (e.currentTarget.style.color = cream)}
                   onMouseLeave={e => (e.currentTarget.style.color = muted as string)}
                 >

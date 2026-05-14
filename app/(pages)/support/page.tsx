@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -70,7 +70,7 @@ export default function SupportPage() {
     .filter(cat => cat.questions.length > 0);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: navy }}>
 
       {/* ── HERO ── */}
       <section className="relative" style={{ minHeight: '65vh', display: 'flex', alignItems: 'flex-end', overflow: 'hidden' }}>
@@ -82,11 +82,11 @@ export default function SupportPage() {
             className="object-cover object-center"
             priority
           />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.25) 0%, rgba(10,16,32,0.88) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(3,7,18,0.25) 0%, rgba(3,7,18,0.88) 100%)' }} />
         </div>
 
-        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.1)`, backgroundColor: 'rgba(13,27,62,0.65)', backdropFilter: 'blur(6px)' }}>
-          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(245,240,232,0.45)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
+        <div className="absolute top-0 left-0 right-0 z-20" style={{ borderBottom: `1px solid rgba(255,255,255,0.1)`, backgroundColor: 'rgba(17,24,39,0.65)', backdropFilter: 'blur(6px)' }}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-12 py-2.5 flex gap-8 text-xs" style={{ fontFamily: mono, color: 'rgba(240,253,244,0.45)', letterSpacing: '0.18em', textTransform: 'uppercase' }}>
             <span>Green Sphere Services</span>
             <span style={{ color: rust }}>◆</span>
             <span>Help Centre</span>
@@ -104,7 +104,7 @@ export default function SupportPage() {
             </div>
             {/* Search */}
             <div>
-              <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.5)', marginBottom: '0.6rem' }}>
+              <label style={{ display: 'block', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(240,253,244,0.5)', marginBottom: '0.6rem' }}>
                 Search the knowledge base
               </label>
               <div style={{ position: 'relative' }}>
@@ -116,8 +116,8 @@ export default function SupportPage() {
                   style={{
                     width: '100%',
                     padding: '0.875rem 1rem 0.875rem 1rem',
-                    backgroundColor: 'rgba(245,240,232,0.08)',
-                    border: `1.5px solid rgba(245,240,232,0.25)`,
+                    backgroundColor: 'rgba(240,253,244,0.08)',
+                    border: `1.5px solid rgba(240,253,244,0.25)`,
                     color: cream,
                     fontFamily: lora,
                     fontSize: '0.9rem',
@@ -125,12 +125,12 @@ export default function SupportPage() {
                     boxSizing: 'border-box',
                   }}
                   onFocus={e => (e.currentTarget.style.borderColor = rust)}
-                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.25)')}
+                  onBlur={e => (e.currentTarget.style.borderColor = 'rgba(240,253,244,0.25)')}
                 />
                 {searchQuery && (
                   <button
                     onClick={() => setSearchQuery('')}
-                    style={{ position: 'absolute', right: '0.875rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'rgba(245,240,232,0.5)', cursor: 'pointer', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
+                    style={{ position: 'absolute', right: '0.875rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', color: 'rgba(240,253,244,0.5)', cursor: 'pointer', fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.1em', textTransform: 'uppercase' }}
                   >
                     Clear
                   </button>
@@ -162,7 +162,7 @@ export default function SupportPage() {
                   textDecoration: 'none',
                   transition: 'background-color 0.2s',
                 }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(196,113,59,0.08)')}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = 'rgba(22,163,74,0.08)')}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = 'transparent')}
               >
                 <span style={{ fontSize: '1.4rem', display: 'block', marginBottom: '0.6rem' }}>{action.icon}</span>
@@ -175,16 +175,16 @@ export default function SupportPage() {
       </section>
 
       {/* ── SUPPORT CHANNELS ── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
+          <div style={{ borderBottom: `1px solid #86efac`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}>
             <SectionLabel>Contact Us</SectionLabel>
             <h2 style={{ fontFamily: serif, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', color: navy, lineHeight: 1.1 }}>
               Ways to reach our team
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0" style={{ backgroundColor: '#C4B49A' }}>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-0" style={{ backgroundColor: '#86efac' }}>
             {[
               {
                 label: 'Phone',
@@ -221,11 +221,11 @@ export default function SupportPage() {
             ].map((ch, i) => (
               <div
                 key={i}
-                style={{ backgroundColor: '#F5F0E8', padding: '2rem', borderBottom: '1px solid #C4B49A', marginBottom: '1px', marginRight: '1px' }}
+                style={{ backgroundColor: '#f0fdf4', padding: '2rem', borderBottom: '1px solid #86efac', marginBottom: '1px', marginRight: '1px' }}
               >
                 <p style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: rust, marginBottom: '0.5rem' }}>{ch.label}</p>
                 <h3 style={{ fontFamily: serif, fontSize: '1.1rem', color: navy, marginBottom: '0.4rem' }}>{ch.heading}</h3>
-                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: '#5A4E44', lineHeight: 1.65, marginBottom: '1.25rem' }}>{ch.desc}</p>
+                <p style={{ fontFamily: lora, fontSize: '0.85rem', color: '#374151', lineHeight: 1.65, marginBottom: '1.25rem' }}>{ch.desc}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
                   {[['Contact', ch.contact], ['Hours', ch.hours], ['Response', ch.response]].map(([k, v]) => (
                     <div key={k} style={{ display: 'flex', gap: '0.5rem', alignItems: 'baseline' }}>
@@ -320,29 +320,29 @@ export default function SupportPage() {
       </section>
 
       {/* ── SYSTEM STATUS ── */}
-      <section className="py-16" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-16" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div style={{ borderTop: `4px solid ${rust}`, backgroundColor: '#fff', padding: '2rem 2.5rem' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(10,16,32,0.1)' }}>
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: '1.5rem', marginBottom: '2rem', paddingBottom: '1.5rem', borderBottom: '1px solid rgba(3,7,18,0.1)' }}>
               <div>
                 <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, marginBottom: '0.35rem' }}>System Status</p>
                 <h3 style={{ fontFamily: serif, fontSize: '1.35rem', color: navy }}>All Systems Operational</h3>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-                <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#4CAF50' }} />
-                <span style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#4CAF50' }}>Live</span>
+                <span style={{ display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#16a34a' }} />
+                <span style={{ fontFamily: mono, fontSize: '0.7rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#16a34a' }}>Live</span>
               </div>
             </div>
-            <div className="grid md:grid-cols-3 gap-0" style={{ borderLeft: '1px solid rgba(10,16,32,0.1)' }}>
+            <div className="grid md:grid-cols-3 gap-0" style={{ borderLeft: '1px solid rgba(3,7,18,0.1)' }}>
               {[
                 { value: '99.9%', label: 'Platform Uptime', sub: 'Last 90 days' },
                 { value: '<2 min', label: 'Avg. Response', sub: 'Support team' },
                 { value: '24 / 7', label: 'Availability', sub: 'All services' },
               ].map((s, i) => (
-                <div key={i} style={{ padding: '1.25rem 2rem', borderRight: '1px solid rgba(10,16,32,0.1)', textAlign: 'center' }}>
+                <div key={i} style={{ padding: '1.25rem 2rem', borderRight: '1px solid rgba(3,7,18,0.1)', textAlign: 'center' }}>
                   <div style={{ fontFamily: serif, fontSize: '1.75rem', color: rust, marginBottom: '0.25rem' }}>{s.value}</div>
                   <div style={{ fontFamily: lora, fontSize: '0.875rem', color: navy, marginBottom: '0.15rem' }}>{s.label}</div>
-                  <div style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#9E8E7E' }}>{s.sub}</div>
+                  <div style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: '#6b7280' }}>{s.sub}</div>
                 </div>
               ))}
             </div>
@@ -370,14 +370,14 @@ export default function SupportPage() {
               <Link
                 href="/contact"
                 style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
               >
                 Contact Support
               </Link>
               <a
                 href="tel:+15551234747"
-                style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2rem', border: `1.5px solid rgba(245,240,232,0.3)`, color: muted, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+                style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2rem', border: `1.5px solid rgba(240,253,244,0.3)`, color: muted, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
                 onMouseEnter={e => (e.currentTarget.style.color = cream)}
                 onMouseLeave={e => (e.currentTarget.style.color = muted as string)}
               >

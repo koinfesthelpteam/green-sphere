@@ -32,8 +32,8 @@ export default function Navbar() {
   ];
 
   const navBg = scrolled
-    ? 'rgba(13,27,62,0.97)'
-    : 'rgba(13,27,62,0.72)';
+    ? 'rgba(17,24,39,0.97)'
+    : 'rgba(17,24,39,0.72)';
 
   return (
     <header
@@ -42,14 +42,14 @@ export default function Navbar() {
         backgroundColor: navBg,
         backdropFilter: 'blur(10px)',
         borderBottom: scrolled
-          ? '1px solid rgba(196,113,59,0.4)'
-          : '1px solid rgba(245,240,232,0.1)',
+          ? '1px solid rgba(22,163,74,0.4)'
+          : '1px solid rgba(240,253,244,0.1)',
       }}
     >
       {/* Top manifest strip */}
       <div
         style={{
-          backgroundColor: '#C4713B',
+          backgroundColor: '#16a34a',
           borderBottom: 'none',
           padding: '3px 0',
           textAlign: 'center',
@@ -60,7 +60,7 @@ export default function Navbar() {
             fontFamily: "'Courier New', monospace",
             fontSize: '0.65rem',
             letterSpacing: '0.22em',
-            color: '#F5F0E8',
+            color: '#f0fdf4',
             textTransform: 'uppercase',
             margin: 0,
           }}
@@ -97,21 +97,21 @@ export default function Navbar() {
                     letterSpacing: '0.12em',
                     textTransform: 'uppercase',
                     fontSize: '0.72rem',
-                    color: isActive ? '#C4713B' : 'rgba(245,240,232,0.75)',
+                    color: isActive ? '#16a34a' : 'rgba(240,253,244,0.75)',
                     textDecoration: 'none',
                   }}
                   onMouseEnter={(e) =>
-                    !isActive && (e.currentTarget.style.color = '#F5F0E8')
+                    !isActive && (e.currentTarget.style.color = '#f0fdf4')
                   }
                   onMouseLeave={(e) =>
-                    !isActive && (e.currentTarget.style.color = 'rgba(245,240,232,0.75)')
+                    !isActive && (e.currentTarget.style.color = 'rgba(240,253,244,0.75)')
                   }
                 >
                   {item.name}
                   {isActive && (
                     <span
                       className="absolute bottom-0 left-4 right-4 h-px"
-                      style={{ backgroundColor: '#C4713B' }}
+                      style={{ backgroundColor: '#16a34a' }}
                     />
                   )}
                 </Link>
@@ -128,15 +128,15 @@ export default function Navbar() {
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                backgroundColor: '#C4713B',
-                color: '#F5F0E8',
+                backgroundColor: '#16a34a',
+                color: '#f0fdf4',
                 textDecoration: 'none',
               }}
               onMouseEnter={(e) =>
-                (e.currentTarget.style.backgroundColor = '#A85D2E')
+                (e.currentTarget.style.backgroundColor = '#15803d')
               }
               onMouseLeave={(e) =>
-                (e.currentTarget.style.backgroundColor = '#C4713B')
+                (e.currentTarget.style.backgroundColor = '#16a34a')
               }
             >
               Get a Quote
@@ -151,21 +151,21 @@ export default function Navbar() {
               <span
                 className="block w-6 h-px transition-all duration-200"
                 style={{
-                  backgroundColor: '#F5F0E8',
+                  backgroundColor: '#f0fdf4',
                   transform: isOpen ? 'rotate(45deg) translate(3px, 3px)' : 'none',
                 }}
               />
               <span
                 className="block w-6 h-px transition-all duration-200"
                 style={{
-                  backgroundColor: '#F5F0E8',
+                  backgroundColor: '#f0fdf4',
                   opacity: isOpen ? 0 : 1,
                 }}
               />
               <span
                 className="block w-6 h-px transition-all duration-200"
                 style={{
-                  backgroundColor: '#F5F0E8',
+                  backgroundColor: '#f0fdf4',
                   transform: isOpen ? 'rotate(-45deg) translate(3px, -3px)' : 'none',
                 }}
               />
@@ -179,8 +179,8 @@ export default function Navbar() {
         className="md:hidden overflow-hidden transition-all duration-300"
         style={{
           maxHeight: isOpen ? '400px' : '0',
-          backgroundColor: '#0D1B3E',
-          borderTop: isOpen ? '1px solid rgba(196,113,59,0.3)' : 'none',
+          backgroundColor: '#111827',
+          borderTop: isOpen ? '1px solid rgba(22,163,74,0.3)' : 'none',
         }}
       >
         <nav className="px-6 py-5 flex flex-col gap-1">
@@ -197,8 +197,8 @@ export default function Navbar() {
                   letterSpacing: '0.15em',
                   textTransform: 'uppercase',
                   fontSize: '0.75rem',
-                  color: isActive ? '#C4713B' : 'rgba(245,240,232,0.7)',
-                  borderBottom: '1px solid rgba(245,240,232,0.07)',
+                  color: isActive ? '#16a34a' : 'rgba(240,253,244,0.7)',
+                  borderBottom: '1px solid rgba(240,253,244,0.07)',
                   textDecoration: 'none',
                 }}
               >
@@ -214,8 +214,8 @@ export default function Navbar() {
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
-              backgroundColor: '#C4713B',
-              color: '#F5F0E8',
+              backgroundColor: '#16a34a',
+              color: '#f0fdf4',
               textDecoration: 'none',
             }}
           >

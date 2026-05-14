@@ -27,7 +27,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: '#1a1a1a' }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: '#111827' }}>
 
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section
@@ -52,7 +52,7 @@ export default function HomePage() {
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(to bottom, rgba(10,15,35,0.15) 0%, rgba(10,15,35,0.55) 50%, rgba(10,15,35,0.9) 100%)',
+                'linear-gradient(to bottom, rgba(3,7,18,0.15) 0%, rgba(3,7,18,0.55) 50%, rgba(3,7,18,0.9) 100%)',
             }}
           />
         </div>
@@ -66,7 +66,7 @@ export default function HomePage() {
               <p
                 className="text-xs tracking-widest uppercase mb-5"
                 style={{
-                  color: '#C4713B',
+                  color: '#16a34a',
                   fontFamily: "'Courier New', monospace",
                   letterSpacing: '0.2em',
                 }}
@@ -77,21 +77,21 @@ export default function HomePage() {
                 className="font-bold leading-none mb-6"
                 style={{
                   fontSize: 'clamp(3rem, 7vw, 4rem)',
-                  color: '#F5F0E8',
+                  color: '#f0fdf4',
                   fontFamily: "'Playfair Display', Georgia, serif",
                   lineHeight: 1.05,
                 }}
               >
                 Your Cargo,
                 <br />
-                <em style={{ fontStyle: 'italic', color: '#C4713B' }}>Tracked.</em>
+                <em style={{ fontStyle: 'italic', color: '#16a34a' }}>Tracked.</em>
                 <br />
                 Delivered.
               </h1>
               <p
                 className="text-lg leading-relaxed mb-0"
                 style={{
-                  color: 'rgba(245,240,232,0.72)',
+                  color: 'rgba(240,253,244,0.72)',
                   maxWidth: '42ch',
                   fontFamily: "'Lora', Georgia, serif",
                 }}
@@ -106,14 +106,14 @@ export default function HomePage() {
               <div
                 className="p-8"
                 style={{
-                  backgroundColor: '#F5F0E8',
-                  borderTop: '4px solid #C4713B',
+                  backgroundColor: '#f0fdf4',
+                  borderTop: '4px solid #16a34a',
                 }}
               >
                 <p
                   className="text-xs tracking-widest uppercase mb-5"
                   style={{
-                    color: '#6B6255',
+                    color: '#4b7c59',
                     fontFamily: "'Courier New', monospace",
                     letterSpacing: '0.18em',
                   }}
@@ -124,7 +124,7 @@ export default function HomePage() {
                   <div>
                     <label
                       className="block text-sm font-medium mb-2"
-                      style={{ color: '#1a1a1a', fontFamily: "'Lora', Georgia, serif" }}
+                      style={{ color: '#111827', fontFamily: "'Lora', Georgia, serif" }}
                     >
                       Tracking Reference
                     </label>
@@ -136,16 +136,16 @@ export default function HomePage() {
                       className="w-full px-4 py-3.5 text-base outline-none transition-all"
                       style={{
                         backgroundColor: 'transparent',
-                        border: '1.5px solid #C4B49A',
-                        color: '#1a1a1a',
+                        border: '1.5px solid #86efac',
+                        color: '#111827',
                         fontFamily: "'Courier New', monospace",
                         letterSpacing: '0.05em',
                       }}
                       onFocus={(e) =>
-                        (e.currentTarget.style.borderColor = '#C4713B')
+                        (e.currentTarget.style.borderColor = '#16a34a')
                       }
                       onBlur={(e) =>
-                        (e.currentTarget.style.borderColor = '#C4B49A')
+                        (e.currentTarget.style.borderColor = '#86efac')
                       }
                     />
                   </div>
@@ -153,16 +153,16 @@ export default function HomePage() {
                     type="submit"
                     className="w-full py-3.5 text-sm font-semibold tracking-widest uppercase transition-all duration-200"
                     style={{
-                      backgroundColor: '#0D1B3E',
-                      color: '#F5F0E8',
+                      backgroundColor: '#111827',
+                      color: '#f0fdf4',
                       fontFamily: "'Courier New', monospace",
                       letterSpacing: '0.18em',
                     }}
                     onMouseEnter={(e) =>
-                      (e.currentTarget.style.backgroundColor = '#C4713B')
+                      (e.currentTarget.style.backgroundColor = '#16a34a')
                     }
                     onMouseLeave={(e) =>
-                      (e.currentTarget.style.backgroundColor = '#0D1B3E')
+                      (e.currentTarget.style.backgroundColor = '#111827')
                     }
                   >
                     Track Shipment →
@@ -171,8 +171,8 @@ export default function HomePage() {
                 <div
                   className="mt-5 pt-5 flex items-center gap-6 text-xs"
                   style={{
-                    borderTop: '1px solid #C4B49A',
-                    color: '#6B6255',
+                    borderTop: '1px solid #86efac',
+                    color: '#4b7c59',
                     fontFamily: "'Courier New', monospace",
                   }}
                 >
@@ -189,8 +189,8 @@ export default function HomePage() {
       {/* ── STATS BAR ────────────────────────────────────────────────── */}
       <section
         style={{
-          backgroundColor: '#0D1B3E',
-          borderTop: '4px solid #C4713B',
+          backgroundColor: '#111827',
+          borderTop: '4px solid #16a34a',
         }}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -210,7 +210,7 @@ export default function HomePage() {
                   className="font-bold mb-1"
                   style={{
                     fontSize: '2rem',
-                    color: '#C4713B',
+                    color: '#16a34a',
                     fontFamily: "'Playfair Display', Georgia, serif",
                   }}
                 >
@@ -218,14 +218,14 @@ export default function HomePage() {
                 </div>
                 <div
                   className="text-sm font-medium mb-0.5"
-                  style={{ color: '#F5F0E8', fontFamily: "'Lora', Georgia, serif" }}
+                  style={{ color: '#f0fdf4', fontFamily: "'Lora', Georgia, serif" }}
                 >
                   {stat.label}
                 </div>
                 <div
                   className="text-xs"
                   style={{
-                    color: 'rgba(245,240,232,0.45)',
+                    color: 'rgba(240,253,244,0.45)',
                     fontFamily: "'Courier New', monospace",
                   }}
                 >
@@ -238,15 +238,15 @@ export default function HomePage() {
       </section>
 
       {/* ── SERVICES ─────────────────────────────────────────────────── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
           {/* Section heading */}
-          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid #C4B49A', paddingBottom: '1.5rem' }}>
+          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid #86efac', paddingBottom: '1.5rem' }}>
             <p
               className="text-xs tracking-widest uppercase"
               style={{
-                color: '#C4713B',
+                color: '#16a34a',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.2em',
                 whiteSpace: 'nowrap',
@@ -258,7 +258,7 @@ export default function HomePage() {
               className="font-bold"
               style={{
                 fontSize: 'clamp(1.75rem, 4vw, 3rem)',
-                color: '#0D1B3E',
+                color: '#111827',
                 fontFamily: "'Playfair Display', Georgia, serif",
                 lineHeight: 1.1,
               }}
@@ -268,11 +268,11 @@ export default function HomePage() {
           </div>
 
           {/* Services grid - editorial magazine layout */}
-          <div className="grid md:grid-cols-2 gap-0.5" style={{ backgroundColor: '#C4B49A' }}>
+          <div className="grid md:grid-cols-2 gap-0.5" style={{ backgroundColor: '#86efac' }}>
             {/* Large feature - Sea Freight */}
             <div
               className="relative overflow-hidden group md:row-span-2"
-              style={{ minHeight: '520px', backgroundColor: '#F5F0E8' }}
+              style={{ minHeight: '520px', backgroundColor: '#f0fdf4' }}
             >
               <Image
                 src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=900&h=800&fit=crop&auto=format"
@@ -284,15 +284,15 @@ export default function HomePage() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(10,15,35,0.9) 0%, rgba(10,15,35,0.3) 60%, transparent 100%)',
+                    'linear-gradient(to top, rgba(3,7,18,0.9) 0%, rgba(3,7,18,0.3) 60%, transparent 100%)',
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 p-8">
                 <span
                   className="inline-block text-xs tracking-widest uppercase mb-3 px-2.5 py-1"
                   style={{
-                    color: '#F5F0E8',
-                    backgroundColor: '#C4713B',
+                    color: '#f0fdf4',
+                    backgroundColor: '#16a34a',
                     fontFamily: "'Courier New', monospace",
                     letterSpacing: '0.15em',
                   }}
@@ -301,13 +301,13 @@ export default function HomePage() {
                 </span>
                 <h3
                   className="font-bold text-2xl mb-2"
-                  style={{ color: '#F5F0E8', fontFamily: "'Playfair Display', Georgia, serif" }}
+                  style={{ color: '#f0fdf4', fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Ocean & Container Shipping
                 </h3>
                 <p
                   className="text-sm leading-relaxed"
-                  style={{ color: 'rgba(245,240,232,0.75)', fontFamily: "'Lora', Georgia, serif" }}
+                  style={{ color: 'rgba(240,253,244,0.75)', fontFamily: "'Lora', Georgia, serif" }}
                 >
                   Full container loads (FCL) and less-than-container (LCL) services across
                   major global trade lanes. Real-time vessel tracking included.
@@ -318,7 +318,7 @@ export default function HomePage() {
             {/* Air Freight */}
             <div
               className="relative overflow-hidden group"
-              style={{ minHeight: '255px', backgroundColor: '#F5F0E8' }}
+              style={{ minHeight: '255px', backgroundColor: '#f0fdf4' }}
             >
               <Image
                 src="https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&h=500&fit=crop&auto=format"
@@ -330,15 +330,15 @@ export default function HomePage() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(10,15,35,0.85) 0%, rgba(10,15,35,0.2) 70%, transparent 100%)',
+                    'linear-gradient(to top, rgba(3,7,18,0.85) 0%, rgba(3,7,18,0.2) 70%, transparent 100%)',
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span
                   className="inline-block text-xs tracking-widest uppercase mb-2 px-2.5 py-1"
                   style={{
-                    color: '#F5F0E8',
-                    backgroundColor: '#0D1B3E',
+                    color: '#f0fdf4',
+                    backgroundColor: '#111827',
                     fontFamily: "'Courier New', monospace",
                     letterSpacing: '0.15em',
                   }}
@@ -347,7 +347,7 @@ export default function HomePage() {
                 </span>
                 <h3
                   className="font-bold text-xl"
-                  style={{ color: '#F5F0E8', fontFamily: "'Playfair Display', Georgia, serif" }}
+                  style={{ color: '#f0fdf4', fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Express Air Cargo
                 </h3>
@@ -357,7 +357,7 @@ export default function HomePage() {
             {/* Road & Rail */}
             <div
               className="relative overflow-hidden group"
-              style={{ minHeight: '255px', backgroundColor: '#F5F0E8' }}
+              style={{ minHeight: '255px', backgroundColor: '#f0fdf4' }}
             >
               <Image
                 src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800&h=500&fit=crop&auto=format"
@@ -369,15 +369,15 @@ export default function HomePage() {
                 className="absolute inset-0"
                 style={{
                   background:
-                    'linear-gradient(to top, rgba(10,15,35,0.85) 0%, rgba(10,15,35,0.2) 70%, transparent 100%)',
+                    'linear-gradient(to top, rgba(3,7,18,0.85) 0%, rgba(3,7,18,0.2) 70%, transparent 100%)',
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 p-6">
                 <span
                   className="inline-block text-xs tracking-widest uppercase mb-2 px-2.5 py-1"
                   style={{
-                    color: '#F5F0E8',
-                    backgroundColor: '#0D1B3E',
+                    color: '#f0fdf4',
+                    backgroundColor: '#111827',
                     fontFamily: "'Courier New', monospace",
                     letterSpacing: '0.15em',
                   }}
@@ -386,7 +386,7 @@ export default function HomePage() {
                 </span>
                 <h3
                   className="font-bold text-xl"
-                  style={{ color: '#F5F0E8', fontFamily: "'Playfair Display', Georgia, serif" }}
+                  style={{ color: '#f0fdf4', fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   Land Transport & Haulage
                 </h3>
@@ -397,14 +397,14 @@ export default function HomePage() {
       </section>
 
       {/* ── HOW IT WORKS ─────────────────────────────────────────────── */}
-      <section className="py-24" style={{ backgroundColor: '#0D1B3E' }}>
+      <section className="py-24" style={{ backgroundColor: '#111827' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
-          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid rgba(196,181,154,0.25)', paddingBottom: '1.5rem' }}>
+          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid rgba(134,239,172,0.25)', paddingBottom: '1.5rem' }}>
             <p
               className="text-xs tracking-widest uppercase"
               style={{
-                color: '#C4713B',
+                color: '#16a34a',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.2em',
                 whiteSpace: 'nowrap',
@@ -416,7 +416,7 @@ export default function HomePage() {
               className="font-bold"
               style={{
                 fontSize: 'clamp(1.75rem, 4vw, 3rem)',
-                color: '#F5F0E8',
+                color: '#f0fdf4',
                 fontFamily: "'Playfair Display', Georgia, serif",
                 lineHeight: 1.1,
               }}
@@ -429,7 +429,7 @@ export default function HomePage() {
             {/* Connector line */}
             <div
               className="hidden md:block absolute top-8 left-0 right-0 h-px"
-              style={{ backgroundColor: 'rgba(196,113,59,0.3)', top: '2.5rem' }}
+              style={{ backgroundColor: 'rgba(22,163,74,0.3)', top: '2.5rem' }}
             />
 
             {[
@@ -462,15 +462,15 @@ export default function HomePage() {
                 key={i}
                 className="relative p-6 group"
                 style={{
-                  borderRight: i < 3 ? '1px solid rgba(196,181,154,0.15)' : 'none',
+                  borderRight: i < 3 ? '1px solid rgba(134,239,172,0.15)' : 'none',
                 }}
               >
                 {/* Step number */}
                 <div
                   className="relative z-10 flex items-center justify-center w-10 h-10 mb-6 font-bold text-sm"
                   style={{
-                    backgroundColor: '#C4713B',
-                    color: '#F5F0E8',
+                    backgroundColor: '#16a34a',
+                    color: '#f0fdf4',
                     fontFamily: "'Courier New', monospace",
                   }}
                 >
@@ -487,20 +487,20 @@ export default function HomePage() {
                   />
                   <div
                     className="absolute inset-0"
-                    style={{ backgroundColor: 'rgba(13,27,62,0.25)' }}
+                    style={{ backgroundColor: 'rgba(17,24,39,0.25)' }}
                   />
                 </div>
 
                 <h3
                   className="font-bold text-lg mb-2"
-                  style={{ color: '#F5F0E8', fontFamily: "'Playfair Display', Georgia, serif" }}
+                  style={{ color: '#f0fdf4', fontFamily: "'Playfair Display', Georgia, serif" }}
                 >
                   {step.title}
                 </h3>
                 <p
                   className="text-sm leading-relaxed"
                   style={{
-                    color: 'rgba(245,240,232,0.6)',
+                    color: 'rgba(240,253,244,0.6)',
                     fontFamily: "'Lora', Georgia, serif",
                   }}
                 >
@@ -513,7 +513,7 @@ export default function HomePage() {
       </section>
 
       {/* ── ABOUT / PHOTO SPLIT ──────────────────────────────────────── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
 
@@ -550,7 +550,7 @@ export default function HomePage() {
               <p
                 className="text-xs tracking-widest uppercase mb-5"
                 style={{
-                  color: '#C4713B',
+                  color: '#16a34a',
                   fontFamily: "'Courier New', monospace",
                   letterSpacing: '0.2em',
                 }}
@@ -561,7 +561,7 @@ export default function HomePage() {
                 className="font-bold mb-6"
                 style={{
                   fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  color: '#0D1B3E',
+                  color: '#111827',
                   fontFamily: "'Playfair Display', Georgia, serif",
                   lineHeight: 1.15,
                 }}
@@ -572,7 +572,7 @@ export default function HomePage() {
               <div
                 className="space-y-4 mb-8"
                 style={{
-                  color: '#3D3530',
+                  color: '#1f2937',
                   fontFamily: "'Lora', Georgia, serif",
                   lineHeight: 1.8,
                   fontSize: '1.0rem',
@@ -603,11 +603,11 @@ export default function HomePage() {
                     key={i}
                     className="flex items-center gap-2 text-sm"
                     style={{
-                      color: '#3D3530',
+                      color: '#1f2937',
                       fontFamily: "'Courier New', monospace",
                     }}
                   >
-                    <span style={{ color: '#C4713B', fontSize: '0.6rem' }}>◆</span>
+                    <span style={{ color: '#16a34a', fontSize: '0.6rem' }}>◆</span>
                     {cred}
                   </div>
                 ))}
@@ -621,7 +621,7 @@ export default function HomePage() {
       <section
         className="py-20"
         style={{
-          backgroundColor: '#1E2D1A',
+          backgroundColor: '#14532d',
           backgroundImage:
             'repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255,255,255,0.04) 39px, rgba(255,255,255,0.04) 40px)',
         }}
@@ -632,7 +632,7 @@ export default function HomePage() {
               <p
                 className="text-xs tracking-widest uppercase mb-5"
                 style={{
-                  color: '#C4713B',
+                  color: '#16a34a',
                   fontFamily: "'Courier New', monospace",
                   letterSpacing: '0.2em',
                 }}
@@ -643,7 +643,7 @@ export default function HomePage() {
                 className="font-bold mb-6"
                 style={{
                   fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  color: '#F5F0E8',
+                  color: '#f0fdf4',
                   fontFamily: "'Playfair Display', Georgia, serif",
                   lineHeight: 1.15,
                 }}
@@ -653,7 +653,7 @@ export default function HomePage() {
               <p
                 className="mb-8 leading-relaxed"
                 style={{
-                  color: 'rgba(245,240,232,0.7)',
+                  color: 'rgba(240,253,244,0.7)',
                   fontFamily: "'Lora', Georgia, serif",
                   fontSize: '1rem',
                 }}
@@ -670,8 +670,8 @@ export default function HomePage() {
                       key={i}
                       className="px-4 py-2 text-sm"
                       style={{
-                        border: '1px solid rgba(196,113,59,0.5)',
-                        color: 'rgba(245,240,232,0.8)',
+                        border: '1px solid rgba(22,163,74,0.5)',
+                        color: 'rgba(240,253,244,0.8)',
                         fontFamily: "'Courier New', monospace",
                         fontSize: '0.75rem',
                         letterSpacing: '0.08em',
@@ -688,19 +688,19 @@ export default function HomePage() {
             <div
               className="p-8"
               style={{
-                backgroundColor: '#F5F0E8',
-                borderLeft: '4px solid #C4713B',
+                backgroundColor: '#f0fdf4',
+                borderLeft: '4px solid #16a34a',
               }}
             >
               <div
                 className="flex items-center justify-between mb-6 pb-4"
-                style={{ borderBottom: '1px solid #C4B49A' }}
+                style={{ borderBottom: '1px solid #86efac' }}
               >
                 <div>
                   <p
                     className="text-xs uppercase tracking-widest mb-0.5"
                     style={{
-                      color: '#6B6255',
+                      color: '#4b7c59',
                       fontFamily: "'Courier New', monospace",
                     }}
                   >
@@ -708,7 +708,7 @@ export default function HomePage() {
                   </p>
                   <p
                     className="font-bold text-lg"
-                    style={{ color: '#0D1B3E', fontFamily: "'Playfair Display', Georgia, serif" }}
+                    style={{ color: '#111827', fontFamily: "'Playfair Display', Georgia, serif" }}
                   >
                     GSS-2024-00847
                   </p>
@@ -716,8 +716,8 @@ export default function HomePage() {
                 <span
                   className="px-3 py-1 text-xs"
                   style={{
-                    backgroundColor: '#1E2D1A',
-                    color: '#8BC34A',
+                    backgroundColor: '#14532d',
+                    color: '#22c55e',
                     fontFamily: "'Courier New', monospace",
                   }}
                 >
@@ -736,11 +736,11 @@ export default function HomePage() {
                   <div
                     key={i}
                     className="flex items-center justify-between text-sm py-2"
-                    style={{ borderBottom: '1px solid rgba(196,181,154,0.4)' }}
+                    style={{ borderBottom: '1px solid rgba(134,239,172,0.4)' }}
                   >
                     <span
                       style={{
-                        color: '#6B6255',
+                        color: '#4b7c59',
                         fontFamily: "'Courier New', monospace",
                         fontSize: '0.72rem',
                         letterSpacing: '0.08em',
@@ -750,7 +750,7 @@ export default function HomePage() {
                     </span>
                     <span
                       style={{
-                        color: '#0D1B3E',
+                        color: '#111827',
                         fontFamily: "'Courier New', monospace",
                         fontSize: '0.8rem',
                         fontWeight: 600,
@@ -767,13 +767,13 @@ export default function HomePage() {
       </section>
 
       {/* ── TESTIMONIALS ─────────────────────────────────────────────── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid #C4B49A', paddingBottom: '1.5rem' }}>
+          <div className="flex items-baseline gap-8 mb-16" style={{ borderBottom: '1px solid #86efac', paddingBottom: '1.5rem' }}>
             <p
               className="text-xs tracking-widest uppercase"
               style={{
-                color: '#C4713B',
+                color: '#16a34a',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.2em',
                 whiteSpace: 'nowrap',
@@ -785,7 +785,7 @@ export default function HomePage() {
               className="font-bold"
               style={{
                 fontSize: 'clamp(1.5rem, 3.5vw, 2.5rem)',
-                color: '#0D1B3E',
+                color: '#111827',
                 fontFamily: "'Playfair Display', Georgia, serif",
               }}
             >
@@ -825,13 +825,13 @@ export default function HomePage() {
                 className="p-7"
                 style={{
                   backgroundColor: '#fff',
-                  borderTop: '3px solid #C4713B',
+                  borderTop: '3px solid #16a34a',
                 }}
               >
                 <p
                   className="text-base leading-relaxed mb-6"
                   style={{
-                    color: '#3D3530',
+                    color: '#1f2937',
                     fontFamily: "'Lora', Georgia, serif",
                     fontStyle: 'italic',
                   }}
@@ -845,14 +845,14 @@ export default function HomePage() {
                   <div>
                     <p
                       className="font-semibold text-sm"
-                      style={{ color: '#0D1B3E', fontFamily: "'Lora', Georgia, serif" }}
+                      style={{ color: '#111827', fontFamily: "'Lora', Georgia, serif" }}
                     >
                       {t.author}
                     </p>
                     <p
                       className="text-xs"
                       style={{
-                        color: '#6B6255',
+                        color: '#4b7c59',
                         fontFamily: "'Courier New', monospace",
                       }}
                     >
@@ -867,7 +867,7 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA ──────────────────────────────────────────────────────── */}
-      <section className="relative overflow-hidden" style={{ backgroundColor: '#0D1B3E' }}>
+      <section className="relative overflow-hidden" style={{ backgroundColor: '#111827' }}>
         <div className="absolute inset-0 z-0 opacity-20">
           <Image
             src="https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1920&h=400&fit=crop&auto=format"
@@ -878,14 +878,14 @@ export default function HomePage() {
         </div>
         <div
           className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20 flex flex-col md:flex-row items-center justify-between gap-10"
-          style={{ borderTop: '4px solid #C4713B' }}
+          style={{ borderTop: '4px solid #16a34a' }}
         >
           <div>
             <h2
               className="font-bold mb-3"
               style={{
                 fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                color: '#F5F0E8',
+                color: '#f0fdf4',
                 fontFamily: "'Playfair Display', Georgia, serif",
               }}
             >
@@ -893,7 +893,7 @@ export default function HomePage() {
             </h2>
             <p
               style={{
-                color: 'rgba(245,240,232,0.65)',
+                color: 'rgba(240,253,244,0.65)',
                 fontFamily: "'Lora', Georgia, serif",
                 maxWidth: '50ch',
               }}
@@ -907,14 +907,14 @@ export default function HomePage() {
               href="/contact"
               className="px-8 py-3.5 text-sm font-semibold text-center transition-all duration-200"
               style={{
-                backgroundColor: '#C4713B',
-                color: '#F5F0E8',
+                backgroundColor: '#16a34a',
+                color: '#f0fdf4',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.12em',
                 textDecoration: 'none',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#A85D2E')}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#C4713B')}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#15803d')}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#16a34a')}
             >
               Request a Quote
             </a>
@@ -923,14 +923,14 @@ export default function HomePage() {
               className="px-8 py-3.5 text-sm font-semibold text-center transition-all duration-200"
               style={{
                 backgroundColor: 'transparent',
-                border: '1.5px solid rgba(245,240,232,0.4)',
-                color: 'rgba(245,240,232,0.85)',
+                border: '1.5px solid rgba(240,253,244,0.4)',
+                color: 'rgba(240,253,244,0.85)',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.12em',
                 textDecoration: 'none',
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.8)')}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(245,240,232,0.4)')}
+              onMouseEnter={(e) => (e.currentTarget.style.borderColor = 'rgba(240,253,244,0.8)')}
+              onMouseLeave={(e) => (e.currentTarget.style.borderColor = 'rgba(240,253,244,0.4)')}
             >
               Contact Us
             </a>

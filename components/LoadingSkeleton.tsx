@@ -3,9 +3,9 @@
 import React from 'react';
 import Image from 'next/image';
 
-const cream = '#F5F0E8';
-const navy  = '#0D1B3E';
-const rust  = '#C4713B';
+const cream = '#f0fdf4';
+const navy  = '#111827';
+const rust  = '#16a34a';
 const mono  = "'Courier New', monospace";
 const serif = "'Playfair Display', Georgia, serif";
 const lora  = "'Lora', Georgia, serif";
@@ -51,7 +51,7 @@ export default function LoadingSkeleton() {
         <div style={{ position: 'relative', width: '48px', height: '48px', margin: '0 auto 2rem' }}>
           <div style={{
             width: '48px', height: '48px',
-            border: `2px solid rgba(245,240,232,0.1)`,
+            border: `2px solid rgba(240,253,244,0.1)`,
             borderTopColor: rust,
             borderRadius: '50%',
             animation: 'spin 0.9s linear infinite',
@@ -65,7 +65,7 @@ export default function LoadingSkeleton() {
           fontSize: '0.65rem',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
-          color: 'rgba(245,240,232,0.45)',
+          color: 'rgba(240,253,244,0.45)',
           marginBottom: '2.5rem',
         }}>
           Fetching Shipment Data…
@@ -90,17 +90,17 @@ export default function LoadingSkeleton() {
                 justifyContent: 'space-between',
                 alignItems: 'center',
                 padding: '0.7rem 1rem',
-                borderBottom: '1px solid rgba(245,240,232,0.07)',
+                borderBottom: '1px solid rgba(240,253,244,0.07)',
                 animationDelay: `${i * 0.18}s`,
               }}
             >
-              <div style={{ height: '8px', width: w, backgroundColor: 'rgba(196,113,59,0.35)', borderRadius: '1px' }} />
-              <div style={{ height: '8px', width: wb, backgroundColor: 'rgba(245,240,232,0.12)', borderRadius: '1px' }} />
+              <div style={{ height: '8px', width: w, backgroundColor: 'rgba(22,163,74,0.35)', borderRadius: '1px' }} />
+              <div style={{ height: '8px', width: wb, backgroundColor: 'rgba(240,253,244,0.12)', borderRadius: '1px' }} />
             </div>
           ))}
 
           {/* Progress bar shimmer */}
-          <div style={{ margin: '1.25rem 1rem 0', height: '2px', backgroundColor: 'rgba(245,240,232,0.08)', overflow: 'hidden' }}>
+          <div style={{ margin: '1.25rem 1rem 0', height: '2px', backgroundColor: 'rgba(240,253,244,0.08)', overflow: 'hidden' }}>
             <div
               className="gss-skeleton-fade"
               style={{ height: '100%', width: '60%', backgroundColor: rust, animationDelay: '0.6s' }}
@@ -119,7 +119,7 @@ export function SkeletonBox({ className = '', style }: { className?: string; sty
   return (
     <div
       className={className}
-      style={{ backgroundColor: 'rgba(196,113,59,0.15)', animation: 'shimmer 1.8s ease-in-out infinite', ...style }}
+      style={{ backgroundColor: 'rgba(22,163,74,0.15)', animation: 'shimmer 1.8s ease-in-out infinite', ...style }}
     />
   );
 }
@@ -133,7 +133,7 @@ export function SkeletonText({ lines = 1, className = '' }: { lines?: number; cl
           style={{
             height: '10px',
             width: i === lines - 1 ? '70%' : '100%',
-            backgroundColor: 'rgba(245,240,232,0.1)',
+            backgroundColor: 'rgba(240,253,244,0.1)',
             animation: `shimmer 1.8s ease-in-out ${i * 0.15}s infinite`,
           }}
         />

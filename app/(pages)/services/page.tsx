@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
-const cream  = '#F5F0E8';
-const navy   = '#0D1B3E';
-const rust   = '#C4713B';
-const muted  = 'rgba(245,240,232,0.6)';
-const border = 'rgba(245,240,232,0.1)';
+const cream  = '#f0fdf4';
+const navy   = '#111827';
+const rust   = '#16a34a';
+const muted  = 'rgba(240,253,244,0.6)';
+const border = 'rgba(240,253,244,0.1)';
 const serif  = "'Playfair Display', Georgia, serif";
 const lora   = "'Lora', Georgia, serif";
 const mono   = "'Courier New', monospace";
@@ -109,7 +109,7 @@ export default function ServicesPage() {
   const [active, setActive] = useState<number | null>(null);
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#F5F0E8', color: navy }}>
+    <div className="min-h-screen" style={{ backgroundColor: '#f0fdf4', color: navy }}>
 
       {/* ── HERO ── */}
       <section
@@ -126,7 +126,7 @@ export default function ServicesPage() {
           />
           <div
             className="absolute inset-0"
-            style={{ background: 'linear-gradient(to bottom, rgba(10,16,32,0.2) 0%, rgba(10,16,32,0.9) 100%)' }}
+            style={{ background: 'linear-gradient(to bottom, rgba(3,7,18,0.2) 0%, rgba(3,7,18,0.9) 100%)' }}
           />
         </div>
 
@@ -142,7 +142,7 @@ export default function ServicesPage() {
               </h1>
             </div>
             <div>
-              <p style={{ fontFamily: lora, fontSize: '1.05rem', color: 'rgba(245,240,232,0.72)', lineHeight: 1.8, maxWidth: '44ch' }}>
+              <p style={{ fontFamily: lora, fontSize: '1.05rem', color: 'rgba(240,253,244,0.72)', lineHeight: 1.8, maxWidth: '44ch' }}>
                 Comprehensive logistics across air, ocean, rail, and road networks — with customs
                 brokerage, warehousing, and real-time tracking included.
               </p>
@@ -155,7 +155,7 @@ export default function ServicesPage() {
       <section style={{ backgroundColor: navy, borderTop: `4px solid ${rust}`, borderBottom: `1px solid ${border}` }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-4 flex flex-wrap items-center gap-8">
           {['Ocean Freight', 'Air Freight', 'Road Haulage', 'Rail Freight', 'Multimodal', 'Specialised Cargo'].map((m, i) => (
-            <span key={i} className="flex items-center gap-2" style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.45)' }}>
+            <span key={i} className="flex items-center gap-2" style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'rgba(240,253,244,0.45)' }}>
               {i > 0 && <span style={{ color: rust, fontSize: '0.5rem' }}>◆</span>}
               {m}
             </span>
@@ -164,11 +164,11 @@ export default function ServicesPage() {
       </section>
 
       {/* ── SERVICES EDITORIAL GRID ── */}
-      <section className="py-24" style={{ backgroundColor: '#F5F0E8' }}>
+      <section className="py-24" style={{ backgroundColor: '#f0fdf4' }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12">
 
           <div
-            style={{ borderBottom: `1px solid #C4B49A`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}
+            style={{ borderBottom: `1px solid #86efac`, paddingBottom: '1.5rem', marginBottom: '3rem', display: 'flex', alignItems: 'baseline', gap: '2rem', flexWrap: 'wrap' }}
           >
             <p style={{ fontFamily: mono, fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: rust, whiteSpace: 'nowrap' }}>
               Transportation Modes
@@ -179,12 +179,12 @@ export default function ServicesPage() {
           </div>
 
           {/* Row 1: large ocean + 2 small */}
-          <div className="grid lg:grid-cols-3 gap-0.5" style={{ backgroundColor: '#C4B49A', marginBottom: '0.5px' }}>
+          <div className="grid lg:grid-cols-3 gap-0.5" style={{ backgroundColor: '#86efac', marginBottom: '0.5px' }}>
 
             {/* Ocean — tall spanning card */}
             <div
               className="relative overflow-hidden group lg:row-span-2"
-              style={{ minHeight: '520px', backgroundColor: '#F5F0E8', cursor: 'pointer' }}
+              style={{ minHeight: '520px', backgroundColor: '#f0fdf4', cursor: 'pointer' }}
               onMouseEnter={() => setActive(0)}
               onMouseLeave={() => setActive(null)}
             >
@@ -194,14 +194,14 @@ export default function ServicesPage() {
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,16,32,0.92) 0%, rgba(10,16,32,0.35) 55%, transparent 100%)' }} />
+              <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,7,18,0.92) 0%, rgba(3,7,18,0.35) 55%, transparent 100%)' }} />
               <div className="absolute inset-0 p-8 flex flex-col justify-between">
                 <span style={{ display: 'inline-block', alignSelf: 'flex-start', fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.18em', textTransform: 'uppercase', backgroundColor: rust, color: cream, padding: '3px 10px' }}>
                   {services[0].mode}
                 </span>
                 <div>
                   <h3 style={{ fontFamily: serif, fontSize: '1.75rem', color: cream, marginBottom: '0.5rem' }}>{services[0].title}</h3>
-                  <p style={{ fontFamily: lora, fontSize: '0.9rem', color: 'rgba(245,240,232,0.72)', lineHeight: 1.7, marginBottom: '1.25rem', maxWidth: '38ch' }}>{services[0].desc}</p>
+                  <p style={{ fontFamily: lora, fontSize: '0.9rem', color: 'rgba(240,253,244,0.72)', lineHeight: 1.7, marginBottom: '1.25rem', maxWidth: '38ch' }}>{services[0].desc}</p>
                   <div
                     style={{
                       maxHeight: active === 0 ? '200px' : '0',
@@ -213,7 +213,7 @@ export default function ServicesPage() {
                       {services[0].features.map((f, fi) => (
                         <li key={fi} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                           <span style={{ color: rust, fontSize: '0.5rem' }}>◆</span>
-                          <span style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(245,240,232,0.75)' }}>{f}</span>
+                          <span style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(240,253,244,0.75)' }}>{f}</span>
                         </li>
                       ))}
                     </ul>
@@ -231,12 +231,12 @@ export default function ServicesPage() {
                 <div
                   key={si}
                   className="relative overflow-hidden group"
-                  style={{ minHeight: '255px', backgroundColor: '#F5F0E8', cursor: 'pointer' }}
+                  style={{ minHeight: '255px', backgroundColor: '#f0fdf4', cursor: 'pointer' }}
                   onMouseEnter={() => setActive(si)}
                   onMouseLeave={() => setActive(null)}
                 >
                   <Image src={services[si].img} alt={services[si].alt} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,16,32,0.9) 0%, rgba(10,16,32,0.2) 65%, transparent 100%)' }} />
+                  <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,7,18,0.9) 0%, rgba(3,7,18,0.2) 65%, transparent 100%)' }} />
                   <div className="absolute inset-0 p-6 flex flex-col justify-between">
                     <span style={{ alignSelf: 'flex-start', fontFamily: mono, fontSize: '0.58rem', letterSpacing: '0.15em', textTransform: 'uppercase', backgroundColor: navy, color: cream, padding: '3px 9px' }}>
                       {services[si].mode}
@@ -244,7 +244,7 @@ export default function ServicesPage() {
                     <div>
                       <h3 style={{ fontFamily: serif, fontSize: '1.25rem', color: cream, marginBottom: '0.3rem' }}>{services[si].title}</h3>
                       <div style={{ maxHeight: active === si ? '120px' : '0', overflow: 'hidden', transition: 'max-height 0.3s ease' }}>
-                        <p style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(245,240,232,0.7)', lineHeight: 1.65, marginBottom: '0.5rem' }}>{services[si].desc}</p>
+                        <p style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(240,253,244,0.7)', lineHeight: 1.65, marginBottom: '0.5rem' }}>{services[si].desc}</p>
                       </div>
                       <span style={{ fontFamily: mono, fontSize: '0.6rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: rust }}>{services[si].capacity}</span>
                     </div>
@@ -256,17 +256,17 @@ export default function ServicesPage() {
           </div>
 
           {/* Row 2: Rail + Multimodal + Specialised — equal thirds */}
-          <div className="grid md:grid-cols-3 gap-0.5" style={{ backgroundColor: '#C4B49A' }}>
+          <div className="grid md:grid-cols-3 gap-0.5" style={{ backgroundColor: '#86efac' }}>
             {[3, 4, 5].map(si => (
               <div
                 key={si}
                 className="relative overflow-hidden group"
-                style={{ minHeight: '300px', backgroundColor: '#F5F0E8', cursor: 'pointer' }}
+                style={{ minHeight: '300px', backgroundColor: '#f0fdf4', cursor: 'pointer' }}
                 onMouseEnter={() => setActive(si)}
                 onMouseLeave={() => setActive(null)}
               >
                 <Image src={services[si].img} alt={services[si].alt} fill className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,16,32,0.92) 0%, rgba(10,16,32,0.25) 60%, transparent 100%)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,7,18,0.92) 0%, rgba(3,7,18,0.25) 60%, transparent 100%)' }} />
                 <div className="absolute inset-0 p-6 flex flex-col justify-between">
                   <span style={{ alignSelf: 'flex-start', fontFamily: mono, fontSize: '0.58rem', letterSpacing: '0.15em', textTransform: 'uppercase', backgroundColor: rust, color: cream, padding: '3px 9px' }}>
                     {services[si].mode}
@@ -274,12 +274,12 @@ export default function ServicesPage() {
                   <div>
                     <h3 style={{ fontFamily: serif, fontSize: '1.2rem', color: cream, marginBottom: '0.3rem' }}>{services[si].title}</h3>
                     <div style={{ maxHeight: active === si ? '150px' : '0', overflow: 'hidden', transition: 'max-height 0.35s ease' }}>
-                      <p style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(245,240,232,0.7)', lineHeight: 1.65, marginBottom: '0.5rem' }}>{services[si].desc}</p>
+                      <p style={{ fontFamily: lora, fontSize: '0.8rem', color: 'rgba(240,253,244,0.7)', lineHeight: 1.65, marginBottom: '0.5rem' }}>{services[si].desc}</p>
                       <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                         {services[si].features.slice(0, 3).map((f, fi) => (
                           <li key={fi} style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                             <span style={{ color: rust, fontSize: '0.45rem' }}>◆</span>
-                            <span style={{ fontFamily: lora, fontSize: '0.75rem', color: 'rgba(245,240,232,0.7)' }}>{f}</span>
+                            <span style={{ fontFamily: lora, fontSize: '0.75rem', color: 'rgba(240,253,244,0.7)' }}>{f}</span>
                           </li>
                         ))}
                       </ul>
@@ -329,10 +329,10 @@ export default function ServicesPage() {
       </section>
 
       {/* ── CREDENTIALS STRIP ── */}
-      <section style={{ backgroundColor: '#0A1020', borderTop: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}>
+      <section style={{ backgroundColor: '#030712', borderTop: `1px solid ${border}`, borderBottom: `1px solid ${border}` }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-12 py-5 flex flex-wrap items-center gap-6">
           {['IATA Certified Agent', 'FIATA Member', 'ISO 9001 Compliant', 'Customs Brokerage Licensed', 'WCA Network Member'].map((c, i) => (
-            <span key={i} className="flex items-center gap-2" style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(245,240,232,0.3)' }}>
+            <span key={i} className="flex items-center gap-2" style={{ fontFamily: mono, fontSize: '0.62rem', letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(240,253,244,0.3)' }}>
               <span style={{ color: rust, fontSize: '0.45rem' }}>◆</span>{c}
             </span>
           ))}
@@ -362,14 +362,14 @@ export default function ServicesPage() {
               <Link
                 href="/quote"
                 style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2.25rem', backgroundColor: rust, color: cream, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
-                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#A85D2E')}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#15803d')}
                 onMouseLeave={e => (e.currentTarget.style.backgroundColor = rust)}
               >
                 Get a Quote →
               </Link>
               <Link
                 href="/contact"
-                style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2.25rem', border: `1.5px solid rgba(245,240,232,0.25)`, color: muted, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
+                style={{ display: 'block', textAlign: 'center', padding: '0.875rem 2.25rem', border: `1.5px solid rgba(240,253,244,0.25)`, color: muted, fontFamily: mono, fontSize: '0.72rem', letterSpacing: '0.15em', textTransform: 'uppercase', textDecoration: 'none' }}
                 onMouseEnter={e => (e.currentTarget.style.color = cream)}
                 onMouseLeave={e => (e.currentTarget.style.color = muted as string)}
               >

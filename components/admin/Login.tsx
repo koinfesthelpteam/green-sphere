@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
   return (
     <div
       className="min-h-screen flex"
-      style={{ backgroundColor: '#F5F0E8', color: '#1a1a1a' }}
+      style={{ backgroundColor: '#f0fdf4', color: '#111827' }}
     >
       {/* ── LEFT PANEL — editorial image column ── */}
       <div className="hidden lg:flex lg:w-1/2 xl:w-[55%] relative flex-col overflow-hidden">
@@ -72,7 +72,7 @@ export default function AdminLoginPage() {
           className="absolute inset-0"
           style={{
             background:
-              'linear-gradient(to bottom, rgba(10,15,35,0.25) 0%, rgba(10,15,35,0.65) 60%, rgba(10,15,35,0.92) 100%)',
+              'linear-gradient(to bottom, rgba(3,7,18,0.25) 0%, rgba(3,7,18,0.65) 60%, rgba(3,7,18,0.92) 100%)',
           }}
         />
 
@@ -86,7 +86,7 @@ export default function AdminLoginPage() {
           <p
             className="text-xs tracking-widest uppercase mb-4"
             style={{
-              color: '#C4713B',
+              color: '#16a34a',
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.2em',
             }}
@@ -97,18 +97,18 @@ export default function AdminLoginPage() {
             className="font-bold mb-4"
             style={{
               fontSize: 'clamp(2rem, 3.5vw, 3rem)',
-              color: '#F5F0E8',
+              color: '#f0fdf4',
               fontFamily: "'Playfair Display', Georgia, serif",
               lineHeight: 1.08,
             }}
           >
             Manage Every
             <br />
-            <em style={{ fontStyle: 'italic', color: '#C4713B' }}>Shipment.</em>
+            <em style={{ fontStyle: 'italic', color: '#16a34a' }}>Shipment.</em>
           </h2>
           <p
             style={{
-              color: 'rgba(245,240,232,0.6)',
+              color: 'rgba(240,253,244,0.6)',
               fontFamily: "'Lora', Georgia, serif",
               fontSize: '0.95rem',
               maxWidth: '38ch',
@@ -123,9 +123,9 @@ export default function AdminLoginPage() {
           <div
             className="mt-8 flex gap-6 text-xs"
             style={{
-              borderTop: '1px solid rgba(196,181,154,0.25)',
+              borderTop: '1px solid rgba(134,239,172,0.25)',
               paddingTop: '1.25rem',
-              color: 'rgba(245,240,232,0.45)',
+              color: 'rgba(240,253,244,0.45)',
               fontFamily: "'Courier New', monospace",
             }}
           >
@@ -147,7 +147,7 @@ export default function AdminLoginPage() {
         <p
           className="text-xs tracking-widest uppercase mb-3"
           style={{
-            color: '#C4713B',
+            color: '#16a34a',
             fontFamily: "'Courier New', monospace",
             letterSpacing: '0.2em',
           }}
@@ -160,7 +160,7 @@ export default function AdminLoginPage() {
           className="font-bold mb-2"
           style={{
             fontSize: 'clamp(2.25rem, 4vw, 3.25rem)',
-            color: '#0D1B3E',
+            color: '#111827',
             fontFamily: "'Playfair Display', Georgia, serif",
             lineHeight: 1.05,
           }}
@@ -170,7 +170,7 @@ export default function AdminLoginPage() {
         <p
           className="mb-10"
           style={{
-            color: '#6B6255',
+            color: '#4b7c59',
             fontFamily: "'Lora', Georgia, serif",
             fontSize: '0.95rem',
           }}
@@ -186,7 +186,7 @@ export default function AdminLoginPage() {
             <label
               htmlFor="email"
               className="block text-sm font-medium mb-2"
-              style={{ color: '#1a1a1a', fontFamily: "'Lora', Georgia, serif" }}
+              style={{ color: '#111827', fontFamily: "'Lora', Georgia, serif" }}
             >
               Email Address
             </label>
@@ -203,20 +203,20 @@ export default function AdminLoginPage() {
               className="w-full px-4 py-3.5 text-base outline-none transition-all"
               style={{
                 backgroundColor: 'transparent',
-                border: errors.email ? '1.5px solid #C4713B' : '1.5px solid #C4B49A',
-                color: '#1a1a1a',
+                border: errors.email ? '1.5px solid #16a34a' : '1.5px solid #86efac',
+                color: '#111827',
                 fontFamily: "'Courier New', monospace",
                 letterSpacing: '0.04em',
               }}
-              onFocus={(e) => (e.currentTarget.style.borderColor = '#0D1B3E')}
+              onFocus={(e) => (e.currentTarget.style.borderColor = '#111827')}
               onBlur={(e) =>
-                (e.currentTarget.style.borderColor = errors.email ? '#C4713B' : '#C4B49A')
+                (e.currentTarget.style.borderColor = errors.email ? '#16a34a' : '#86efac')
               }
             />
             {errors.email && (
               <p
                 className="mt-2 text-xs"
-                style={{ color: '#C4713B', fontFamily: "'Courier New', monospace" }}
+                style={{ color: '#16a34a', fontFamily: "'Courier New', monospace" }}
               >
                 {errors.email.message}
               </p>
@@ -228,7 +228,7 @@ export default function AdminLoginPage() {
             <label
               htmlFor="password"
               className="block text-sm font-medium mb-2"
-              style={{ color: '#1a1a1a', fontFamily: "'Lora', Georgia, serif" }}
+              style={{ color: '#111827', fontFamily: "'Lora', Georgia, serif" }}
             >
               Password
             </label>
@@ -246,23 +246,23 @@ export default function AdminLoginPage() {
                 className="w-full px-4 py-3.5 pr-12 text-base outline-none transition-all"
                 style={{
                   backgroundColor: 'transparent',
-                  border: errors.password ? '1.5px solid #C4713B' : '1.5px solid #C4B49A',
-                  color: '#1a1a1a',
+                  border: errors.password ? '1.5px solid #16a34a' : '1.5px solid #86efac',
+                  color: '#111827',
                   fontFamily: "'Courier New', monospace",
                   letterSpacing: '0.08em',
                 }}
-                onFocus={(e) => (e.currentTarget.style.borderColor = '#0D1B3E')}
+                onFocus={(e) => (e.currentTarget.style.borderColor = '#111827')}
                 onBlur={(e) =>
-                  (e.currentTarget.style.borderColor = errors.password ? '#C4713B' : '#C4B49A')
+                  (e.currentTarget.style.borderColor = errors.password ? '#16a34a' : '#86efac')
                 }
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-4 top-1/2 -translate-y-1/2 transition-colors"
-                style={{ color: '#6B6255' }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = '#C4713B')}
-                onMouseLeave={(e) => (e.currentTarget.style.color = '#6B6255')}
+                style={{ color: '#4b7c59' }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = '#16a34a')}
+                onMouseLeave={(e) => (e.currentTarget.style.color = '#4b7c59')}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -270,7 +270,7 @@ export default function AdminLoginPage() {
             {errors.password && (
               <p
                 className="mt-2 text-xs"
-                style={{ color: '#C4713B', fontFamily: "'Courier New', monospace" }}
+                style={{ color: '#16a34a', fontFamily: "'Courier New', monospace" }}
               >
                 {errors.password.message}
               </p>
@@ -283,24 +283,24 @@ export default function AdminLoginPage() {
             disabled={loading}
             className="w-full py-3.5 text-sm font-semibold tracking-widest uppercase transition-all duration-200 flex items-center justify-center gap-3"
             style={{
-              backgroundColor: loading ? '#6B6255' : '#0D1B3E',
-              color: '#F5F0E8',
+              backgroundColor: loading ? '#4b7c59' : '#111827',
+              color: '#f0fdf4',
               fontFamily: "'Courier New', monospace",
               letterSpacing: '0.18em',
               cursor: loading ? 'not-allowed' : 'pointer',
             }}
             onMouseEnter={(e) => {
-              if (!loading) e.currentTarget.style.backgroundColor = '#C4713B';
+              if (!loading) e.currentTarget.style.backgroundColor = '#16a34a';
             }}
             onMouseLeave={(e) => {
-              if (!loading) e.currentTarget.style.backgroundColor = '#0D1B3E';
+              if (!loading) e.currentTarget.style.backgroundColor = '#111827';
             }}
           >
             {loading ? (
               <>
                 <span
                   className="w-4 h-4 border-2 rounded-full animate-spin"
-                  style={{ borderColor: 'rgba(245,240,232,0.25)', borderTopColor: '#F5F0E8' }}
+                  style={{ borderColor: 'rgba(240,253,244,0.25)', borderTopColor: '#f0fdf4' }}
                 />
                 Authenticating…
               </>
@@ -314,24 +314,24 @@ export default function AdminLoginPage() {
         <div
           className="mt-8 max-w-md w-full pt-6 flex items-center justify-between text-xs"
           style={{
-            borderTop: '1px solid #C4B49A',
-            color: '#6B6255',
+            borderTop: '1px solid #86efac',
+            color: '#4b7c59',
             fontFamily: "'Courier New', monospace",
           }}
         >
           <Link
             href="/admin/register"
-            style={{ color: '#6B6255', textDecoration: 'none' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#C4713B')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#6B6255')}
+            style={{ color: '#4b7c59', textDecoration: 'none' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#16a34a')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#4b7c59')}
           >
             Need an account? Register →
           </Link>
           <Link
             href="/"
-            style={{ color: '#6B6255', textDecoration: 'none' }}
-            onMouseEnter={(e) => (e.currentTarget.style.color = '#0D1B3E')}
-            onMouseLeave={(e) => (e.currentTarget.style.color = '#6B6255')}
+            style={{ color: '#4b7c59', textDecoration: 'none' }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = '#111827')}
+            onMouseLeave={(e) => (e.currentTarget.style.color = '#4b7c59')}
           >
             ← Back to site
           </Link>
