@@ -21,8 +21,9 @@ import {
   VerificationRequest
 } from '../types/index';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://shipment-4ykm.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
+// || 'https://shipment-4ykm.onrender.com/api'
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -211,6 +212,17 @@ export const paymentsApi = {
 
   getPaymentStats: async (): Promise<ApiResponse> => {
     const response = await api.get('/payments/stats');
+    return response.data;
+  },
+
+  recordPayment: async (shipmentId: string, data: {
+    amountPaid: number;
+    paymentMethod: 'crypto' | 'cashapp' | 'etransfer' | 'bank_transfer' | 'cash' | 'other';
+    transactionId?: string;
+    adminNotes?: string;
+    markFullyPaid?: boolean;
+  }): Promise<ApiResponse> => {
+    const response = await api.post(`/payments/${shipmentId}/record`, data);
     return response.data;
   },
 

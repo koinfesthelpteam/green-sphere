@@ -98,6 +98,17 @@ export interface VerificationRequest {
   adminNotes?: string;
 }
 
+export interface PartialPayment {
+  _id?: string;
+  amount: number;
+  percentageOfTotal: number;
+  paymentMethod: 'crypto' | 'cashapp' | 'etransfer' | 'bank_transfer' | 'cash' | 'other';
+  transactionId?: string;
+  recordedBy?: string;
+  recordedAt: string;
+  adminNotes?: string;
+}
+
 export interface Payment {
   baseAmount: number;
   amount: number;
@@ -113,6 +124,7 @@ export interface Payment {
     ETH?: number;
     LTC?: number;
   };
+  partialPayments?: PartialPayment[];
   verificationRequests?: VerificationRequest[];
   adminNotes?: string;
 }
@@ -230,6 +242,7 @@ export interface PaymentInfo {
     status: 'pending' | 'paid' | 'failed' | 'refunded';
     paidAt?: string;
     paymentMethod?: string;
+    partialPayments?: PartialPayment[];
   };
   paymentAmounts: {
     USD: number;

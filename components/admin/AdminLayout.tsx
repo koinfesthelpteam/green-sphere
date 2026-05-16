@@ -103,15 +103,15 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white flex">
+    <div className="min-h-screen bg-gray-50 text-gray-900 flex">
       {/* Sidebar for desktop */}
       <div className="hidden lg:flex lg:flex-shrink-0">
         <div className="flex flex-col w-64">
-          <div className="flex flex-col flex-grow bg-gray-900/50 backdrop-blur-sm border-r border-gray-800 pt-5 pb-4 overflow-y-auto">
+          <div className="flex flex-col flex-grow bg-white border-r border-gray-200 pt-5 pb-4 overflow-y-auto">
             {/* Logo */}
             <div className="flex items-center flex-shrink-0 px-4">
-              <Package className="h-8 w-8 text-red-400" />
-              <span className="ml-2 text-xl font-bold text-white">ShipTracker Pro</span>
+              <Package className="h-8 w-8 text-gray-900" />
+              <span className="ml-2 text-xl font-bold text-gray-900">GSS</span>
             </div>
 
             {/* Navigation */}
@@ -122,13 +122,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                   href={item.href}
                   className={`group flex items-center px-2 py-2 text-sm font-medium rounded-md transition-colors ${
                     item.current
-                      ? 'bg-red-900/20 text-white border-r-2 border-red-500'
-                      : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                      ? 'text-gray-900 font-semibold border-l-2 border-gray-900 bg-gray-50 pl-[6px]'
+                      : 'text-gray-500 hover:text-gray-900'
                   }`}
                 >
                   <item.icon
                     className={`mr-3 h-5 w-5 flex-shrink-0 ${
-                      item.current ? 'text-red-400' : 'text-gray-400 group-hover:text-red-400'
+                      item.current ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-700'
                     }`}
                   />
                   {item.name}
@@ -137,18 +137,18 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             </nav>
 
             {/* User info at bottom */}
-            <div className="flex-shrink-0 flex border-t border-gray-800 p-4">
+            <div className="flex-shrink-0 flex border-t border-gray-200 p-4">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <div className="h-8 w-8 bg-red-600 rounded-full flex items-center justify-center">
+                  <div className="h-8 w-8 bg-gray-900 rounded-full flex items-center justify-center">
                     <span className="text-white text-sm font-medium">
                       {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                     </span>
                   </div>
                 </div>
                 <div className="ml-3">
-                  <p className="text-sm font-medium text-white">{user?.fullName}</p>
-                  <p className="text-xs text-gray-400 capitalize">{user?.role}</p>
+                  <p className="text-sm font-medium text-gray-900">{user?.fullName}</p>
+                  <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
                 </div>
               </div>
             </div>
@@ -161,23 +161,23 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
         {sidebarOpen && (
           <div className="fixed inset-0 bg-black/50" onClick={() => setSidebarOpen(false)} />
         )}
-        
-        <div className={`fixed inset-y-0 left-0 w-64 bg-gray-900/50 backdrop-blur-sm transform transition-transform duration-300 ease-in-out z-50 ${
+
+        <div className={`fixed inset-y-0 left-0 w-64 bg-white transform transition-transform duration-300 ease-in-out z-50 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}>
-          <div className="flex items-center justify-between flex-shrink-0 px-4 py-4 border-b border-gray-800">
+          <div className="flex items-center justify-between flex-shrink-0 px-4 py-4 border-b border-gray-200">
             <div className="flex items-center">
-              <Package className="h-8 w-8 text-red-400" />
-              <span className="ml-2 text-xl font-bold text-white">ShipTracker</span>
+              <Package className="h-8 w-8 text-gray-900" />
+              <span className="ml-2 text-xl font-bold text-gray-900">ShipTracker</span>
             </div>
             <button
               onClick={() => setSidebarOpen(false)}
-              className="p-1 text-gray-400 hover:text-white"
+              className="p-1 text-gray-500 hover:text-gray-900"
             >
               <X className="h-6 w-6" />
             </button>
           </div>
-          
+
           <nav className="mt-5 px-2 space-y-1">
             {navigation.map((item) => (
               <Link
@@ -185,13 +185,13 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 href={item.href}
                 className={`group flex items-center px-2 py-2 text-base font-medium rounded-md ${
                   item.current
-                    ? 'bg-red-900/20 text-white'
-                    : 'text-gray-400 hover:bg-gray-800/50 hover:text-white'
+                    ? 'text-gray-900 font-semibold border-l-2 border-gray-900 bg-gray-50 pl-[6px]'
+                    : 'text-gray-500 hover:text-gray-900'
                 }`}
               >
                 <item.icon
                   className={`mr-4 h-6 w-6 ${
-                    item.current ? 'text-red-400' : 'text-gray-400'
+                    item.current ? 'text-gray-900' : 'text-gray-400'
                   }`}
                 />
                 {item.name}
@@ -199,18 +199,18 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             ))}
           </nav>
 
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-800">
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <div className="h-10 w-10 bg-red-600 rounded-full flex items-center justify-center">
+                <div className="h-10 w-10 bg-gray-900 rounded-full flex items-center justify-center">
                   <span className="text-white font-medium">
                     {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                   </span>
                 </div>
               </div>
               <div className="ml-3">
-                <p className="text-base font-medium text-white">{user?.fullName}</p>
-                <p className="text-sm text-gray-400 capitalize">{user?.role}</p>
+                <p className="text-base font-medium text-gray-900">{user?.fullName}</p>
+                <p className="text-sm text-gray-500 capitalize">{user?.role}</p>
               </div>
             </div>
           </div>
@@ -220,14 +220,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex flex-col flex-1 overflow-hidden">
         {/* Top navigation bar */}
-        <header className="bg-gray-900/50 backdrop-blur-sm border-b border-gray-800 sticky top-0 z-30">
+        <header className="bg-white border-b border-gray-200 sticky top-0 z-30">
           <div className="px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
               {/* Mobile menu button */}
               <div className="flex items-center lg:hidden">
                 <button
                   onClick={() => setSidebarOpen(true)}
-                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-md"
+                  className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
                 >
                   <Menu className="h-6 w-6" />
                 </button>
@@ -235,8 +235,8 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
               {/* Page title - show on larger screens */}
               <div className="hidden lg:block">
-                <h1 className="text-2xl font-semibold text-white flex items-center space-x-2">
-                  <ShieldCheck className="h-6 w-6 text-red-400" />
+                <h1 className="text-2xl font-semibold text-gray-900 flex items-center space-x-2">
+                  <ShieldCheck className="h-6 w-6 text-gray-500" />
                   <span>{navigation.find(item => item.current)?.name || 'Dashboard'}</span>
                 </h1>
               </div>
@@ -244,7 +244,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               {/* Right side of header */}
               <div className="flex items-center space-x-4">
                 {/* Notifications */}
-                <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-md relative">
+                <button className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md relative">
                   <Bell className="h-6 w-6" />
                   <span className="absolute top-1 right-1 h-2 w-2 bg-red-500 rounded-full"></span>
                 </button>
@@ -252,7 +252,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 {/* Dark mode toggle */}
                 <button
                   onClick={toggleDarkMode}
-                  className="p-2 text-gray-400 hover:text-white hover:bg-gray-800/50 rounded-md"
+                  className="p-2 text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
                 >
                   {darkMode ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
                 </button>
@@ -261,14 +261,14 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 <div className="relative">
                   <button
                     onClick={() => setProfileMenuOpen(!profileMenuOpen)}
-                    className="flex items-center space-x-3 p-2 text-sm rounded-md hover:bg-gray-800/50 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    className="flex items-center space-x-3 p-2 text-sm rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-900"
                   >
-                    <div className="h-8 w-8 bg-red-600 rounded-full flex items-center justify-center">
+                    <div className="h-8 w-8 bg-gray-900 rounded-full flex items-center justify-center">
                       <span className="text-white text-sm font-medium">
                         {user?.firstName?.charAt(0)}{user?.lastName?.charAt(0)}
                       </span>
                     </div>
-                    <span className="hidden md:block text-white font-medium">
+                    <span className="hidden md:block text-gray-900 font-medium">
                       {user?.firstName} {user?.lastName}
                     </span>
                     <ChevronDown className="hidden md:block h-4 w-4 text-gray-400" />
@@ -276,34 +276,34 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
                   {/* Profile dropdown menu */}
                   {profileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-gray-900 backdrop-blur-sm rounded-md shadow-lg py-1 border border-gray-800 z-50">
-                      <div className="px-4 py-2 border-b border-gray-800">
-                        <p className="text-sm font-medium text-white">{user?.fullName}</p>
-                        <p className="text-sm text-gray-400">{user?.email}</p>
+                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 border border-gray-200 z-50">
+                      <div className="px-4 py-2 border-b border-gray-200">
+                        <p className="text-sm font-medium text-gray-900">{user?.fullName}</p>
+                        <p className="text-sm text-gray-500">{user?.email}</p>
                       </div>
-                      
+
                       <Link
                         href="/admin/profile"
-                        className="flex items-center px-4 py-2 text-sm text-gray-400 hover:bg-gray-800/50 hover:text-white"
+                        className="flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         onClick={() => setProfileMenuOpen(false)}
                       >
                         <User className="mr-3 h-4 w-4" />
                         Profile Settings
                       </Link>
-                      
+
                       <Link
                         href="/admin/settings"
-                        className="flex items-center px-4 py-2 text-sm text-gray-400 hover:bg-gray-800/50 hover:text-white"
+                        className="flex items-center px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                         onClick={() => setProfileMenuOpen(false)}
                       >
                         <Settings className="mr-3 h-4 w-4" />
                         Settings
                       </Link>
-                      
-                      <div className="border-t border-gray-800">
+
+                      <div className="border-t border-gray-200">
                         <button
                           onClick={handleLogout}
-                          className="flex items-center w-full px-4 py-2 text-sm text-red-400 hover:bg-red-900/20 hover:text-red-300"
+                          className="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
                         >
                           <LogOut className="mr-3 h-4 w-4" />
                           Sign Out

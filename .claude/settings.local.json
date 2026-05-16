@@ -10,7 +10,10 @@
       "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f -name \"tailwind.config.*\")",
       "Bash(grep -n \"className\" \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\\\\components\\\\ProtectedRoutes.tsx\")",
       "Bash(grep -rn \"className\" \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\\\\\\\\app\\\\\\(pages\\)\\\\quote\\\\page.tsx\")",
-      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f -name \"*.tsx\")"
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\USER\\\\\\\\Documents\\\\\\\\green-sphere\" -not -path \"*/.next/*\" -not -path \"*/node_modules/*\" -type f -name \"*.tsx\")",
+      "Bash(New-Item -ItemType Directory -Force \"C:\\\\Users\\\\USER\\\\Documents\\\\green-sphere\\\\app\\\\\\(pages\\)\\\\admin\\\\payments\")",
+      "Bash(Out-Null)",
+      "Bash(Write-Host \"done\")"
     ]
   }
 }

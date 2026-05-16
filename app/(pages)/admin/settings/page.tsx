@@ -52,39 +52,71 @@ export default function Settings() {
       <div className="space-y-6">
         <h1 className="text-2xl font-bold text-gray-900">Settings</h1>
 
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Update Profile</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+            <User className="h-5 w-5 text-gray-500" />
+            <span>Update Profile</span>
+          </h3>
           <form onSubmit={handleSubmit(onUpdateProfile)} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">First Name</label>
-              <input {...register('firstName')} className="input mt-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+              <input
+                {...register('firstName')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Last Name</label>
-              <input {...register('lastName')} className="input mt-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+              <input
+                {...register('lastName')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" {...register('email')} className="input mt-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <input
+                type="email"
+                {...register('email')}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
+              />
             </div>
-            <button type="submit" disabled={loading} className="btn btn-primary">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+            >
               {loading ? 'Updating...' : 'Update Profile'}
             </button>
           </form>
         </div>
 
-        <div className="card">
-          <h3 className="text-lg font-semibold mb-4">Change Password</h3>
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+            <Lock className="h-5 w-5 text-gray-500" />
+            <span>Change Password</span>
+          </h3>
           <form onSubmit={handlePw(onChangePassword)} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Current Password</label>
-              <input type="password" {...registerPw('currentPassword', { required: true })} className="input mt-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+              <input
+                type="password"
+                {...registerPw('currentPassword', { required: true })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
+              />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">New Password</label>
-              <input type="password" {...registerPw('newPassword', { required: true, minLength: 6 })} className="input mt-1" />
+              <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+              <input
+                type="password"
+                {...registerPw('newPassword', { required: true, minLength: 6 })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
+              />
             </div>
-            <button type="submit" disabled={loading} className="btn btn-primary">
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-semibold transition-colors"
+            >
               {loading ? 'Changing...' : 'Change Password'}
             </button>
           </form>

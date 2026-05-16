@@ -19,7 +19,7 @@ export default function AdminTrack() {
   const [timeline, setTimeline] = useState<TrackingTimeline | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   const { register, handleSubmit, formState: { errors } } = useForm<SearchForm>();
 
   const onSubmit = async (data: SearchForm) => {
@@ -35,7 +35,7 @@ export default function AdminTrack() {
 
     try {
       // Add timeout to prevent hanging
-      const timeout = new Promise((_, reject) => 
+      const timeout = new Promise((_, reject) =>
         setTimeout(() => reject(new Error('Request timeout')), 25000)
       );
 
@@ -52,7 +52,7 @@ export default function AdminTrack() {
       if (shipmentRes.success && timelineRes.success) {
         setShipment(shipmentRes.data || null);
         setTimeline(timelineRes.data || null);
-        
+
         if (shipmentRes.data) {
           toast.success('Shipment found');
         } else {
@@ -66,9 +66,9 @@ export default function AdminTrack() {
       }
     } catch (err: any) {
       console.error('Track error:', err);
-      
+
       let errorMessage = 'Failed to track shipment';
-      
+
       if (err.message === 'Request timeout') {
         errorMessage = 'Request timed out. Please try again.';
       } else if (err.response?.status === 504) {
@@ -78,7 +78,7 @@ export default function AdminTrack() {
       } else if (err.message) {
         errorMessage = err.message;
       }
-      
+
       toast.error(errorMessage);
       setError(errorMessage);
     } finally {
@@ -90,37 +90,37 @@ export default function AdminTrack() {
     <AdminLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl font-bold text-white mb-2">Track Shipment</h1>
-          <p className="text-gray-400">Search for any shipment by tracking number</p>
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">Track Shipment</h1>
+          <p className="text-gray-500">Search for any shipment by tracking number</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="max-w-2xl">
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tracking Number
               </label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <input
-                  {...register('trackingNumber', { 
+                  {...register('trackingNumber', {
                     required: 'Tracking number is required',
                     minLength: { value: 2, message: 'Tracking number too short' }
                   })}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent"
                   placeholder="Enter tracking number (e.g., TRK123456)"
                   disabled={loading}
                 />
               </div>
               {errors.trackingNumber && (
-                <p className="mt-1 text-sm text-red-400">{errors.trackingNumber.message}</p>
+                <p className="mt-1 text-sm text-red-500">{errors.trackingNumber.message}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 disabled:bg-gray-700 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center space-x-2"
+              className="w-full sm:w-auto bg-gray-900 hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-8 py-3 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center space-x-2"
             >
               {loading ? (
                 <>
@@ -138,23 +138,23 @@ export default function AdminTrack() {
         </form>
 
         {loading && (
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-12">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-12">
             <div className="flex flex-col items-center justify-center space-y-4">
-              <Loader2 className="h-12 w-12 text-red-500 animate-spin" />
-              <p className="text-gray-400">Loading shipment data...</p>
-              <p className="text-gray-500 text-sm">This may take a few moments</p>
+              <Loader2 className="h-12 w-12 text-gray-500 animate-spin" />
+              <p className="text-gray-500">Loading shipment data...</p>
+              <p className="text-gray-400 text-sm">This may take a few moments</p>
             </div>
           </div>
         )}
 
         {error && !loading && (
-          <div className="bg-red-900/20 border border-red-500/20 rounded-xl p-6">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6">
             <div className="flex items-start space-x-3">
-              <AlertCircle className="h-6 w-6 text-red-400 flex-shrink-0 mt-0.5" />
+              <AlertCircle className="h-6 w-6 text-red-500 flex-shrink-0 mt-0.5" />
               <div>
-                <h3 className="text-red-400 font-semibold mb-1">Error</h3>
-                <p className="text-red-300 text-sm">{error}</p>
-                <p className="text-red-400/70 text-xs mt-2">
+                <h3 className="text-red-700 font-semibold mb-1">Error</h3>
+                <p className="text-red-600 text-sm">{error}</p>
+                <p className="text-red-500 text-xs mt-2">
                   Please check the tracking number and try again. If the problem persists, check the server logs.
                 </p>
               </div>
@@ -164,68 +164,68 @@ export default function AdminTrack() {
 
         {shipment && timeline && !loading && (
           <div className="space-y-6">
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
+            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center">
+                <div className="w-12 h-12 bg-gray-900 rounded-full flex items-center justify-center">
                   <Package className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-white">{shipment.trackingNumber}</h2>
-                  <p className="text-gray-400 text-sm">
-                    Status: <span className="capitalize text-white">{shipment.status.current.replace('_', ' ')}</span>
+                  <h2 className="text-xl font-bold text-gray-900">{shipment.trackingNumber}</h2>
+                  <p className="text-gray-500 text-sm">
+                    Status: <span className="capitalize text-gray-900">{shipment.status.current.replace('_', ' ')}</span>
                   </p>
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 mb-3">FROM</h3>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-3">FROM</h3>
                   <div className="space-y-1">
-                    <p className="text-white font-medium">{shipment.sender.name}</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-900 font-medium">{shipment.sender.name}</p>
+                    <p className="text-gray-500 text-sm">
                       {shipment.sender.city}, {shipment.sender.state}
                     </p>
-                    <p className="text-gray-400 text-sm">{shipment.sender.country}</p>
+                    <p className="text-gray-500 text-sm">{shipment.sender.country}</p>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-sm font-semibold text-gray-400 mb-3">TO</h3>
+                  <h3 className="text-sm font-semibold text-gray-500 mb-3">TO</h3>
                   <div className="space-y-1">
-                    <p className="text-white font-medium">{shipment.recipient.name}</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-900 font-medium">{shipment.recipient.name}</p>
+                    <p className="text-gray-500 text-sm">
                       {shipment.recipient.city}, {shipment.recipient.state}
                     </p>
-                    <p className="text-gray-400 text-sm">{shipment.recipient.country}</p>
+                    <p className="text-gray-500 text-sm">{shipment.recipient.country}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-gray-800">
+              <div className="mt-6 pt-6 border-t border-gray-200">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div>
-                    <p className="text-gray-400 text-xs mb-1">Weight</p>
-                    <p className="text-white font-medium">
+                    <p className="text-gray-500 text-xs mb-1">Weight</p>
+                    <p className="text-gray-900 font-medium">
                       {shipment.package.weight.value} {shipment.package.weight.unit}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs mb-1">Service</p>
-                    <p className="text-white font-medium capitalize">{shipment.service.type}</p>
+                    <p className="text-gray-500 text-xs mb-1">Service</p>
+                    <p className="text-gray-900 font-medium capitalize">{shipment.service.type}</p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs mb-1">Payment</p>
+                    <p className="text-gray-500 text-xs mb-1">Payment</p>
                     <p className={`font-medium ${
-                      shipment.payment.status === 'paid' ? 'text-green-400' : 
-                      shipment.payment.status === 'pending' ? 'text-yellow-400' : 
-                      'text-red-400'
+                      shipment.payment.status === 'paid' ? 'text-green-600' :
+                      shipment.payment.status === 'pending' ? 'text-yellow-600' :
+                      'text-red-600'
                     }`}>
                       {shipment.payment.status.toUpperCase()}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-400 text-xs mb-1">Amount</p>
-                    <p className="text-white font-medium">
+                    <p className="text-gray-500 text-xs mb-1">Amount</p>
+                    <p className="text-gray-900 font-medium">
                       ${shipment.payment.amount} {shipment.payment.currency}
                     </p>
                   </div>
@@ -233,18 +233,18 @@ export default function AdminTrack() {
               </div>
             </div>
 
-            <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-6">
-              <h2 className="text-lg font-semibold text-white mb-6">Tracking Timeline</h2>
+            <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6">Tracking Timeline</h2>
               <TrackingTimelines timeline={timeline} />
             </div>
           </div>
         )}
 
         {!shipment && !loading && !error && (
-          <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-800 rounded-xl p-12">
+          <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-12">
             <div className="text-center">
-              <Package className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-              <p className="text-gray-400">Enter a tracking number to view shipment details</p>
+              <Package className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+              <p className="text-gray-500">Enter a tracking number to view shipment details</p>
             </div>
           </div>
         )}

@@ -65,14 +65,14 @@ export default function ChangePasswordPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <button 
+              <button
                 onClick={() => router.back()}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-600"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <div className="flex items-center space-x-2">
-                <Lock className="h-6 w-6 text-primary-600" />
+                <Lock className="h-6 w-6 text-gray-500" />
                 <h1 className="text-xl font-bold text-gray-900">Change Password</h1>
               </div>
             </div>
@@ -81,7 +81,7 @@ export default function ChangePasswordPage() {
       </header>
 
       <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="card">
+        <div className="bg-white border border-gray-200 shadow-sm rounded-xl p-6">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -91,19 +91,19 @@ export default function ChangePasswordPage() {
                 <input
                   type={showCurrentPassword ? 'text' : 'password'}
                   {...register('currentPassword', { required: 'Current password is required' })}
-                  className="input pr-10"
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
                   placeholder="••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowCurrentPassword(!showCurrentPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
                   {showCurrentPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               {errors.currentPassword && (
-                <p className="text-green-500 text-xs mt-1">{errors.currentPassword.message}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.currentPassword.message}</p>
               )}
             </div>
 
@@ -121,19 +121,19 @@ export default function ChangePasswordPage() {
                       message: 'Password must be at least 6 characters'
                     }
                   })}
-                  className="input pr-10"
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
                   placeholder="••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowNewPassword(!showNewPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
                 >
                   {showNewPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </button>
               </div>
               {errors.newPassword && (
-                <p className="text-green-500 text-xs mt-1">{errors.newPassword.message}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.newPassword.message}</p>
               )}
             </div>
 
@@ -144,18 +144,18 @@ export default function ChangePasswordPage() {
               <input
                 type={showNewPassword ? 'text' : 'password'}
                 {...register('confirmPassword', { required: 'Please confirm your new password' })}
-                className="input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-gray-900 text-gray-900"
                 placeholder="••••••"
               />
               {errors.confirmPassword && (
-                <p className="text-green-500 text-xs mt-1">{errors.confirmPassword.message}</p>
+                <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>
               )}
             </div>
 
             <button
               type="submit"
               disabled={loading}
-              className="btn btn-primary w-full flex items-center justify-center space-x-2"
+              className="w-full bg-gray-900 hover:bg-gray-800 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center justify-center space-x-2"
             >
               <Lock className="h-4 w-4" />
               <span>{loading ? 'Changing...' : 'Change Password'}</span>
